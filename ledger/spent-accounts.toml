@@ -10,6 +10,7 @@ accounts = [
     # 3-interactor/cassie
     #   first-commit: 2021-08-15
     #   repository-code: https://github.com/V-Sekai/cassie
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Delivery:Mesh:Cassie",
     # 2-contract/patch-verify
     #   abstract: A contract is what a transport layer and an interactor compose against, and this one is a second opinion rather than a shared definition: a Lean 4 witness-DAG oracle that verifies CASSIE patch detection without sharing c
@@ -22,10 +23,12 @@ accounts = [
     #   repository-code: https://github.com/fire/contract-patch-verify
     #   title: contract-patch-verify: an independent Lean witness-DAG oracle for CASSIE patch detection
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Delivery:Mesh:Patch-Verify",
     # 3-interactor/sketch
     #   first-commit: 2023-09-10
     #   repository-code: https://github.com/V-Sekai/interactor-sketch
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Delivery:Mesh:Sketch",
     # 3-interactor/triangulation
     #   abstract: A native plugin that triangulates a closed 3D polygon and refines the result into a clean, near-isotropic mesh. The boundary triangulation is the discrete minimum-weight triangulation of Zou et al., restricted to the sin
@@ -86,6 +89,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/entities-assembly
     #   title: entities-assembly: the branch assembly that builds the multiplayer-fabric Godot fork
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Assembly",
     # 1-transport/asset
     #   abstract: Chunks, addressed by their content, served to whoever is allowed to ask. A transport layer is the input that triggers an interactor, and this one really is a server: an h2o loop with handlers, answering requests. That is
@@ -111,6 +115,16 @@ accounts = [
     #   title: transport-blender-mcp: a Blender addon and MCP server for prompt-assisted modelling
     #   version: 0.1.0-dev.1
     "Expenses:Other:Blender-Mcp",
+    # 2-contract/bus
+    #   abstract: The contract a transport layer and an interactor compose against: a command in, reply bytes out, over iceoryx2 shared memory with no daemon and no copy. Two pub/sub services carry the pair, correlated by an eight-byte re
+    #   cff-commit: f50d4dea65fb7104154a70e17c49c94051cbe717
+    #   cff-copied: 2026-08-18T11:55:52-07:00
+    #   cff-version: 1.2.0
+    #   first-commit: 2026-08-10
+    #   license: Apache-2.0
+    #   repository-code: https://github.com/v-sekai-multiplayer-fabric/contract-bus
+    #   title: contract-bus: the weft harness, a command loop over iceoryx2
+    "Expenses:Other:Bus",
     # 1-transport/bus-cli
     #   abstract: A transport layer whose wire is a terminal. It sends one command over the harness command bus and prints the interactor's CBOR reply, so the interactors can be driven with no container, no registry and no cold start -- e
     #   cff-commit: e4bf5f10cde46b8caf6ad92cfdbf435f11742591
@@ -302,6 +316,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/entities-godot
     #   title: entities-godot: the multiplayer-fabric fork of Godot Engine
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Godot",
     # 1-transport/godot-mcp
     #   abstract: Drive the Godot editor from an MCP client. A transport layer for an authoring client, and the Godot-side counterpart to Unity-MCP, so the Godot host can be exercised the same way as the Unity host for the two-implementat
@@ -580,6 +595,18 @@ accounts = [
     #   title: taskweft
     #   version: 0.4.12
     "Expenses:Other:Taskweft",
+    # 2-contract/triangulation
+    #   abstract: A Lean 4 proof, against Mathlib, of the geometric obstruction behind interactor-triangulation's two mesh properties. A triangle's aspect ratio is at least its longest edge over its shortest, so a bound on the ratio is a 
+    #   cff-commit: 144b5452808bd7f5aedfd11e6ea2e752fc17f0a2
+    #   cff-copied: 2026-08-18T08:49:33-07:00
+    #   cff-version: 1.2.0
+    #   date-released: 2026-08-18
+    #   first-commit: 2026-08-18
+    #   license: MIT
+    #   repository-code: https://github.com/v-sekai-multiplayer-fabric/contract-triangulation
+    #   title: contract-triangulation: the aspect-ratio obstruction, proved
+    #   version: 0.1.0-dev.1
+    "Expenses:Other:Triangulation",
     # 3-interactor/ward
     #   abstract: A server-authoritative networked physics service for one zone of the V-Sekai multiplayer fabric, after Glenn Fiedler's networked physics in virtual reality with the authority moved to the server. A ward is a SQLite datab
     #   cff-commit: a7ffb003fc3be749e272be1f54c7ef54671e28dd
@@ -605,7 +632,13 @@ accounts = [
     #   version: 0.1.0-dev.1
     "Expenses:Other:Wt",
     # 1-transport/xr-grid
+    #   abstract: A Godot 4.4 XR project holding the hand end of the meshing pen: a stroke sketcher that builds an ArrayMesh, pinch and world-grab interaction, a GPU trail that draws the stroke as it is made, a procedural infinite grid to
+    #   cff-commit: 893824c2f7eecb54e7cbca94d422edfa924738b8
+    #   cff-copied: 2026-08-18T13:22:24-07:00
+    #   cff-version: 1.2.0
     #   first-commit: 2023-06-29
-    #   repository-code: https://github.com/V-Sekai/transport-xr-grid
+    #   license: MIT
+    #   repository-code: https://github.com/v-sekai-multiplayer-fabric/transport-xr-grid
+    #   title: transport-xr-grid: the meshing pen's input surface
     "Expenses:Other:Xr-Grid",
 ]

@@ -8,13 +8,6 @@ accounts = [
     # beneath it, and the tree balance report rolls them up, so the budget bounds
     # the mesh rather than any one repository.
     "Liabilities:Planned:Mesh",
-    # 2-contract/patch-verify
-    #   title: "contract-patch-verify: an independent Lean witness-DAG oracle for CASSIE patch detection"
-    #   repository-code: "https://github.com/fire/contract-patch-verify"
-    #   license: "MIT"
-    #   cff-copied: "2026-08-17T19:50:41-07:00"
-    #   cff-commit: "98a7ed13e80722ba2a2e2fc501b3adc330f3c93b"
-    "Liabilities:Planned:Mesh:Patch-Verify",
     # 3-interactor/triangulation
     #   title: "interactor-triangulation: DMWT triangulation and isotropic remeshing of a closed 3D polygon"
     #   repository-code: "https://github.com/v-sekai-multiplayer-fabric/interactor-triangulation"
