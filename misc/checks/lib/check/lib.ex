@@ -394,7 +394,16 @@ defmodule Check.Lib do
       # expects it there. The path is then three segments deep and cannot rebuild a
       # single-segment name, and the name is not ours to change either way.
       "geogram" => "BrunoLevy/geogram, linked by interactor-triangulation at libs/geogram",
-      "pmp-library" => "pmp-library/pmp-library, linked by interactor-triangulation at libs/pmp-library"
+      "pmp-library" => "pmp-library/pmp-library, linked by interactor-triangulation at libs/pmp-library",
+      # The first entry here that is ours. Every one above it is a name another organisation
+      # owns, so no rename could make the path rebuild it and the exception states a fact.
+      # This one states a choice, and the choice is on the path rather than on the name:
+      # Claude Code reads `.claude` and nothing else, so that path is fixed by a tool outside
+      # this workspace, and a single-segment path rebuilds itself. Matching the name to it
+      # meant a repository called `.claude`, which is hidden from an ordinary listing and
+      # clones into a directory most shells will not show you. One of the two had to give,
+      # the path could not, so the name did.
+      "dot-claude" => "path is `.claude` because Claude Code reads that and only that"
     }
   end
 
