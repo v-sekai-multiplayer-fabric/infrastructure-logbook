@@ -2,14 +2,17 @@
 
 Conventions for every project in this workspace. A `CLAUDE.md` in a parent directory loads for
 the directories under it, and this repository sits two levels down at `0-infrastructure/logbook`,
-so a reader inside a sibling checkout would not get it by proximity. `default.xml` fixes that
-with a `linkfile` on this project, which symlinks this file to the workspace root, so it *is*
-above every checkout and loads for all of them. The link points into this repository, so there
-is still one copy and edits land here.
+so a reader inside a sibling checkout does not get it by proximity. It is loaded because it is
+named, not because it is above. A repository's own `CLAUDE.md` says what that repository is;
+this says how work is done across all of them.
 
-It relied on somebody naming it until then, and "somebody remembers" is the kind of mechanism
-this file elsewhere refuses. `repo` had the real one the whole time. A repository's own
-`CLAUDE.md` says what that repository is; this says how work is done across all of them.
+A `linkfile` in `default.xml` symlinked this file to the workspace root for exactly that reason,
+and it was removed: a `CLAUDE.md` at the root of a repo workspace is not a file the workspace
+owns, and putting one there made every tool that reads upward from a checkout pick up a document
+that belongs to one project among fifty-three. The agent configuration went the other way in the
+same week and is a project of its own at `.claude`, checked out rather than linked, because a
+symlink is invisible to `repo status` and to every gate here. Naming this file is the weaker
+mechanism and it is the one that stays.
 
 This file used to sit in the manifest repository, beside `default.xml`. It does not any more.
 A manifest is read by a tool on every sync and a record is rewritten as the work moves, and one
