@@ -2,10 +2,14 @@
 
 Conventions for every project in this workspace. A `CLAUDE.md` in a parent directory loads for
 the directories under it, and this repository sits two levels down at `0-infrastructure/logbook`,
-so a reader inside a sibling checkout does not get it by proximity — it is the record every
-project here works to, and it is loaded because it is named, not because it is above. A
-repository's own `CLAUDE.md` says what that repository is; this says how work is done across all
-of them.
+so a reader inside a sibling checkout would not get it by proximity. `default.xml` fixes that
+with a `linkfile` on this project, which symlinks this file to the workspace root, so it *is*
+above every checkout and loads for all of them. The link points into this repository, so there
+is still one copy and edits land here.
+
+It relied on somebody naming it until then, and "somebody remembers" is the kind of mechanism
+this file elsewhere refuses. `repo` had the real one the whole time. A repository's own
+`CLAUDE.md` says what that repository is; this says how work is done across all of them.
 
 This file used to sit in the manifest repository, beside `default.xml`. It does not any more.
 A manifest is read by a tool on every sync and a record is rewritten as the work moves, and one
@@ -64,6 +68,37 @@ committed but unpushed `CITATION.cff` reachable only from the reflog.
 A branch split the way the work happened reads as a diary and reviews as one. The reader cannot
 tell which commit is the idea and which is the repair, and bisect lands on commits that never
 worked.
+
+## Two agents in one workspace
+
+More than one agent works here at once, on one filesystem, in one set of checkouts. Every rule
+below was learned by nearly losing something today.
+
+- **One agent per git repository.** Announce before entering one somebody else holds. File
+  edits are not the hazard; the checkout is.
+- **Never `git checkout` in a repository you do not hold.** HEAD is shared state. Two agents
+  editing different files in one repository is survivable; two agents moving its HEAD is not.
+- **A destructive workspace-wide operation needs a handshake, not a notice.** `repo sync` and
+  anything like it: say *about to*, wait for *clear* or *hold*, then act. "Running now" gives
+  the other side no window, and a sync acts on the state at the moment it runs.
+- **Scan-then-act must be atomic, or re-checked immediately before acting.** A clean-workspace
+  scan is a snapshot, and the other agent is still typing. One `repo sync` was cleared against
+  a scan that was true when it was taken and false when it was sent — a repository had gone
+  dirty in between, and only the rule below saved it.
+- **Commit immediately, even mid-thought.** Untracked and uncommitted are the only states with
+  no copy anywhere, and another agent's checkout is enough to lose them. A rough commit on a
+  branch costs nothing and is undoable; the work is not.
+- **A probe file must have a name that does not already exist in the target**, and its removal
+  is verified with `git status --porcelain`, never assumed. Testing a gate by writing a file
+  into a real repository is the right technique and it overwrote a real `CMakeLists.txt` the
+  first time, because the probe reused a name the tree already had.
+- **The ledger is exclusive.** `ledger.py build` rewrites every book under `ledger/spent/`.
+  Agree before running it.
+- **RFD numbers are a shared counter.** Claim a block before writing one.
+
+The structural fix for the first two is `git worktree add` per agent, which makes them
+impossible rather than agreed. That is worth doing before the next session with two agents in
+it; the rules above are what holds until then.
 
 ## Pull requests
 
