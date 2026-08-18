@@ -435,6 +435,30 @@ def _postings(since_days=None):
     return out
 
 
+def docs_ratio(since_days=90):
+    """Seconds booked to documents, over seconds booked to the delivery they describe.
+
+    The one number the coastline entry proposes as a brake. Feature work refines without a
+    natural stopping point -- every fix reveals a finer one -- and prose about the work
+    refines faster, because nothing about a document is ever finished. Counting is what
+    tells the two apart, and this is the count.
+
+    Read back from the committed books like everything else here, so the gate judges the
+    artefact rather than the generator's opinion of it.
+
+    Returns `(docs, delivery, ratio)` in seconds. Delivery of zero gives a ratio of `inf`,
+    which is the honest reading: prose with nothing behind it is not a small ratio.
+    """
+    docs = delivery = 0.0
+    for _day, account, secs in _postings(since_days):
+        if account.startswith("Expenses:Docs"):
+            docs += secs
+        elif account.startswith("Expenses:Delivery:"):
+            delivery += secs
+    ratio = docs / delivery if delivery else float("inf")
+    return docs, delivery, ratio
+
+
 def report(since_days, by_project=False):
     """The lane split, or the project split under it.
 
