@@ -294,15 +294,13 @@ defmodule Check.Lib do
   nobody upstream has -- and lumping it with the untouchables left exactly those repositories
   never asked what they were made of.
 
-  Each entry states its evidence rather than an opinion, and all three carry GitHub's fork
-  flag.
+  Each entry states its evidence rather than an opinion, and both carry GitHub's fork flag.
   """
   def mirrors do
     %{
       # This project owns the Windows builds here and none of the code, so the README is
       # upstream's to write. GitHub carries the fork flag for both of these.
       "datasource-foundationdb" => "apple/foundationdb",
-      "idtx-flow" => "Immersive-Data-Center-Management/idtx-flow",
       # The meshing pen's input surface. Forked so this project may write to it at all:
       # the mission is that anyone can build in world, and its front end sat on a remote
       # we may only read. The README stays V-Sekai's. Fork flag.
@@ -368,8 +366,6 @@ defmodule Check.Lib do
   """
   def read_only do
     %{
-      "entities-model-explorer" => "V-Sekai's 3D model viewer",
-      "LabRCSF" => "Nick Porcino's reference skeleton; we have no admin on it either",
       # Added when interactor-triangulation's libraries became projects rather than empty
       # submodules. A library a build links is upstream's whatever directory it is checked
       # out into, and these two sit inside another project's checkout at libs/, which is
@@ -388,8 +384,6 @@ defmodule Check.Lib do
   """
   def fixed_names do
     %{
-      "idtx-flow" => "Immersive-Data-Center-Management/idtx-flow, mirrored",
-      "LabRCSF" => "meshula/LabRCSF; we have no admin on it, so we cannot rename it",
       # A repository name is also a published address when it serves Pages, and GitHub does
       # not redirect a Pages URL on rename. This one was renamed to contract-manuals and
       # every published RFD link 404'd until it was renamed back.

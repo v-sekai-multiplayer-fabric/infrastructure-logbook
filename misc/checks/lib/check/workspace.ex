@@ -15,7 +15,7 @@ defmodule Check.Workspace do
         # The checkout directory is `path`, so the edit that breaks this check moves the
         # clone out of an ignored directory. Editing the name instead leaves `path` ignored
         # and the check passes, which makes the control certify nothing.
-        break: &Lib.break_manifest(&1, ~s(path="4-entities/LabRCSF"), ~s(path="not-ignored-xyz"))
+        break: &Lib.break_manifest(&1, ~s(path="2-contract/triangulation"), ~s(path="not-ignored-xyz"))
       }
     ]
   end
