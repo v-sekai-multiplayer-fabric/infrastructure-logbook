@@ -15,6 +15,15 @@ accounts = [
     #   cff-copied: "2026-08-17T19:50:41-07:00"
     #   cff-commit: "98a7ed13e80722ba2a2e2fc501b3adc330f3c93b"
     "Liabilities:Planned:Mesh:Patch-Verify",
+    # 3-interactor/triangulation
+    #   title: "interactor-triangulation: DMWT triangulation and isotropic remeshing of a closed 3D polygon"
+    #   repository-code: "https://github.com/v-sekai-multiplayer-fabric/interactor-triangulation"
+    #   license: "MIT"
+    #   version: "0.1.0-dev.1"
+    #   date-released: 2026-08-17
+    #   cff-copied: "2026-08-17T20:17:07-07:00"
+    #   cff-commit: "7a6fd64db5bb94bc497867a889298f6f8dfb170c"
+    "Liabilities:Planned:Mesh:Triangulation",
     # .repo/manifests
     #   title: "fabric: the multiplayer-fabric manifest, doc gates and delivery ledger"
     #   repository-code: "https://github.com/v-sekai-multiplayer-fabric/fabric"

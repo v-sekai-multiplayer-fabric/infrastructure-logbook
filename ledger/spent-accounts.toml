@@ -65,8 +65,8 @@ accounts = [
     "Expenses:Fabric:Fabric",
     # 0-infrastructure/logbook
     #   abstract: The conventions, doc gates, delivery ledger and logbook for a workspace of 53 repositories. Sixteen gates, each shipped with a negative control, derive every documented count, name, branch and licence from the fabric man
-    #   cff-commit: 5d3e5f00ef2d44d1c4acb614e4f8142945604a02
-    #   cff-copied: 2026-08-17T21:16:54-07:00
+    #   cff-commit: 038add74244f763b23d0b60c221caba12d6659ad
+    #   cff-copied: 2026-08-18T00:33:03-07:00
     #   cff-version: 1.2.0
     #   date-released: 2026-08-17
     #   first-commit: 2026-08-17

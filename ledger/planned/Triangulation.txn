@@ -1,0 +1,24 @@
+2026-08-18 'plan: S0 let one owner hold the linked libraries so the workspace syncs
+    # uuid: 27abe22b-746b-51fa-9135-f3c8ce1ae515
+    ; 3-interactor/triangulation -- HYPOTHETICAL. Nothing here was spent.
+    ; Accomplished. The seconds these cost are in ledger/spent/Triangulation.txn,
+    ; booked from git, and never here: a plan that recorded its own completion
+    ; would be reporting itself.
+    ;
+    ; This notch is not on the P0-E-A-B-G rail. It jumped the queue because it
+    ; had to: geogram and pmp-library arrived twice, once as manifest projects
+    ; and once as subtrees, and two owners of one path aborted every `repo sync`
+    ; in the workspace. Nothing else could be built or measured until it went.
+    ;
+    ; Three points are the 2-4 commit row, which is what it took. The row is read
+    ; rather than felt, because estimates made by feel here run two to four times
+    ; optimistic.
+    ; task: "S0"
+    ; depends: ""
+    ; done: 2026-08-18
+    ; hypothetical: TRUE
+    ; optimistic: 216
+    ; likely: 2916
+    ; pessimistic: 39276
+    Liabilities:Planned:Mesh:Triangulation      8532 PLANNED-SECONDS
+    Equity:Plan

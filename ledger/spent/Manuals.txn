@@ -212,5 +212,5 @@
     ; spent: TRUE
     ; commits: 7
     ; steps: "Land pull requests as merge commits, not squashes or rebases | Merge pull request #212 from v-sekai-multiplayer-fabric/record-the-merge | RFD 0124: Elixir error tuples in every reply | Backfill RFDs 0125 to 0130, and record Fine in 0124 | RFD 0124: carry the term in CBOR rather than adding a second encoding | Format the backfill RFDs the way prettier wants them | Merge pull request #213 from v-sekai-multiplayer-fabric/error-tuples-and"
-    Expenses:Docs:Manuals                     1276 SECONDS
+    Expenses:Docs:Manuals                     1238 SECONDS
     Income:Sessions
