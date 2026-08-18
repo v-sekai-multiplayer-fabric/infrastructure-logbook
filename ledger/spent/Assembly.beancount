@@ -3,8 +3,16 @@
 ;; what the work was and what may be done with it without opening the repo.
 
 2017-12-17 open Expenses:Other:Assembly  SECONDS
+  abstract: "This repository holds no engine code. It holds the recipe that assembles the multiplayer-fabric Godot fork from upstream feature branches and pushes the result to entities-godot: a gitassembly file naming each branch and"
+  cff-commit: "8b676ba65570f6b9ac9ad2542d8ab12449ea668b"
+  cff-copied: "2026-08-17T19:50:42-07:00"
+  cff-version: "1.2.0"
+  date-released: 2026-08-17
   first-commit: 2026-04-18
+  license: "MIT"
   repository-code: "https://github.com/v-sekai-multiplayer-fabric/entities-assembly"
+  title: "entities-assembly: the branch assembly that builds the multiplayer-fabric Godot fork"
+  version: "0.1.0-dev.1"
 
 2026-04-19 * "4-entities/assembly" "Add .gitignore"
   spent: TRUE
@@ -151,4 +159,11 @@
   commits: 2
   steps: "Format the markdown, and give this repository a check to pass | Merge pull request #51 from v-sekai-multiplayer-fabric/drop-engine-fabri"
   Expenses:Other:Assembly                   1391 SECONDS
+  Income:Sessions
+
+2026-08-18 * "4-entities/assembly" "Merge pull request #52 from v-sekai-multiplayer-fabric/state-what-it-is-made-of"
+  spent: TRUE
+  commits: 2
+  steps: "State what this repository is made of | Merge pull request #52 from v-sekai-multiplayer-fabric/state-what-it-is-"
+  Expenses:Other:Assembly                      3 SECONDS
   Income:Sessions

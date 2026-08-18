@@ -3,8 +3,16 @@
 ;; what the work was and what may be done with it without opening the repo.
 
 2017-12-17 open Expenses:Other:Idtx-Flow  SECONDS
+  abstract: "IDTX Flow, the Immersive Data Center Management flow tooling, mirrored under this organisation with the upstream name kept. The tooling is upstream's and so is its README, which carries upstream's own REUSE badge; this c"
+  cff-commit: "145fb4f0c3d902168fdda6bc26b6cb6ba9416f81"
+  cff-copied: "2026-08-17T19:50:42-07:00"
+  cff-version: "1.2.0"
+  date-released: 2026-08-17
   first-commit: 2026-03-24
+  license: "MIT"
   repository-code: "https://github.com/v-sekai-multiplayer-fabric/idtx-flow"
+  title: "idtx-flow: the multiplayer-fabric mirror of IDTX Flow"
+  version: "0.1.0-dev.1"
 
 2026-07-13 * "6-datasource/idtx-flow" "Give extension objects a per-object PDB so parallel builds don't race (#28)"
   spent: TRUE
@@ -18,4 +26,11 @@
   commits: 1
   steps: "Add a neutral bone for fully-unweighted skinned vertices and show unweig"
   Expenses:Other:Idtx-Flow                     0 SECONDS
+  Income:Sessions
+
+2026-08-18 * "6-datasource/idtx-flow" "Merge pull request #1 from v-sekai-multiplayer-fabric/state-what-it-is-made-of"
+  spent: TRUE
+  commits: 2
+  steps: "State what this repository is made of | Merge pull request #1 from v-sekai-multiplayer-fabric/state-what-it-is-m"
+  Expenses:Other:Idtx-Flow                    46 SECONDS
   Income:Sessions

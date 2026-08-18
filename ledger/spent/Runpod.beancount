@@ -21,9 +21,9 @@
   Expenses:Other:Runpod                     4942 SECONDS
   Income:Sessions
 
-2026-08-18 * "1-transport/runpod" "Publish both worker images, and let the agreement be checked without a bus"
+2026-08-18 * "1-transport/runpod" "Merge pull request #1 from v-sekai-multiplayer-fabric/bus-as-the-interactor"
   spent: TRUE
-  commits: 4
-  steps: "Merge commit 'adf76fbe63f00ce8d1da5a9ac842c3ae92872973' as 'third_party/ | Squashed 'third_party/harness/' content from commit 21d72cd | Answer a job by asking an interactor in another process | Publish both worker images, and let the agreement be checked without a b"
-  Expenses:Other:Runpod                     2269 SECONDS
+  commits: 5
+  steps: "Merge commit 'adf76fbe63f00ce8d1da5a9ac842c3ae92872973' as 'third_party/ | Squashed 'third_party/harness/' content from commit 21d72cd | Answer a job by asking an interactor in another process | Publish both worker images, and let the agreement be checked without a b | Merge pull request #1 from v-sekai-multiplayer-fabric/bus-as-the-interac"
+  Expenses:Other:Runpod                     2275 SECONDS
   Income:Sessions

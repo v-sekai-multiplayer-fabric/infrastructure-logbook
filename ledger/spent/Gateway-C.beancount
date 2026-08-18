@@ -3,8 +3,16 @@
 ;; what the work was and what may be done with it without opening the repo.
 
 2017-12-17 open Expenses:Other:Gateway-C  SECONDS
+  abstract: "A transport layer is the input that triggers an interactor. This one terminates the client transport, decodes control streams, and hands the result to the control plane over iceoryx2. It carries player traffic, which is "
+  cff-commit: "bb63f30d60fee3a9e1a8d739ca549a0570a26189"
+  cff-copied: "2026-08-17T19:50:42-07:00"
+  cff-version: "1.2.0"
+  date-released: 2026-08-17
   first-commit: 2026-08-10
+  license: "MIT"
   repository-code: "https://github.com/v-sekai-multiplayer-fabric/transport-gateway-c"
+  title: "transport-gateway-c: the gateway transport layer, in C over picoquic"
+  version: "0.1.0-dev.1"
 
 2026-08-10 * "1-transport/gateway-c" "Say what an edge deployment needs, and ship no build file yet"
   spent: TRUE
@@ -39,4 +47,11 @@
   commits: 4
   steps: "Say what the dependencies are, not what the directories are (#4) | Drop the directory listing without replacing it (#5) | Name the transport repositories the renamed ones (#6) | Remove the .DS_Store files a rename commit swept in (#7)"
   Expenses:Other:Gateway-C                  1501 SECONDS
+  Income:Sessions
+
+2026-08-18 * "1-transport/gateway-c" "Merge pull request #9 from v-sekai-multiplayer-fabric/state-the-patch-sets-licence"
+  spent: TRUE
+  commits: 4
+  steps: "State what this repository is made of | Merge pull request #8 from v-sekai-multiplayer-fabric/state-what-it-is-m | State the licence the picoquic patches are under | Merge pull request #9 from v-sekai-multiplayer-fabric/state-the-patch-se"
+  Expenses:Other:Gateway-C                    42 SECONDS
   Income:Sessions

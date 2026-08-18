@@ -3,8 +3,16 @@
 ;; what the work was and what may be done with it without opening the repo.
 
 2017-12-17 open Expenses:Delivery:Mesh:Patch-Verify  SECONDS
+  abstract: "A contract is what a transport layer and an interactor compose against, and this one is a second opinion rather than a shared definition: a Lean 4 witness-DAG oracle that verifies CASSIE patch detection without sharing c"
+  cff-commit: "98a7ed13e80722ba2a2e2fc501b3adc330f3c93b"
+  cff-copied: "2026-08-17T19:50:41-07:00"
+  cff-version: "1.2.0"
+  date-released: 2026-08-17
   first-commit: 2026-06-19
+  license: "MIT"
   repository-code: "https://github.com/fire/contract-patch-verify"
+  title: "contract-patch-verify: an independent Lean witness-DAG oracle for CASSIE patch detection"
+  version: "0.1.0-dev.1"
 
 2026-06-19 * "2-contract/patch-verify" "Add hexagonal Pipeline library with property-based tests"
   spent: TRUE
@@ -25,4 +33,11 @@
   commits: 4
   steps: "Retain the vendored licence notices | Merge pull request #2 from fire/comply-with-the-licence-policy | Merge main into unit-test-coverage-rapidcheck | Merge pull request #1 from fire/unit-test-coverage-rapidcheck"
   Expenses:Delivery:Mesh:Patch-Verify         698 SECONDS
+  Income:Sessions
+
+2026-08-18 * "2-contract/patch-verify" "Merge pull request #5 from fire/state-what-it-is-made-of"
+  spent: TRUE
+  commits: 2
+  steps: "State what this repository is made of | Merge pull request #5 from fire/state-what-it-is-made-of"
+  Expenses:Delivery:Mesh:Patch-Verify         496 SECONDS
   Income:Sessions

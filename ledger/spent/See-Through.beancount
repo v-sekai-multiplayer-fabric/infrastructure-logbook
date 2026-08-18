@@ -14,9 +14,9 @@
   title: "service-see-through: the see-through decomposer, packaged as a release"
   version: "0.1.0-dev.1"
 
-2026-08-18 * "7-service/see-through" "Pack the see-through parts into a service, and gate the ladder"
+2026-08-18 * "7-service/see-through" "Say that nothing is running"
   spent: TRUE
-  commits: 1
-  steps: "Pack the see-through parts into a service, and gate the ladder"
-  Expenses:Other:See-Through                   0 SECONDS
+  commits: 6
+  steps: "Pack the see-through parts into a service, and gate the ladder | Keep cost and latency as two floors that only go down | Run the proofs on main, not only on a tag | Delete the floors that measured nothing, and record what works | Say that nothing is running | Say that nothing is running"
+  Expenses:Other:See-Through                 715 SECONDS
   Income:Sessions

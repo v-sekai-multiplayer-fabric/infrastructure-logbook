@@ -3,8 +3,16 @@
 ;; what the work was and what may be done with it without opening the repo.
 
 2017-12-17 open Expenses:Other:Blender-Mcp  SECONDS
+  abstract: "A transport layer for an authoring client rather than a player one, which changes the protocol and nothing else: it terminates MCP and triggers work in Blender. A fork of BlenderMCP, and the fork exists for one reason --"
+  cff-commit: "bc786bfffee857e7b5bb5e491da5103ba19bc368"
+  cff-copied: "2026-08-17T19:50:42-07:00"
+  cff-version: "1.2.0"
+  date-released: 2026-08-17
   first-commit: 2025-03-07
+  license: "MIT"
   repository-code: "https://github.com/v-sekai-multiplayer-fabric/transport-blender-mcp"
+  title: "transport-blender-mcp: a Blender addon and MCP server for prompt-assisted modelling"
+  version: "0.1.0-dev.1"
 
 2026-05-08 * "1-transport/blender-mcp" "Survive factory reset by re-enabling addon via load_factory_*_post"
   spent: TRUE
@@ -25,4 +33,11 @@
   commits: 4
   steps: "Cut the README to forty lines and move install to docs/ | Merge pull request #5 from v-sekai-multiplayer-fabric/cut-the-readme-to- | Name the repositories these documents actually point at | Merge pull request #6 from v-sekai-multiplayer-fabric/fix-stale-names"
   Expenses:Other:Blender-Mcp                 463 SECONDS
+  Income:Sessions
+
+2026-08-18 * "1-transport/blender-mcp" "Merge pull request #7 from v-sekai-multiplayer-fabric/state-what-it-is-made-of"
+  spent: TRUE
+  commits: 2
+  steps: "State what this repository is made of | Merge pull request #7 from v-sekai-multiplayer-fabric/state-what-it-is-m"
+  Expenses:Other:Blender-Mcp                   3 SECONDS
   Income:Sessions

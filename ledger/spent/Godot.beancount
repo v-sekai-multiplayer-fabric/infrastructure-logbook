@@ -3,8 +3,16 @@
 ;; what the work was and what may be done with it without opening the repo.
 
 2017-12-17 open Expenses:Other:Godot  SECONDS
+  abstract: "Godot Engine, plus the multiplayer-fabric feature branches assembled on top of it. The engine is upstream's and so is its README; what this copy adds is the assembly -- d3d12 download retry, tapered capsule shapes, joint"
+  cff-commit: "fe9b9296c5ff9a494439fb090dbb44e5762c17c5"
+  cff-copied: "2026-08-17T19:50:42-07:00"
+  cff-version: "1.2.0"
+  date-released: 2026-08-17
   first-commit: 2014-01-04
+  license: "MIT"
   repository-code: "https://github.com/v-sekai-multiplayer-fabric/entities-godot"
+  title: "entities-godot: the multiplayer-fabric fork of Godot Engine"
+  version: "0.1.0-dev.1"
 
 2017-12-17 * "4-entities/godot" "Fix gdnative generation for lightmapper."
   spent: TRUE
@@ -1194,4 +1202,11 @@
   commits: 25
   steps: "picoquic/picotls: lowercase Winsock2.h include for MinGW cross-compile | fix: avoid std::abs in tr_emit.cpp for mingw/libc++ compatibility | Merge remote-tracking branch 'remotes/v-sekai-multiplayer-fabric/feat/ci | Merge remote-tracking branch 'remotes/v-sekai-multiplayer-fabric/feat/li | Merge remote-tracking branch 'remotes/v-sekai-multiplayer-fabric/feat/ta | Merge remote-tracking branch 'remotes/v-sekai-multiplayer-fabric/feat/do | Merge remote-tracking branch 'remotes/v-sekai-multiplayer-fabric/feat/en | Merge remote-tracking branch 'remotes/v-sekai-multiplayer-fabric/feat/jo | Merge remote-tracking branch 'remotes/v-sekai-multiplayer-fabric/feat/la | Merge remote-tracking branch 'remotes/v-sekai-multiplayer-fabric/feat/li | Merge remote-tracking branch 'remotes/v-sekai-multiplayer-fabric/feat/mo | Merge remote-tracking branch 'remotes/v-sekai-multiplayer-fabric/feat/as | Merge rem"
   Expenses:Other:Godot                      3256 SECONDS
+  Income:Sessions
+
+2026-08-18 * "4-entities/godot" "Merge pull request #69 from v-sekai-multiplayer-fabric/state-what-it-is-made-of"
+  spent: TRUE
+  commits: 2
+  steps: "State what this repository is made of | Merge pull request #69 from v-sekai-multiplayer-fabric/state-what-it-is-"
+  Expenses:Other:Godot                         2 SECONDS
   Income:Sessions

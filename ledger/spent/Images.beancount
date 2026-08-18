@@ -3,8 +3,16 @@
 ;; what the work was and what may be done with it without opening the repo.
 
 2017-12-17 open Expenses:Other:Images  SECONDS
+  abstract: "Builds of the multiplayer-fabric Godot engine fork: player export templates and editor binaries, cross-compiled from Linux to every supported platform and built natively where that is simpler. There is deliberately no CI"
+  cff-commit: "e70b0b9b612995b4fd46a80f23b0c651dd19dc21"
+  cff-copied: "2026-08-17T19:50:42-07:00"
+  cff-version: "1.2.0"
+  date-released: 2026-08-17
   first-commit: 2026-05-20
+  license: "MIT"
   repository-code: "https://github.com/v-sekai-multiplayer-fabric/entities-images"
+  title: "entities-images: local-first build infrastructure for the fabric Godot fork"
+  version: "0.1.0-dev.1"
 
 2026-05-21 * "4-entities/images" "Speed up fetch-godot: shallow clone of one tag instead of partial+checkout"
   spent: TRUE
@@ -88,4 +96,11 @@
   commits: 5
   steps: "Add the MIT licence this repository was always published under | Merge pull request #33 from v-sekai-multiplayer-fabric/add-the-mit-licen | Merge pull request #32 from v-sekai-multiplayer-fabric/switch-engine-pin | Name the repositories these documents actually point at | Merge pull request #34 from v-sekai-multiplayer-fabric/fix-stale-names"
   Expenses:Other:Images                      123 SECONDS
+  Income:Sessions
+
+2026-08-18 * "4-entities/images" "Merge pull request #35 from v-sekai-multiplayer-fabric/state-what-it-is-made-of"
+  spent: TRUE
+  commits: 2
+  steps: "State what this repository is made of | Merge pull request #35 from v-sekai-multiplayer-fabric/state-what-it-is-"
+  Expenses:Other:Images                        2 SECONDS
   Income:Sessions
