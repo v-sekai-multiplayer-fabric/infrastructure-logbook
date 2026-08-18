@@ -1,0 +1,147 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "infrastructure-logbook: the fabric's record of itself"
+abstract: >
+  The conventions, doc gates, delivery ledger and logbook for a workspace of 53
+  repositories. Sixteen gates, each shipped with a negative control, derive every
+  documented count, name, branch and licence from the fabric manifest or from the
+  live remotes and fail the build on drift. The ledger books hours from git history
+  as Beancount transactions, allocated so concurrent sessions in different checkouts
+  cannot be counted twice, and holds the plan in a separate commodity so an estimate
+  can never read as progress; three-point estimates are quantiles of a lognormal
+  posterior predictive rather than of the observed sample. Memory is stored as
+  OpenUSD layers validated by the system usdcat. The logbook keeps retractions
+  beside what they retract.
+authors:
+  - family-names: Lee
+    given-names: "K. S. Ernest (iFire)"
+    email: ernest.lee@chibifire.com
+    orcid: "https://orcid.org/0000-0003-4570-1436"
+version: 0.1.0-dev.1
+date-released: "2026-08-17"
+license: MIT
+repository-code: "https://github.com/v-sekai-multiplayer-fabric/infrastructure-logbook"
+keywords:
+  - documentation-testing
+  - double-entry-accounting
+  - beancount
+  - openusd
+  - project-estimation
+
+references:
+
+  # ── Tools this depends on and does not vendor ────────────────────────────────
+  # Each is installed on the operating system and invoked as a subprocess. None is
+  # imported or vendored, which is why a GPL-2.0 tool can gate an MIT repository:
+  # running a program is not linking to it.
+
+  - type: software
+    title: "Beancount: double-entry accounting from text files"
+    authors:
+      - family-names: Blais
+        given-names: Martin
+    year: 2026
+    version: 3.2.3
+    license: GPL-2.0
+    url: "https://github.com/beancount/beancount"
+    notes: >
+      bean-check validates ledger/spent.beancount and ledger/planned.beancount and
+      exits non-zero on any error, which is what makes it a gate. Installed with
+      brew, never vendored and never imported: GPL-2.0 is restricted under the
+      third-party licence policy this project follows, and keeping it outside the
+      tree is a licence decision as much as a dependency one.
+  - type: software
+    title: "OpenUSD: Universal Scene Description"
+    authors:
+      - name: "Pixar Animation Studios"
+    year: 2026
+    license: Apache-2.0
+    url: "https://github.com/PixarAnimationStudios/OpenUSD"
+    notes: >
+      memory/*.usda are typed dictionaries in canonical usda. The system usdcat
+      re-emits each layer and the bytes must match, which is what keeps a
+      hand-written emitter honest. Nothing here imports pxr, for the reason
+      openusd-fabric's codeless schemas already record: the ABI trap between
+      Blender's, Unity's and idtx-flow's bundled builds.
+
+  # ── Designs this implements ──────────────────────────────────────────────────
+  - type: article
+    title: >
+      Holographic Reduced Representations: Distributed Representation for
+      Cognitive Structures
+    authors:
+      - family-names: Plate
+        given-names: "Tony A."
+    year: 1995
+    journal: "IEEE Transactions on Neural Networks"
+    volume: 6
+    issue: 3
+    start: 623
+    end: 641
+    doi: "10.1109/72.377968"
+    notes: >
+      misc/scripts/hrr.py binds and bundles memory vectors by circular
+      convolution over a uint16 phase grid, so recall is nearest neighbour over
+      meaning rather than substring match. Byte-identical to tw_hrr.hpp.
+  - type: report
+    title: "The 'Average Man'?"
+    authors:
+      - family-names: Daniels
+        given-names: "Gilbert S."
+    year: 1952
+    institution:
+      name: "Wright Air Development Center, USAF"
+    number: "WCRD 53-7"
+    notes: >
+      Of 4,063 pilots measured on ten dimensions, none was average on all ten, and
+      the fix was an adjustable cockpit rather than a better mean. The delivery
+      budget is fixed at one week and the scope slides for the same reason: the
+      same five tasks cost 13.81 h at the median and 51.24 h at the 99th
+      percentile, so no single scope fits both.
+  - type: report
+    title: >
+      Program Evaluation Research Task, Summary Report, Phase 1
+    authors:
+      - name: "Special Projects Office, Bureau of Naval Weapons, U.S. Navy"
+    year: 1958
+    notes: >
+      te = (o + 4m + p) / 6 and the critical path. ledger/planned.beancount holds
+      each task's three points as metadata and misc/scripts/ledger.py computes the
+      path from the dependencies, so the estimate and the picture of it cannot
+      disagree. The three points are quantiles of a Bayesian posterior predictive
+      rather than of the observed sample, because two of the empirical percentiles
+      were single observations.
+
+  # ── Sibling projects this manifest is the source of truth for ────────────────
+  - type: software
+    title: "contract-entity-packet: 100-byte entity wire-packet codec"
+    authors:
+      - family-names: Lee
+        given-names: "K. S. Ernest (iFire)"
+        orcid: "https://orcid.org/0000-0003-4570-1436"
+    year: 2026
+    url: "https://github.com/v-sekai-multiplayer-fabric/contract-entity-packet"
+  - type: software
+    title: "contract-patch-verify: independent Lean witness-DAG oracle for CASSIE patch detection"
+    authors:
+      - family-names: Lee
+        given-names: "K. S. Ernest (iFire)"
+        orcid: "https://orcid.org/0000-0003-4570-1436"
+    year: 2026
+    url: "https://github.com/fire/contract-patch-verify"
+  - type: software
+    title: "interactor-triangulation: DMWT triangulation and isotropic remeshing of a closed 3D polygon"
+    authors:
+      - family-names: Lee
+        given-names: "K. S. Ernest (iFire)"
+        orcid: "https://orcid.org/0000-0003-4570-1436"
+    year: 2026
+    url: "https://github.com/fire/interactor-triangulation"
+  - type: software
+    title: "datasource-queen: durable state, SQLite on a VFS whose pages live in FoundationDB"
+    authors:
+      - family-names: Lee
+        given-names: "K. S. Ernest (iFire)"
+        orcid: "https://orcid.org/0000-0003-4570-1436"
+    year: 2026
+    url: "https://github.com/v-sekai-multiplayer-fabric/datasource-queen"

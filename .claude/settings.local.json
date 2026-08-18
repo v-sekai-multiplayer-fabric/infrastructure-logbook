@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ps -Ao pid,args)",
+      "Bash(ps -Ao args)"
+    ]
+  }
+}

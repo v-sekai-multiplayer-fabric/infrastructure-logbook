@@ -1,0 +1,56 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary entities = {
+            dictionary "01a007de-3c00-805d-97cb-20661131c2fe" = {
+                string name = "etnf"
+            }
+            dictionary "01a007de-3c00-8353-a4d8-337b1ee99c33" = {
+                string name = "planning"
+            }
+            dictionary "01a007de-3c00-8449-a0bc-5bde01a83441" = {
+                string name = "workflow"
+            }
+            dictionary "01a007de-3c00-85e5-bc10-093b06b4882a" = {
+                string name = "licences"
+            }
+            dictionary "01a007de-3c00-86e5-89ef-445c1f3cd1ae" = {
+                string name = "oracle"
+            }
+            dictionary "01a007de-3c00-86fe-b3b4-20042c48ead1" = {
+                string name = "cassie"
+            }
+            dictionary "01a007de-3c00-8735-ac13-9225158bb9ab" = {
+                string name = "verification"
+            }
+            dictionary "01a007de-3c00-88e7-8b3a-6b71da6bb38a" = {
+                string name = "checks"
+            }
+            dictionary "01a007de-3c00-89ff-b82c-f81fd829eff8" = {
+                string name = "repo"
+            }
+            dictionary "01a007de-3c00-8b60-a6ac-8e946c8ea88a" = {
+                string name = "memory"
+            }
+            dictionary "01a007de-3c00-8bdd-9cc4-08da8fdf53d9" = {
+                string name = "survey"
+            }
+            dictionary "01a007de-3c00-8bf3-aa83-9adbdfc70ab1" = {
+                string name = "entities-gyre"
+            }
+            dictionary "01a007de-3c00-8c8c-833b-61500b690a9f" = {
+                string name = "hrr"
+            }
+            dictionary "01a007de-3c00-8f28-b8f4-b576523c5942" = {
+                string name = "gall"
+            }
+            dictionary "01a007de-3c00-8f62-9988-0fe84d01680a" = {
+                string name = "planner"
+            }
+            dictionary "01a007de-3c00-8ff0-933e-3c95e0764e48" = {
+                string name = "fabric"
+            }
+        }
+    }
+)
+

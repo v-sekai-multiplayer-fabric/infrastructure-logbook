@@ -1,0 +1,88 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary memory = {
+            dictionary "01a007de-3c00-8063-bfdd-cd7b005f7751" = {
+                string content = "Do not average jagged profiles into a modal answer. Fifteen people naming fifteen different primaries do not want the mean of those; they want the adjustment mechanism that lets each have theirs. Build the seat rail, not a seat position."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-8163-b745-d323809ca89e"
+            }
+            dictionary "01a007de-3c00-806b-9fdc-4b8d301c86dd" = {
+                string content = "OpenUSD layers are the memory source: usdcat is the gate and no pxr is imported, because openusd-fabric already documents the ABI trap between Blender's, Unity's and idtx-flow's bundled USD."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-86ae-be56-929a3d37164b"
+            }
+            dictionary "01a007de-3c00-80e3-8279-125f9394f58a" = {
+                string content = "A diffable seed means a reviewer can read what changed in memory, which a binary blob never allowed."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-8163-b745-d323809ca89e"
+            }
+            dictionary "01a007de-3c00-8144-93a8-d2cdd339c3cf" = {
+                string content = "Derived data is not committed; memory/*.parquet is the source and the sqlite index is built from it."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-8163-b745-d323809ca89e"
+            }
+            dictionary "01a007de-3c00-8159-84bd-d851780f6527" = {
+                string content = "The first step must be useful on its own if the work stops there. Plumbing that delivers nothing to anyone is not a first step. A failure that measures the gap is a valid result."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-8163-b745-d323809ca89e"
+            }
+            dictionary "01a007de-3c00-81c8-a701-9b6aef06d5d2" = {
+                string content = "Verify that an artefact does its job, not that it exists. A file with the right name and size can be a copy of its own input; a check can report ok while its breakage pattern has gone stale; documentation can describe a licence the files do not carry. Open the thing and compare it."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-8163-b745-d323809ca89e"
+            }
+            dictionary "01a007de-3c00-84fc-a40b-4737d971ee19" = {
+                string content = "Rung 0 of the planner ladder does not run. The client at cassie or entities-gyre constructs LLMModel and LLMChat from modules/llm, and no engine in the manifest carries that module; it exists only in V-Sekai-fire/turboquant-godot."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-86ae-be56-929a3d37164b"
+            }
+            dictionary "01a007de-3c00-850b-8a6b-3cc29f66ae64" = {
+                string content = "encode_fact is order-sensitive at the bit level though not mathematically: bundle sums sin and cos, float addition is not associative, so entities must be sorted for a rebuild to be byte-identical. The vectors agree to 1e-14 radians either way."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-8959-bcac-bf41e2449229"
+            }
+            dictionary "01a007de-3c00-8877-80f6-dd89094f358c" = {
+                string content = "JSON Lines beats parquet for a small relation: one tuple per line diffs in git, and four parquet footers cost more than the data."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-8959-bcac-bf41e2449229"
+            }
+            dictionary "01a007de-3c00-8900-8cd1-7a78cbca75b8" = {
+                string content = "Identifiers in the memory relations are UUIDv7, not counters: two branches can each add a memory without colliding, and the time prefix keeps the sorted file appending rather than rewriting."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-8163-b745-d323809ca89e"
+            }
+            dictionary "01a007de-3c00-89db-aa66-ecd0bd339e50" = {
+                string content = "Third-party licences follow Google's policy at opensource.google/documentation/reference/thirdparty/licenses. Notice ships anywhere, reciprocal obliges source availability, restricted taints, and any unlisted licence is forbidden without approval."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-8959-bcac-bf41e2449229"
+            }
+            dictionary "01a007de-3c00-8a0e-b918-83ade32c4fa2" = {
+                string content = "A repo-managed project uses a .git symlink into .repo/projects. A directory created by hand before it entered the manifest has a real .git directory and fails sync with unsupported checkout state."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-86ae-be56-929a3d37164b"
+            }
+            dictionary "01a007de-3c00-8a61-9e35-21e94c344ff6" = {
+                string content = "Never clone a project into a scratch directory; add it to the manifest and let repo sync bring it in. Work left uncommitted in a scratchpad is lost with the session."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-8163-b745-d323809ca89e"
+            }
+            dictionary "01a007de-3c00-8af7-8cfd-c6f6f09e609c" = {
+                string content = "A control that cannot perturb its check certifies nothing. When a check reads GitHub or a child repository, no edit to the local tree can break it, so the control must inject the answer instead. DOC_OVERRIDE and LICENCE_OVERRIDE are those seams."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-8163-b745-d323809ca89e"
+            }
+            dictionary "01a007de-3c00-8e2e-b643-3b496547396f" = {
+                string content = "cassie-patch-verify data/patches_mesh.json is a byte-identical copy of data/hat_mesh.json, so the Lean oracle has never produced output and the oracle-to-C++ mesh diff cannot be built until it does."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-86ae-be56-929a3d37164b"
+            }
+            dictionary "01a007de-3c00-8ec2-a1f2-a42b9023c24e" = {
+                string content = "Store phase vectors on the uint16 grid encode_atom already uses, not float64: a quarter the size, exact for atoms, and byte-equal regardless of component order because rounding to the grid absorbs the float non-associativity."
+                string created = "2026-08-16"
+                string kind_id = "01a007de-3c00-8959-bcac-bf41e2449229"
+            }
+        }
+    }
+)
+

@@ -1,0 +1,17 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary kinds = {
+            dictionary "01a007de-3c00-8163-b745-d323809ca89e" = {
+                string name = "feedback"
+            }
+            dictionary "01a007de-3c00-86ae-be56-929a3d37164b" = {
+                string name = "project"
+            }
+            dictionary "01a007de-3c00-8959-bcac-bf41e2449229" = {
+                string name = "reference"
+            }
+        }
+    }
+)
+

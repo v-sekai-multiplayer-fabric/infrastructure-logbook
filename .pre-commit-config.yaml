@@ -1,0 +1,50 @@
+# Doc gate, run by prek (https://github.com/j178/prek) or pre-commit.
+#
+#   prek install                 # wire both stages into .git/hooks
+#   prek run --all-files         # commit-stage checks, now
+#   prek run --hook-stage pre-push --all-files
+#
+# Commit stage is offline so it stays fast; the network claims run at pre-push, before
+# anything leaves the machine. Nothing is skipped, only deferred, and the gate says so.
+#
+# The gate is the mix application in misc/checks, so every hook runs from there. `mix check`
+# compiles first if it has to, which makes the first run of a fresh clone slower than the
+# rest and is the only reason a commit ever waits on this.
+repos:
+  - repo: local
+    hooks:
+      - id: check-fast
+        name: what the checkout can answer
+        entry: sh -c 'cd misc/checks && mix check --fast'
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-commit]
+
+      - id: check-slow
+        name: repository settings a clone cannot carry
+        entry: sh -c 'cd misc/checks && mix check --slow'
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
+
+      - id: check-self-test
+        name: doc gate negative controls (each check must fail on broken input)
+        entry: sh -c 'cd misc/checks && mix check --self-test'
+        language: system
+        pass_filenames: false
+        # `default.xml` was on this list until it stopped being in this repository. A trigger
+        # path that cannot match is a hook that never runs, so it goes rather than staying as
+        # a reminder; an edit to the manifest is a commit in `fabric`, and the controls that
+        # would catch it run from this repository's own pre-push or from CI.
+        files: ^(misc/checks/.*\.ex|README\.md)$
+        stages: [pre-push]
+
+      - id: check-dialyzer
+        name: the gate's own types
+        entry: sh -c 'cd misc/checks && mix dialyzer'
+        language: system
+        pass_filenames: false
+        files: ^misc/checks/.*\.exs?$
+        stages: [pre-push]

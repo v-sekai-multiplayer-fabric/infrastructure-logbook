@@ -1,0 +1,103 @@
+# The doc gate, run somewhere other than where it was written.
+#
+# CLAUDE.md says CI is the overflow and not the first attempt, and that holds: this is not
+# here to save anybody a local run. It is here because the hooks are installed per clone and
+# nothing makes anyone install them -- the branch that added the .DS_Store gate was committed
+# and pushed from a checkout where prek had never been wired in, and the stages only ran
+# because they were run by hand. A gate nobody is obliged to run is a gate that is sometimes
+# not run.
+#
+# What runs here is what a bare clone can answer for itself: the checkout claims and their
+# negative controls. Two things stay local on purpose.
+#
+# This job never calls GitHub. Not `gh`, not `git ls-remote`, not an HTTP request: the only
+# thing it fetches over the network is the toolchain, which setup-beam installs.
+#
+# That is enforced rather than intended. `mix check --fast` declares the run offline, and
+# Check.Lib.gh/1 and Check.Lib.cmd/3 raise on any call that would leave the machine, so a
+# network call added to a `:local` check fails on the desk it was written on instead of on a
+# runner. Before that it was true only by coincidence -- every `:local` check happened not to
+# call out, and nothing said it had to keep happening.
+#
+# The network half stays at pre-push -- both its claims and its controls -- because `gh`
+# there is authenticated as a person who can read the organisation. A repository-scoped
+# GITHUB_TOKEN cannot list the org, so running them here would fail on every push and teach
+# everyone to ignore a red build.
+#
+# `mix dialyzer` stays at pre-push too. Its PLT is built from OTP and every dependency, which
+# is minutes on a cold runner and was the whole of this job's cost; the analysis it does is
+# of code that cannot change without somebody editing it locally first. Caching the PLT
+# traded those minutes for a cache key that goes stale on every OTP bump, which is a worse
+# deal than simply running it on the machine where the edit happens.
+#
+# --fast is on the self-test as well as on the claims, because --self-test runs the claims
+# too. The first version of this file left it off and CI went red on four network checks that
+# were never meant to run here. The six network controls are unrun in CI by design, and
+# `prek run --hook-stage pre-push` is what runs them.
+#
+# A bare clone still has no children -- the manifest is checked out above, but the 53
+# projects it lists are not -- so the document checks scan zero of them and say so in the
+# output rather than passing quietly. That is the point of the note.
+
+name: checks
+
+on:
+  push:
+  pull_request:
+
+env:
+  # dialyxir is the only dependency and it is dev-only, so prod has none at all: nothing to
+  # fetch, nothing to resolve, and a build that is nine files of this repository's own code.
+  MIX_ENV: prod
+  FABRIC_MANIFEST: ${{ github.workspace }}/.repo/manifests
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: misc/checks
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # The manifest is a different repository now, and every manifest check reads it. A
+      # bare clone of this one has no `.repo` and no workspace around it, so the checks
+      # would have nothing to answer from and would report zero of everything -- which,
+      # per the rule this repository states about silent skips, reads exactly like a pass.
+      #
+      # It lands where `repo init` would put it. `FABRIC_MANIFEST` then names it outright
+      # rather than leaving the climb to find it, because a checkout inside a `.repo` that
+      # nothing else populated is a coincidence to depend on, not a layout.
+      - uses: actions/checkout@v4
+        with:
+          repository: v-sekai-multiplayer-fabric/fabric
+          path: .repo/manifests
+
+      # Pinned to what the desk runs, so a failure here is a failure there. An unpinned
+      # version makes CI a different machine in a second way and turns a real disagreement
+      # into a version question.
+      - uses: erlef/setup-beam@v1
+        with:
+          elixir-version: "1.20.3"
+          otp-version: "29.0"
+
+      # Keyed on the versions above and on the two files that decide what gets built. The
+      # sources are deliberately not in the key: mix recompiles only what changed, so a
+      # restored build is the incremental one the desk gets and a source edit costs one file
+      # rather than nine.
+      - uses: actions/cache@v4
+        with:
+          path: misc/checks/_build
+          key: build-prod-1.20.3-29.0-${{ hashFiles('misc/checks/mix.exs', 'misc/checks/mix.lock') }}
+          restore-keys: build-prod-1.20.3-29.0-
+
+      # --warnings-as-errors: a warning nobody has to fix is a warning everybody stops
+      # reading, which is the same failure mode as a permanently red build.
+      - run: mix compile --warnings-as-errors
+
+      - name: what the checkout can answer
+        run: mix check --fast
+
+      - name: negative controls (each check must fail on broken input)
+        run: mix check --fast --self-test

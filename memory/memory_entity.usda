@@ -1,0 +1,56 @@
+#usda 1.0
+(
+    customLayerData = {
+        dictionary memory_entity = {
+            dictionary "01a007de-3c00-8063-bfdd-cd7b005f7751" = {
+                string[] entity_id = ["01a007de-3c00-8353-a4d8-337b1ee99c33", "01a007de-3c00-8bdd-9cc4-08da8fdf53d9", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-806b-9fdc-4b8d301c86dd" = {
+                string[] entity_id = ["01a007de-3c00-8b60-a6ac-8e946c8ea88a", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-80e3-8279-125f9394f58a" = {
+                string[] entity_id = ["01a007de-3c00-8b60-a6ac-8e946c8ea88a", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-8144-93a8-d2cdd339c3cf" = {
+                string[] entity_id = ["01a007de-3c00-805d-97cb-20661131c2fe", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-8159-84bd-d851780f6527" = {
+                string[] entity_id = ["01a007de-3c00-8353-a4d8-337b1ee99c33", "01a007de-3c00-8f28-b8f4-b576523c5942", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-81c8-a701-9b6aef06d5d2" = {
+                string[] entity_id = ["01a007de-3c00-86fe-b3b4-20042c48ead1", "01a007de-3c00-8735-ac13-9225158bb9ab", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-84fc-a40b-4737d971ee19" = {
+                string[] entity_id = ["01a007de-3c00-8bf3-aa83-9adbdfc70ab1", "01a007de-3c00-8f62-9988-0fe84d01680a", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-850b-8a6b-3cc29f66ae64" = {
+                string[] entity_id = ["01a007de-3c00-8c8c-833b-61500b690a9f", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-8877-80f6-dd89094f358c" = {
+                string[] entity_id = ["01a007de-3c00-805d-97cb-20661131c2fe", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-8900-8cd1-7a78cbca75b8" = {
+                string[] entity_id = ["01a007de-3c00-8b60-a6ac-8e946c8ea88a", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-89db-aa66-ecd0bd339e50" = {
+                string[] entity_id = ["01a007de-3c00-85e5-bc10-093b06b4882a", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-8a0e-b918-83ade32c4fa2" = {
+                string[] entity_id = ["01a007de-3c00-89ff-b82c-f81fd829eff8", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-8a61-9e35-21e94c344ff6" = {
+                string[] entity_id = ["01a007de-3c00-8449-a0bc-5bde01a83441", "01a007de-3c00-89ff-b82c-f81fd829eff8", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-8af7-8cfd-c6f6f09e609c" = {
+                string[] entity_id = ["01a007de-3c00-88e7-8b3a-6b71da6bb38a", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+            dictionary "01a007de-3c00-8e2e-b643-3b496547396f" = {
+                string[] entity_id = ["01a007de-3c00-86e5-89ef-445c1f3cd1ae", "01a007de-3c00-86fe-b3b4-20042c48ead1"]
+            }
+            dictionary "01a007de-3c00-8ec2-a1f2-a42b9023c24e" = {
+                string[] entity_id = ["01a007de-3c00-8c8c-833b-61500b690a9f", "01a007de-3c00-8ff0-933e-3c95e0764e48"]
+            }
+        }
+    }
+)
+
