@@ -541,8 +541,20 @@ question and the one that was never asked.
   `Check.Ledger` intersects the two charts as belt to those braces, because the day
   somebody merges them to tidy them up is the day the tool stops refusing.
 - **The whole history is booked, not a trailing year.** A ledger that starts a year ago can
-  say what a thing cost recently and not what it has cost. 479.8 h since 2020, of which
-  42.70 h is the mesh.
+  say what a thing cost recently and not what it has cost. 638.9 h since 2020, of which
+  49.07 h is the mesh.
+- **A project that leaves the manifest keeps its book.** Spent hours are spent. `build` used
+  to unlink any book it had not just regenerated, on the reasoning that a generated tree must
+  be able to shrink, and that reasoning is right about everything except the one file it
+  cannot regenerate: once the checkout is gone there is no git to read those seconds back
+  out of, so the book is the only copy. Dropping five projects in one afternoon erased
+  124.56 h of 606.28 h, a fifth of the record, and no gate said so -- the number in this
+  file had already drifted from an earlier deprecation doing the same thing quietly, which
+  is how a silent erasure looks from the outside: a prose figure that stopped matching and
+  nobody could say when. A departed book is retained instead, its chart entry carried
+  forward from the previous chart because `_cff` needs a checkout too, and marked
+  `departed:` so the reader knows why it cannot move again. Keeping them is what lets the
+  ledger answer what a decision cost after the decision is reversed.
 - Tackler is an **operating-system tool, like gcc**. `cargo install tackler`. Never
   vendored and never imported — Apache-2.0, so the licence no longer forces the
   arrangement the way beancount's GPL-2.0 did; it stays because the validator being the

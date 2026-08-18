@@ -82,6 +82,22 @@
 #   4. B   boundary triangulation           ~41    h
 #   5. G   clusterIncidence determinism     51.24 h
 #
+# P0 moved book on 2026-08-18, from ledger/planned/Patch-Verify.txn to
+# ledger/planned/Triangulation.txn, and that book is deleted. CASSIE is
+# deprecated -- we do not work with Unity corp -- so the Unity application, the
+# dataset recorded from it, the Godot port and contract-patch-verify, the Lean
+# oracle for its patch detection, all left the manifest and the oracle is
+# archived. The task was mis-filed regardless: geogram is linked by
+# interactor-triangulation at libs/geogram, so its seconds were always going to
+# be spent in that book, and a task filed against a repository that cannot spend
+# them is a plan nothing can settle against.
+#
+# A is the notch that loses its instrument, not just its file. The differential
+# gate was to run an oracle's recorded output against its own reference, and that
+# oracle was contract-patch-verify. What replaces it is not decided, and is not
+# written here: the rail below A is the rail, not a commitment, and inventing a
+# replacement now would be deciding a state nobody has observed.
+#
 # Work down it and stop where the week runs out. At the median all five fit
 # inside 40 h with room; at the 99th only the first three do. Which is true is
 # not known in advance, which is the whole reason the scope adjusts instead of
@@ -92,13 +108,25 @@
 # not commitments, because an estimate written down as a plan reads as a decision
 # -- which is how OPEN_GAPS carried 231/234 for eight weeks.
 #
-# The survey says this is the right week to buy. Six of fifteen responses name
-# creation in one slot or the other -- a meshing pen, user generated content,
-# moddable, absolute interactability, and save-and-share twice -- the largest
-# cluster in it, and the one this deliverable serves. The same memo applies
-# there: those six did not name a feature, they named the adjustment mechanism,
-# which is what lets holly have fishing and dragos have his horde without either
-# choosing.
+# The survey says this is the right week to buy, and the count is now named
+# rather than asserted, because it was wrong twice. Of sixteen responses, seven
+# name creation in one slot or the other: fire a meshing pen, rami moddable and
+# save-and-share, iffn user generated content, noppers user created content,
+# thatonewhale save-and-share, acl world creation and expression, honeydee
+# everything you build being seen by others. Count uzugu's "absolute
+# interactability with world" and it is eight. It is the largest cluster in the
+# survey and the one this deliverable serves.
+#
+# Those seven did not name a feature. They named the adjustment mechanism, which
+# is what lets holly have fishing and dragos have his horde without either of
+# them being built here -- the Daniels point applied to product rather than to
+# scope. The cockpit was not fixed by finding a more representative pilot; it was
+# fixed by making the seat move.
+#
+# honeydee gives the sharpest form of it, as a complaint rather than a wish:
+# there are still worlds with items localized. That is why the deliverable says
+# a player gets a mesh back and not that a player draws. Creation nobody else
+# sees is a preference file.
 
 [kernel]
 strict = true

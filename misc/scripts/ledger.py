@@ -91,16 +91,25 @@ SECONDS_IN_A_DAY = 86400
 
 
 def day_totals():
-    """Seconds booked per calendar day, across every project's book."""
+    """Seconds booked per (calendar day, resource), across every project's book.
+
+    The ceiling belongs to a resource, not the calendar: two resources spend 48 h of effort
+    in a 24 h day. A per-day ceiling would fail on that and still hide one resource booked
+    twice inside a total with room for it.
+    """
     d = collections.Counter()
-    for day, _acct, secs in _postings():
-        d[day] += secs
+    for day, _acct, secs, who in _postings():
+        d[(day, who)] += secs
     return d
 
 
 def overbooked_days():
-    """Days that book more seconds than a day contains. Must always be empty."""
-    return sorted((day, s) for day, s in day_totals().items() if s > SECONDS_IN_A_DAY)
+    """(day, resource, seconds) where one resource books more than a day contains.
+
+    Must always be empty, however many resources there are.
+    """
+    return sorted((day, who, s) for (day, who), s in day_totals().items()
+                  if s > SECONDS_IN_A_DAY)
 
 # Which lane a checkout's hours are booked to. The mesh chain is named explicitly because
 # it is the one the build asks about; everything else we author falls to Other.
@@ -125,7 +134,19 @@ ACCOUNTS = ["Income:Sessions", "Expenses:Delivery:Mesh", "Expenses:Docs",
 # commits out, and it kept our sixteen on portability-consensus out with them, so a day of
 # CI work on that repository booked 0.00 h. The author is the thing actually being asked
 # about, and it needs no list to stay current.
-OURS = {"ernest.lee@chibifire.com", "fire@users.noreply.github.com"}
+# email -> resource. A resource owns one timeline: its own spans are apportioned, never
+# added. Separate resources overlap freely, so two working at once book two lots of effort
+# against one of clock. A map, not a set: several addresses may be one resource, and a
+# program that commits is a resource like a person.
+#
+# The key is interactor-taskweft's entity id (`human_1`, `drone_1`), which HRR/Basic.lean
+# also binds memories to. Reuse it; a third spelling cannot be joined to the other two.
+# An address absent here is not booked at all.
+RESOURCES = {
+    "ernest.lee@chibifire.com": "fire",
+    "fire@users.noreply.github.com": "fire",
+}
+OURS = set(RESOURCES)
 
 
 def _checkouts():
@@ -181,35 +202,41 @@ def _allocate():
     which is the censoring the plan's floor exists to answer: a span between commits cannot
     see the work before the first one.
     """
-    events = []
+    by_resource = collections.defaultdict(list)
     for rel, path in _checkouts():
         out = subprocess.run(["git", "-C", str(path), "log", "--pretty=%ct\t%ae\t%s"],
                              capture_output=True, text=True, encoding="utf-8").stdout.splitlines()
         for line in out:
             ct, _, rest = line.partition("\t")
             email, _, subj = rest.partition("\t")
-            if email not in OURS:
+            who = RESOURCES.get(email)
+            if who is None:
                 continue
             try:
-                events.append((int(ct), rel, subj))
+                by_resource[who].append((int(ct), rel, subj))
             except ValueError:
                 pass
-    events.sort()
+
     seconds = collections.Counter()
     steps = collections.defaultdict(list)
-    # Every commit is recorded; only the intervals between them are charged. Walking pairs
-    # alone dropped whichever commit sorted first, because it is never the later half of a
-    # pair -- one commit missing out of 564, which is exactly the kind of error a lane total
-    # absorbs without trace and a per-project book does not.
-    prev = None
-    for ct, rel, subj in events:
-        day = datetime.datetime.utcfromtimestamp(ct).date().isoformat()
-        steps[(day, rel)].append(subj)
-        if prev is not None:
-            gap = ct - prev
-            if 0 < gap <= SESSION_GAP_H * 3600:
-                seconds[(day, rel)] += float(gap)
-        prev = ct
+    # One walk per resource. A single walk over every commit is the one-worker model: two
+    # resources interleave, each closing the other's interval, so concurrent effort is
+    # charged once between them instead of twice.
+    for who, events in by_resource.items():
+        events.sort()
+        # Every commit is recorded; only the intervals between them are charged. Walking
+        # pairs alone dropped whichever commit sorted first, because it is never the later
+        # half of a pair -- one commit missing out of 564, which is exactly the kind of error
+        # a lane total absorbs without trace and a per-project book does not.
+        prev = None
+        for ct, rel, subj in events:
+            day = datetime.datetime.utcfromtimestamp(ct).date().isoformat()
+            steps[(day, rel, who)].append(subj)
+            if prev is not None:
+                gap = ct - prev
+                if 0 < gap <= SESSION_GAP_H * 3600:
+                    seconds[(day, rel, who)] += float(gap)
+            prev = ct
     for k in steps:
         seconds.setdefault(k, 0.0)
     return seconds, steps
@@ -314,20 +341,30 @@ def _account(rel):
     return f"{lane}:{leaf}" if leaf else lane
 
 
+def _book_name(acct):
+    """The file a book lives in, named for the whole account.
+
+    The leaf alone is unique only until two projects share it: 2-contract/triangulation and
+    3-interactor/triangulation differ by lane, and the second silently overwrote the first,
+    losing 0.45 h. The account is lane plus leaf and so is already unique.
+    """
+    return acct.split(":", 1)[1].replace(":", "-") + ".txn"
+
+
 def _escape(s):
     """Steps ride inside a double-quoted metadata comment, so a quote in a subject ends it."""
     return s.replace("\\", "").replace('"', "'")
 
 
-def _uuid(day, rel):
+def _uuid(day, rel, who):
     """The txn's UUID, derived from its day and project rather than drawn.
 
     Audit mode requires one on every transaction and folds them into the txn-set checksum.
-    A random UUID would change on every rebuild, which breaks the byte-identical check that
-    proves the books are generated; a name-based UUID of (day, project) is stable, unique
-    per txn by construction -- one txn per (day, project) -- and carries no clock.
+    A random UUID would change on every rebuild and break the byte-identical check; a
+    name-based UUID of (day, project, resource) is stable and unique by construction. The
+    resource is in the name because two of them on one project in one day are two txns.
     """
-    return uuid.uuid5(uuid.NAMESPACE_URL, f"fabric-spent/{day}/{rel}")
+    return uuid.uuid5(uuid.NAMESPACE_URL, f"fabric-spent/{day}/{rel}/{who}")
 
 
 def build():
@@ -351,9 +388,9 @@ def build():
     """
     seconds, steps = _allocate()
     paths = {rel: path for rel, path in _checkouts()}
-    entries = sorted((day, rel, _account(rel), seconds.get((day, rel), 0.0),
-                      len(steps[(day, rel)]), steps[(day, rel)])
-                     for (day, rel) in steps)
+    entries = sorted((day, rel, who, _account(rel), seconds.get((day, rel, who), 0.0),
+                      len(steps[(day, rel, who)]), steps[(day, rel, who)])
+                     for (day, rel, who) in steps)
 
     by_project = collections.defaultdict(list)
     for e in entries:
@@ -363,18 +400,21 @@ def build():
     booked, written, keep, charted = 0, 0, set(), []
     for rel, rows in sorted(by_project.items()):
         acct = _account(rel)
-        name = acct.rsplit(":", 1)[-1] + ".txn"
+        name = _book_name(acct)
         lines, first_txn = [], True
-        for day, _rel, account, secs, n, subjects in rows:
+        for day, _rel, who, account, secs, n, subjects in rows:
             amt = f"{secs:.0f}"
             if amt == "0":
                 continue
             lines.append(f"{day} '{_escape(rel)}: {_escape(subjects[-1])[:88]}")
-            lines.append(f"    # uuid: {_uuid(day, rel)}")
+            lines.append(f"    # uuid: {_uuid(day, rel, who)}")
             if first_txn:
                 lines.append(f"    ; {_escape(rel)} -- generated by misc/scripts/ledger.py, do not edit.")
                 first_txn = False
             lines.append("    ; spent: TRUE")
+            # Whose timeline the hour came off. The ceiling is per resource, so the
+            # check needs this in the book.
+            lines.append(f'    ; resource: "{_escape(who)}"')
             lines.append(f"    ; commits: {n}")
             steps_s = " | ".join(_escape(s)[:72] for s in subjects)
             lines.append(f'    ; steps: "{steps_s[:900]}"')
@@ -406,20 +446,70 @@ def build():
         "accounts = [",
         '    "Income:Sessions",',
     ]
+    # A project that left the manifest keeps its book. Its checkout is gone, so the seconds
+    # cannot be regenerated and the file is the only copy; unlinking it lost 124.56 h of
+    # 606.28 h the first time. Chart entries are carried forward from the previous chart
+    # (`_cff` needs a checkout too), which strict mode requires and which keeps `build`
+    # idempotent.
+    departed = sorted(f for f in SPENT_DIR.glob("*.txn") if f.name not in keep)
+    if departed:
+        previous = _chart_blocks()
+        for f in departed:
+            acct = _account_in(f)
+            if acct is None:
+                continue
+            # The fallback must declare the account; a comment block alone validates
+            # nothing and strict mode rejects the book.
+            block = previous.get(acct) or [
+                f"    # departed: no chart entry survived",
+                f'    "{acct}",',
+            ]
+            if not any("departed" in ln for ln in block):
+                block = block[:-1] + [
+                    "    #   departed: left the manifest; book retained, seconds are spent",
+                    block[-1],
+                ]
+            charted.append((acct, block))
+
     for _acct, block in sorted(charted):
         chart.extend(block)
     chart.append("]")
     SPENT_ACCOUNTS.write_text("\n".join(chart) + "\n", encoding="utf-8")
-    # Files that no longer correspond to a project would keep being validated forever; a
-    # generated tree must be able to shrink.
-    for f in SPENT_DIR.glob("*.txn"):
-        if f.name not in keep:
-            f.unlink()
-    return booked, written
+    return booked, written + len(departed)
+
+
+def _chart_blocks():
+    """{account: [comment lines..., \"Account\",]} from the chart on disk.
+
+    Reads the previous run's output on purpose: a departed project's CITATION.cff is
+    unreachable once its checkout is gone, so the last chart that saw it is the only copy.
+    """
+    if not SPENT_ACCOUNTS.exists():
+        return {}
+    blocks, cur = {}, []
+    for line in SPENT_ACCOUNTS.read_text(encoding="utf-8").splitlines():
+        t = line.strip()
+        if t.startswith("#") and line.startswith("    "):
+            cur.append(line)
+        elif t.startswith('"') and t.endswith('",'):
+            blocks[t[1:-2]] = cur + [line]
+            cur = []
+        else:
+            cur = []
+    return blocks
+
+
+def _account_in(path):
+    """The account a book posts to, read from its first expense posting."""
+    for line in path.read_text(encoding="utf-8").splitlines():
+        t = line.strip()
+        if t.startswith("Expenses:") and "SECONDS" in t:
+            return t.split()[0]
+    return None
 
 
 def _postings(since_days=None):
-    """(date, account, seconds) for every expense posting, read back from the file.
+    """(date, account, seconds, resource) for every expense posting, read back from the file.
 
     Read back rather than recomputed, so `report` and the delivery gate answer from the
     artefact that is committed. A number produced by the generator and never read from
@@ -428,7 +518,7 @@ def _postings(since_days=None):
     cutoff = None
     if since_days is not None:
         cutoff = datetime.date.today() - datetime.timedelta(days=since_days)
-    out, day = [], None
+    out, day, who = [], None, "?"
     lines = []
     for f in sorted(SPENT_DIR.glob("*.txn")):
         lines += f.read_text(encoding="utf-8").splitlines()
@@ -440,11 +530,16 @@ def _postings(since_days=None):
                 day = datetime.date.fromisoformat(line[:10])
             except ValueError:
                 day = None
+            # A retained book predates the resource field; the checkout that could name
+            # the resource is gone, so supply one rather than fail.
+            who = "?"
+        elif line.strip().startswith('; resource:'):
+            who = line.split('"')[1]
         elif day is not None and line.startswith("    Expenses:"):
             acct, _, amt = line.strip().partition(" ")
             secs = float(amt.replace("SECONDS", "").strip())
             if cutoff is None or day >= cutoff:
-                out.append((day, acct, secs))
+                out.append((day, acct, secs, who))
     return out
 
 
@@ -463,7 +558,7 @@ def docs_ratio(since_days=90):
     which is the honest reading: prose with nothing behind it is not a small ratio.
     """
     docs = delivery = 0.0
-    for _day, account, secs in _postings(since_days):
+    for _day, account, secs, _who in _postings(since_days):
         if account.startswith("Expenses:Docs"):
             docs += secs
         elif account.startswith("Expenses:Delivery:"):
@@ -494,7 +589,7 @@ def report(since_days, by_project=False):
 
 def delivery_seconds(window_days=30):
     """Seconds booked to the mesh in the trailing window. What the build asks about."""
-    return sum(s for _, a, s in _postings(window_days) if a.startswith("Expenses:Delivery"))
+    return sum(s for _, a, s, _w in _postings(window_days) if a.startswith("Expenses:Delivery"))
 
 
 def verify():
@@ -514,8 +609,8 @@ def verify():
         else:
             print(f"  tackler ok  {conf.name}")
     over = overbooked_days()
-    for day, s in over[:5]:
-        print(f"  {day} books {s:.0f} s, and a day holds {SECONDS_IN_A_DAY}")
+    for day, who, s in over[:5]:
+        print(f"  {day} books {s:.0f} s for {who}, and a day holds {SECONDS_IN_A_DAY}")
     bad += len(over)
 
     generated = lambda: {f.name: f.read_text(encoding="utf-8")

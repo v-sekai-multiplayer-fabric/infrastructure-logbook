@@ -16,12 +16,12 @@ defmodule Check.Ledger do
   def checks do
     [
       %{
-        label: "a day never books more seconds than a day holds",
+        label: "no resource books more of a day than a day holds",
         kind: :local,
         run: &a_day_holds_a_day/1,
         # Generated from git, so no edit here can overbook a day. The control supplies the
         # reading instead, with the figure the un-allocated version actually produced.
-        break: &Map.put(&1, :day, [{"2026-08-16", 144_144.0}])
+        break: &Map.put(&1, :day, [{"2026-08-16", "fire", 144_144.0}])
       },
       %{
         label: "planned and spent time never share an account",
@@ -68,22 +68,22 @@ defmodule Check.Ledger do
         [why]
 
       days ->
-        for {day, seconds} <- days do
-          "#{day} books #{round(seconds)} s, and a day holds #{@seconds_in_a_day}; " <>
-            "the allocation is double-counting rather than partitioning"
+        for {day, who, seconds} <- days do
+          "#{day} books #{round(seconds)} s for #{who}, and a day holds #{@seconds_in_a_day}; " <>
+            "that resource's timeline is double-counting rather than partitioning"
         end
     end
   end
 
   defp overbooked_days do
     case python("""
-         for d, s in ledger.overbooked_days():
-             print(f"{d}\\t{s}")
+         for d, who, s in ledger.overbooked_days():
+             print(f"{d}\\t{who}\\t{s}")
          """) do
       {:ok, out} ->
         for line <- String.split(out, "\n", trim: true) do
-          [day, seconds] = String.split(line, "\t", parts: 2)
-          {day, String.to_float(seconds)}
+          [day, who, seconds] = String.split(line, "\t", parts: 3)
+          {day, who, String.to_float(seconds)}
         end
 
       {:error, why} ->
