@@ -10,7 +10,7 @@ Beancount is an operating-system tool here, the way gcc is. `brew install beanco
 never vendored and never imported -- it is GPL-2.0, which this project's licence policy
 files as restricted, so keeping it outside the tree is a licence decision as much as a
 dependency one. What is tracked is the plain-text accounting file. This is the same
-arrangement `memory.py` has with `usdcat`: the artefact is ours, the validator is the
+arrangement the memory store has with `usdcat`: the artefact is ours, the validator is the
 system's, and the validator is what keeps a hand-written emitter honest.
 
   ledger.py build            git sessions -> ledger/spent.beancount

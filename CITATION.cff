@@ -58,31 +58,11 @@ references:
     license: Apache-2.0
     url: "https://github.com/PixarAnimationStudios/OpenUSD"
     notes: >
-      memory/*.usda are typed dictionaries in canonical usda. The system usdcat
-      re-emits each layer and the bytes must match, which is what keeps a
-      hand-written emitter honest. Nothing here imports pxr, for the reason
-      openusd-fabric's codeless schemas already record: the ABI trap between
-      Blender's, Unity's and idtx-flow's bundled builds.
+      The ledger books are validated the same way, and the store that used to live
+      here now sits in `.claude`, whose CITATION.cff carries the OpenUSD and Plate
+      entries with it.
 
   # ── Designs this implements ──────────────────────────────────────────────────
-  - type: article
-    title: >
-      Holographic Reduced Representations: Distributed Representation for
-      Cognitive Structures
-    authors:
-      - family-names: Plate
-        given-names: "Tony A."
-    year: 1995
-    journal: "IEEE Transactions on Neural Networks"
-    volume: 6
-    issue: 3
-    start: 623
-    end: 641
-    doi: "10.1109/72.377968"
-    notes: >
-      misc/scripts/hrr.py binds and bundles memory vectors by circular
-      convolution over a uint16 phase grid, so recall is nearest neighbour over
-      meaning rather than substring match. Byte-identical to tw_hrr.hpp.
   - type: report
     title: "The 'Average Man'?"
     authors:

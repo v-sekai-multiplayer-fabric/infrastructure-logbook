@@ -8,8 +8,6 @@ misc/checks/_build/
 misc/checks/deps/
 misc/checks/priv/plts/
 
-# Built from memory/*.usda by misc/scripts/memory.py; the relations are the source.
-/memory/fabric.sqlite3
 
 # Finder writes one into every directory it is asked to display. It records icon positions on
 # one machine and means nothing on any other, and `mix check` fails on one in any repository
