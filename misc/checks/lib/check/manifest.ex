@@ -13,7 +13,12 @@ defmodule Check.Manifest do
         label: "every project states remote and revision",
         kind: :local,
         run: &explicit_attrs/1,
-        break: &Lib.break_manifest(&1, ~s( remote="meshula" revision="dev"), "")
+        break:
+          &Lib.break_manifest(
+            &1,
+            ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="v-sekai-multiplayer-fabric" revision="main" />),
+            ~s(<project name="contract-triangulation" path="2-contract/triangulation" />)
+          )
       },
       %{
         label: "<default> sets sync-j so fetches are not serial",
@@ -29,8 +34,8 @@ defmodule Check.Manifest do
         break:
           &Lib.break_manifest(
             &1,
-            ~s(<project name="transport-asset"),
-            ~s(<project name="fabric" path="." remote="v-sekai-multiplayer-fabric" revision="main" />\n  <project name="transport-asset")
+            ~s(<project name="contract-triangulation"),
+            ~s(<project name="fabric" path="." remote="v-sekai-multiplayer-fabric" revision="main" />\n  <project name="contract-triangulation")
           )
       },
       %{

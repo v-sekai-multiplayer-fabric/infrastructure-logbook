@@ -21,8 +21,8 @@ defmodule Check.Authority do
         break:
           &Lib.break_manifest(
             &1,
-            ~s(<project name="transport-asset" path="1-transport/asset" remote="v-sekai-multiplayer-fabric"),
-            ~s(<project name="transport-asset" path="1-transport/asset" remote="meshula")
+            ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="v-sekai-multiplayer-fabric"),
+            ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="meshula")
           )
       },
       %{
@@ -53,7 +53,7 @@ defmodule Check.Authority do
         run: &no_ds_store/1,
         # Reads the tree, which no edit to a document here reaches, so the control supplies
         # the reading -- the exact one this check produced the first time it was run.
-        break: &Map.put(&1, :dsstore, [{"transport-asset", ".DS_Store"}])
+        break: &Map.put(&1, :dsstore, [{"contract-triangulation", ".DS_Store"}])
       }
     ]
   end

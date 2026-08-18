@@ -17,7 +17,12 @@ defmodule Check.Remotes do
         label: "every manifest revision exists on its remote",
         kind: :network,
         run: &revisions_exist/1,
-        break: &Lib.break_manifest(&1, ~s(revision="dev"), ~s(revision="no-such-xyz"))
+        break:
+          &Lib.break_manifest(
+            &1,
+            ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="v-sekai-multiplayer-fabric" revision="main" />),
+            ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="v-sekai-multiplayer-fabric" revision="no-such-xyz" />)
+          )
       },
       %{
         label: "every manifest commit pin exists on its remote",
@@ -49,7 +54,7 @@ defmodule Check.Remotes do
         run: &mirror_list/1,
         # Asking GitHub cannot be perturbed by editing a file here, so the control replaces
         # the answer: a repository that is a fork and is not on the list must be reported.
-        break: &Map.put(&1, :forks, %{"transport-asset" => {true, "somebody-else/transport-asset"}})
+        break: &Map.put(&1, :forks, %{"contract-triangulation" => {true, "somebody-else/contract-triangulation"}})
       },
       %{
         label: "no document names a repository that moved",
