@@ -45,6 +45,7 @@ defmodule Mix.Tasks.Check do
     {"words", Check.Words},
     {"nifs", Check.Nifs},
     {"licences", Check.Licences},
+    {"lean", Check.Lean},
     {"ledger", Check.Ledger}
   ]
 
