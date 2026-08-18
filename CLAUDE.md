@@ -336,9 +336,9 @@ by a control that reported its own pattern had gone dead. Only the third one fou
   under 40 lines. `mix check --fast` gates it, offline, at commit stage.
 - A **mirror** is exempt. Its README belongs to its upstream, and editing it forks a
   document this project does not own. `MIRRORS` in that script names each one and the
-  evidence: `entities-godot` opens "# Godot Engine", and `datasource-foundationdb`, `idtx-flow`
-  and `transport-oxrsys` carry GitHub's fork flag. Owning the Windows builds of FoundationDB is
-  not owning its code, so its README is not ours to cut.
+  evidence: `entities-godot` opens "# Godot Engine", `datasource-foundationdb` and `idtx-flow`
+  carry GitHub's fork flag. Owning the Windows builds of FoundationDB is not owning
+  its code, so its README is not ours to cut.
 - Repositories on another organisation's remote are out of scope. The convention
   reaches what this organisation is the source of, and nothing else.
 - When a README is over, move the content rather than deleting it. A design goes to an
