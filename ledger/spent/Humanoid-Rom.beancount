@@ -67,7 +67,7 @@
   spent: TRUE
   commits: 9
   steps: "Record that the simulator enforces no range of motion | Merge pull request #3 from v-sekai-multiplayer-fabric/simulator-limits | The kusudama flip is a degenerate centroid | Merge pull request #4 from v-sekai-multiplayer-fabric/kusudama-encoding | A degenerate point matters as much as the operation amplifies near it | A signed zero is provenance, and the authored tie is not noisy | A fix must not change the answers that were already right | Carry the pole so the degeneracy is unreachable | Merge pull request #5 from v-sekai-multiplayer-fabric/kusudama-solver-fi"
-  Expenses:Other:Humanoid-Rom               3233 SECONDS
+  Expenses:Other:Humanoid-Rom               1345 SECONDS
   Income:Sessions
 
 2026-08-16 * "4-entities/humanoid-rom" "Merge pull request #7 from v-sekai-multiplayer-fabric/fix-stale-names"

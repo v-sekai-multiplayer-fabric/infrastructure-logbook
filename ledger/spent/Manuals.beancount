@@ -217,9 +217,9 @@
   Expenses:Docs:Manuals                     4488 SECONDS
   Income:Sessions
 
-2026-08-18 * "2-contract/manuals" "Merge pull request #212 from v-sekai-multiplayer-fabric/record-the-merge-method"
+2026-08-18 * "2-contract/manuals" "Merge pull request #213 from v-sekai-multiplayer-fabric/error-tuples-and-backfill"
   spent: TRUE
-  commits: 2
-  steps: "Land pull requests as merge commits, not squashes or rebases | Merge pull request #212 from v-sekai-multiplayer-fabric/record-the-merge"
-  Expenses:Docs:Manuals                      313 SECONDS
+  commits: 7
+  steps: "Land pull requests as merge commits, not squashes or rebases | Merge pull request #212 from v-sekai-multiplayer-fabric/record-the-merge | RFD 0124: Elixir error tuples in every reply | Backfill RFDs 0125 to 0130, and record Fine in 0124 | RFD 0124: carry the term in CBOR rather than adding a second encoding | Format the backfill RFDs the way prettier wants them | Merge pull request #213 from v-sekai-multiplayer-fabric/error-tuples-and"
+  Expenses:Docs:Manuals                     1177 SECONDS
   Income:Sessions

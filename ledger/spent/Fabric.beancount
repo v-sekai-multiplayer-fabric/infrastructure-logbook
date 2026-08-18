@@ -4,8 +4,8 @@
 
 2017-12-17 open Expenses:Fabric:Fabric  SECONDS
   abstract: "A repo manifest checking out 53 projects across 5 GitHub organisations as one hexagon, whose numbered directories are the six positions RFD 0111 names, plus a packing of them and the record kept about the whole. Every pr"
-  cff-commit: "381665e116bbf660e4efa4e7b59c0cab5878302e"
-  cff-copied: "2026-08-16T13:56:00-07:00"
+  cff-commit: "4e07a221a4090380647e492ac9fbe1098876bd22"
+  cff-copied: "2026-08-17T19:32:41-07:00"
   cff-version: "1.2.0"
   date-released: 2026-08-16
   first-commit: 2026-08-11
@@ -42,9 +42,9 @@
   Expenses:Fabric:Fabric                   23544 SECONDS
   Income:Sessions
 
-2026-08-18 * ".repo/manifests" "Give services a side of their own, past the ring"
+2026-08-18 * ".repo/manifests" "Merge pull request #66 from v-sekai-multiplayer-fabric/correct-the-project-count"
   spent: TRUE
-  commits: 8
-  steps: "Refuse a .DS_Store in any repository we may write to (#51) | Split the doc gate into one Elixir module per concern (#52) | Refuse a network call when the offline half is running (#53) | Gate the organisation list, and check a merge by its tree (#54) | Say what a split costs, and that the merge no longer rewrites the tip | Merge pull request #55 from v-sekai-multiplayer-fabric/note-the-merge-me | Gate the citation file, and separate authority from authorship | Give services a side of their own, past the ring"
-  Expenses:Fabric:Fabric                    4244 SECONDS
+  commits: 30
+  steps: "Refuse a .DS_Store in any repository we may write to (#51) | Split the doc gate into one Elixir module per concern (#52) | Refuse a network call when the offline half is running (#53) | Gate the organisation list, and check a merge by its tree (#54) | Say what a split costs, and that the merge no longer rewrites the tip | Merge pull request #55 from v-sekai-multiplayer-fabric/note-the-merge-me | Gate the citation file, and separate authority from authorship | Give services a side of their own, past the ring | Hold the manifest and nothing else | Merge pull request #56 from v-sekai-multiplayer-fabric/move-the-record-t | Load the conventions by linking them, not by naming them | Merge pull request #57 from v-sekai-multiplayer-fabric/load-the-conventi | Check the agent configuration out at .claude | Stop linking CLAUDE.md to the workspace root | Merge pull request #58 from v-sekai-multiplay"
+  Expenses:Fabric:Fabric                    7137 SECONDS
   Income:Sessions

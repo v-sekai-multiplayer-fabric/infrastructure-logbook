@@ -3,8 +3,16 @@
 ;; what the work was and what may be done with it without opening the repo.
 
 2017-12-17 open Expenses:Other:Asset  SECONDS
+  abstract: "Chunks, addressed by their content, served to whoever is allowed to ask. A transport layer is the input that triggers an interactor, and this one really is a server: an h2o loop with handlers, answering requests. That is"
+  cff-commit: "76ff996bebac0f9eadb668e28619a9eecc453479"
+  cff-copied: "2026-08-17T19:50:42-07:00"
+  cff-version: "1.2.0"
+  date-released: 2026-08-17
   first-commit: 2026-08-11
+  license: "MIT"
   repository-code: "https://github.com/v-sekai-multiplayer-fabric/transport-asset"
+  title: "transport-asset: a content-addressed casync chunk CDN"
+  version: "0.1.0-dev.1"
 
 2026-08-11 * "1-transport/asset" "Vendor what it reads, so it builds on its own"
   spent: TRUE
@@ -18,4 +26,11 @@
   commits: 2
   steps: "Add the MIT licence this repository was always published under | Use the words RFD 0111 decided, and the names these repositories answer "
   Expenses:Other:Asset                        90 SECONDS
+  Income:Sessions
+
+2026-08-18 * "1-transport/asset" "Merge pull request #3 from v-sekai-multiplayer-fabric/state-what-it-is-made-of"
+  spent: TRUE
+  commits: 2
+  steps: "State what this repository is made of | Merge pull request #3 from v-sekai-multiplayer-fabric/state-what-it-is-m"
+  Expenses:Other:Asset                         4 SECONDS
   Income:Sessions

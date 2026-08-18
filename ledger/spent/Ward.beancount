@@ -48,3 +48,10 @@
   steps: "Name the transport repositories the renamed ones | Merge pull request #18 from v-sekai-multiplayer-fabric/name-the-renamed-"
   Expenses:Other:Ward                          9 SECONDS
   Income:Sessions
+
+2026-08-18 * "3-interactor/ward" "Merge pull request #19 from v-sekai-multiplayer-fabric/move-the-logbook-to-the-record"
+  spent: TRUE
+  commits: 2
+  steps: "Move the logbook to the record that is read | Merge pull request #19 from v-sekai-multiplayer-fabric/move-the-logbook-"
+  Expenses:Other:Ward                         29 SECONDS
+  Income:Sessions

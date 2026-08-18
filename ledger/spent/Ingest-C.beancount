@@ -3,8 +3,16 @@
 ;; what the work was and what may be done with it without opening the repo.
 
 2017-12-17 open Expenses:Other:Ingest-C  SECONDS
+  abstract: "A transport layer is the input that triggers an interactor. This one terminates the client transport, decodes player input datagrams, and hands the result to the game interactor over iceoryx2. It carries player traffic, "
+  cff-commit: "37960684333555b997fb6662c74b1afe65e3d508"
+  cff-copied: "2026-08-17T19:50:42-07:00"
+  cff-version: "1.2.0"
+  date-released: 2026-08-17
   first-commit: 2026-08-10
+  license: "MIT"
   repository-code: "https://github.com/v-sekai-multiplayer-fabric/transport-ingest-c"
+  title: "transport-ingest-c: the ingest transport layer, in C over picoquic"
+  version: "0.1.0-dev.1"
 
 2026-08-10 * "1-transport/ingest-c" "Say what an edge deployment needs, and ship no build file yet"
   spent: TRUE
@@ -32,4 +40,11 @@
   commits: 3
   steps: "Say what the dependencies are, not what the directories are (#2) | Drop the directory listing without replacing it (#3) | Name the transport repositories the renamed ones (#4)"
   Expenses:Other:Ingest-C                     36 SECONDS
+  Income:Sessions
+
+2026-08-18 * "1-transport/ingest-c" "Merge pull request #6 from v-sekai-multiplayer-fabric/state-the-patch-sets-licence"
+  spent: TRUE
+  commits: 4
+  steps: "State what this repository is made of | Merge pull request #5 from v-sekai-multiplayer-fabric/state-what-it-is-m | State the licence the picoquic patches are under | Merge pull request #6 from v-sekai-multiplayer-fabric/state-the-patch-se"
+  Expenses:Other:Ingest-C                      7 SECONDS
   Income:Sessions

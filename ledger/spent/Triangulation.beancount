@@ -3,8 +3,16 @@
 ;; what the work was and what may be done with it without opening the repo.
 
 2017-12-17 open Expenses:Delivery:Mesh:Triangulation  SECONDS
+  abstract: "A native plugin that triangulates a closed 3D polygon and refines the result into a clean, near-isotropic mesh. The boundary triangulation is the discrete minimum-weight triangulation of Zou et al., restricted to the sin"
+  cff-commit: "7a6fd64db5bb94bc497867a889298f6f8dfb170c"
+  cff-copied: "2026-08-17T20:17:07-07:00"
+  cff-version: "1.2.0"
+  date-released: 2026-08-17
   first-commit: 2020-05-29
-  repository-code: "https://github.com/fire/interactor-triangulation"
+  license: "MIT"
+  repository-code: "https://github.com/v-sekai-multiplayer-fabric/interactor-triangulation"
+  title: "interactor-triangulation: DMWT triangulation and isotropic remeshing of a closed 3D polygon"
+  version: "0.1.0-dev.1"
 
 2021-08-23 * "3-interactor/triangulation" "Ignore DLL creation on Linux."
   spent: TRUE
@@ -32,4 +40,11 @@
   commits: 1
   steps: "Add the MIT licence this repository was always published under"
   Expenses:Delivery:Mesh:Triangulation         103 SECONDS
+  Income:Sessions
+
+2026-08-18 * "3-interactor/triangulation" "Merge pull request #2 from fire/vendor-the-dmwt-sources-and-notice-their-licence"
+  spent: TRUE
+  commits: 4
+  steps: "State what this repository is made of | Merge pull request #1 from fire/state-what-it-is-made-of | Vendor the DMWT sources, and notice the licence they are under | Merge pull request #2 from fire/vendor-the-dmwt-sources-and-notice-their"
+  Expenses:Delivery:Mesh:Triangulation         200 SECONDS
   Income:Sessions

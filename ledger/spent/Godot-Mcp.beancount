@@ -3,8 +3,16 @@
 ;; what the work was and what may be done with it without opening the repo.
 
 2017-12-17 open Expenses:Other:Godot-Mcp  SECONDS
+  abstract: "Drive the Godot editor from an MCP client. A transport layer for an authoring client, and the Godot-side counterpart to Unity-MCP, so the Godot host can be exercised the same way as the Unity host for the two-implementat"
+  cff-commit: "8d4843d29d4be4cc5eb66a275152c0f559b43011"
+  cff-copied: "2026-08-17T19:50:42-07:00"
+  cff-version: "1.2.0"
+  date-released: 2026-08-17
   first-commit: 2026-03-24
+  license: "MIT"
   repository-code: "https://github.com/v-sekai-multiplayer-fabric/transport-godot-mcp"
+  title: "transport-godot-mcp: an in-editor MCP server for the Godot editor"
+  version: "0.1.0-dev.1"
 
 2026-06-03 * "1-transport/godot-mcp" "CHI-312 #4: Unreal editor plugin scaffold (dlopen core + avatar builder)"
   spent: TRUE
@@ -53,4 +61,11 @@
   commits: 2
   steps: "Cut the README to a screen, and use the names these repositories answer  | Merge pull request #7 from v-sekai-multiplayer-fabric/fix-readme"
   Expenses:Other:Godot-Mcp                   109 SECONDS
+  Income:Sessions
+
+2026-08-18 * "1-transport/godot-mcp" "Merge pull request #8 from v-sekai-multiplayer-fabric/state-what-it-is-made-of"
+  spent: TRUE
+  commits: 2
+  steps: "State what this repository is made of | Merge pull request #8 from v-sekai-multiplayer-fabric/state-what-it-is-m"
+  Expenses:Other:Godot-Mcp                     4 SECONDS
   Income:Sessions

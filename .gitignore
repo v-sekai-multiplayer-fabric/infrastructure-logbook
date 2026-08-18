@@ -18,3 +18,4 @@ misc/checks/priv/plts/
 # Build and run output from a long engine build or a test server, worth keeping on disk while
 # a session runs and not afterwards.
 *.log
+erl_crash.dump

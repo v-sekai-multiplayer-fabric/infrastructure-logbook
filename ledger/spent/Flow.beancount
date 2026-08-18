@@ -3,8 +3,16 @@
 ;; what the work was and what may be done with it without opening the repo.
 
 2017-12-17 open Expenses:Other:Flow  SECONDS
+  abstract: "A data source implements a repository, and this one reads formats that were not built to be queried by a game engine: USD scenes and VRM avatars, into Godot. It is IDTX Flow with the Godot integration built on top -- a G"
+  cff-commit: "93c217d181183940376208523f50ce7588ddbe73"
+  cff-copied: "2026-08-17T19:50:41-07:00"
+  cff-version: "1.2.0"
+  date-released: 2026-08-17
   first-commit: 2026-03-24
+  license: "Apache-2.0"
   repository-code: "https://github.com/v-sekai-multiplayer-fabric/datasource-flow"
+  title: "datasource-flow: IDTX Flow as a Godot extension, with USD and VRM import"
+  version: "0.1.0-dev.1"
 
 2026-06-04 * "6-datasource/flow" "Squashed 'addons/Godot-MToon-Shader/' content from commit 24d78c2"
   spent: TRUE
@@ -38,5 +46,12 @@
   spent: TRUE
   commits: 1
   steps: "Merge pull request #12 from v-sekai-multiplayer-fabric/fix/unity-usdz-ex"
+  Expenses:Other:Flow                          2 SECONDS
+  Income:Sessions
+
+2026-08-18 * "6-datasource/flow" "Merge pull request #16 from v-sekai-multiplayer-fabric/state-what-it-is-made-of"
+  spent: TRUE
+  commits: 2
+  steps: "State what this repository is made of | Merge pull request #16 from v-sekai-multiplayer-fabric/state-what-it-is-"
   Expenses:Other:Flow                          2 SECONDS
   Income:Sessions
