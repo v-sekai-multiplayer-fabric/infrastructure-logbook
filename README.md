@@ -26,7 +26,6 @@ python3 misc/scripts/ledger.py path                # HYPOTHETICAL, the critical 
 | `ledger/` | hours booked from git history, and the plan in a separate commodity |
 | `misc/checks` | the gates, one mix module per concern |
 | `misc/scripts` | the emitters the gates run |
-| `memory/` | OpenUSD layers, validated by the system `usdcat` |
 
 ## Where the manifest is
 
