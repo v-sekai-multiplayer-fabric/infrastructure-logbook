@@ -95,6 +95,19 @@ below was learned by nearly losing something today.
 - **The ledger is exclusive.** `ledger.py build` rewrites every book under `ledger/spent/`.
   Agree before running it.
 - **RFD numbers are a shared counter.** Claim a block before writing one.
+- **After pushing, check that the branch still has an open pull request and that its tip is
+  where you think.** A push onto a branch whose pull request merged while you were working
+  succeeds and says nothing, and the commit goes somewhere nobody looks. This is the tree
+  comparison the pull-request section already prescribes for merges, applied one step earlier.
+
+  It is the third of three failures in one day that share a shape: the thing you attached to
+  was not there any more. `git checkout -- <file>` discarded work because the file had been
+  copied in and never committed, so the undo had nothing to undo to. A commit after
+  `repo sync` landed on no branch, because repo leaves a project on a detached HEAD with its
+  remote named for the organisation rather than `origin`, and `git push origin main` then
+  fails with `src refspec main does not match any`. And a push landed on a merged branch.
+  All three are silent, and no gate here catches any of them; `git branch --show-current`
+  before committing and a look at the pull request after pushing are what do.
 - **A scan states its window, and the window is justified or absent.** Both agents shipped a
   confident false positive on the same day from a window nobody had thought about. One gate
   read the first 3000 characters of each file and reported `r128.h` as unlicensed, whose
