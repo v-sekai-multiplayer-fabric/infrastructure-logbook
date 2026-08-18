@@ -95,6 +95,15 @@ below was learned by nearly losing something today.
 - **The ledger is exclusive.** `ledger.py build` rewrites every book under `ledger/spent/`.
   Agree before running it.
 - **RFD numbers are a shared counter.** Claim a block before writing one.
+- **A scan states its window, and the window is justified or absent.** Both agents shipped a
+  confident false positive on the same day from a window nobody had thought about. One gate
+  read the first 3000 characters of each file and reported `r128.h` as unlicensed, whose
+  public-domain dedication is at line 35. The other declared three ways of evidencing a
+  dependency and read files that could only ever carry one of them, so a project using it the
+  ordinary way was reported as not using it at all. Neither was caught by its own negative
+  control, because a control proves the reporter and a window is a property of the scanner.
+  Where a scan is bounded — by bytes, by file extension, by depth, by count — say so in the
+  code and say why, or do not bound it.
 
 The structural fix for the first two is `git worktree add` per agent, which makes them
 impossible rather than agreed. That is worth doing before the next session with two agents in
