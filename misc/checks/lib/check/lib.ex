@@ -294,15 +294,19 @@ defmodule Check.Lib do
   nobody upstream has -- and lumping it with the untouchables left exactly those repositories
   never asked what they were made of.
 
-  Each entry states its evidence rather than an opinion, and both remaining ones carry
-  GitHub's fork flag.
+  Each entry states its evidence rather than an opinion, and all three carry GitHub's fork
+  flag.
   """
   def mirrors do
     %{
       # This project owns the Windows builds here and none of the code, so the README is
       # upstream's to write. GitHub carries the fork flag for both of these.
       "datasource-foundationdb" => "apple/foundationdb",
-      "idtx-flow" => "Immersive-Data-Center-Management/idtx-flow"
+      "idtx-flow" => "Immersive-Data-Center-Management/idtx-flow",
+      # The meshing pen's input surface. Forked so this project may write to it at all:
+      # the mission is that anyone can build in world, and its front end sat on a remote
+      # we may only read. The README stays V-Sekai's. Fork flag.
+      "transport-xr-grid" => "V-Sekai/transport-xr-grid"
     }
   end
 
@@ -364,11 +368,7 @@ defmodule Check.Lib do
   """
   def read_only do
     %{
-      "cassie" => "the academic CASSIE project's Unity application, V-Sekai's branch of it",
-      "cassie-data" => "the sketch dataset recorded for the CASSIE paper",
       "entities-model-explorer" => "V-Sekai's 3D model viewer",
-      "interactor-sketch" => "V-Sekai's Godot CASSIE work",
-      "transport-xr-grid" => "V-Sekai's VR interaction tool",
       "LabRCSF" => "Nick Porcino's reference skeleton; we have no admin on it either",
       # Added when interactor-triangulation's libraries became projects rather than empty
       # submodules. A library a build links is upstream's whatever directory it is checked
@@ -388,8 +388,6 @@ defmodule Check.Lib do
   """
   def fixed_names do
     %{
-      "cassie" => "the academic CASSIE project's Unity application; the name is the paper's",
-      "cassie-data" => "the sketch dataset recorded for that paper",
       "idtx-flow" => "Immersive-Data-Center-Management/idtx-flow, mirrored",
       "LabRCSF" => "meshula/LabRCSF; we have no admin on it, so we cannot rename it",
       # A repository name is also a published address when it serves Pages, and GitHub does
