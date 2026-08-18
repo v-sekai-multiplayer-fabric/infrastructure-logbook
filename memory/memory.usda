@@ -82,6 +82,21 @@
                 string created = "2026-08-16"
                 string kind_id = "01a007de-3c00-8959-bcac-bf41e2449229"
             }
+            dictionary "01a00d04-9800-8447-b27f-1b7cc9084441" = {
+                string content = "A draft pull request is work in progress and needs no action; a pull request marked ready whose checks are red or which conflicts goes back to draft. Ready is the only signal the workspace has, so a red branch wearing it is a false one. Demote for red checks and conflicts, not for a green branch blocked by repo configuration."
+                string created = "2026-08-17"
+                string kind_id = "01a007de-3c00-8163-b745-d323809ca89e"
+            }
+            dictionary "01a00d04-9800-89e1-b45b-48a43eac33d2" = {
+                string content = "gh pr merge --auto waits for required conditions, not for green: a base branch with protected=false requires nothing, so auto-merge fires at once and a failing check does not stop it. entities-godot#65 merged red onto feat/module-http3 this way. To actually hold a not-ready pull request, put it back to draft; check the base with gh api repos/OWNER/REPO/branches/BASE --jq .protected before trusting --auto."
+                string created = "2026-08-17"
+                string kind_id = "01a007de-3c00-8163-b745-d323809ca89e"
+            }
+            dictionary "01a00d04-9800-8eae-88d8-40c175f13ebe" = {
+                string content = "A fabric manifest change is gated before it merges by pointing FABRIC_MANIFEST at a git worktree: Check.Lib.manifest_root honours the variable and otherwise climbs to .repo/manifests, so the gates run against the branch without moving the checkout repo reads. It catches what review does not -- adding two projects turned 'README counts match the manifest' red, because the count is a gated number. The document gates only scan children on disk, so a project listed but not yet synced is outside the window."
+                string created = "2026-08-17"
+                string kind_id = "01a007de-3c00-8959-bcac-bf41e2449229"
+            }
         }
     }
 )
