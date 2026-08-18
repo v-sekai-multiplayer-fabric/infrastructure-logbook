@@ -370,7 +370,14 @@ defmodule Check.Lib do
       "entities-model-explorer" => "V-Sekai's 3D model viewer",
       "interactor-sketch" => "V-Sekai's Godot CASSIE work",
       "transport-xr-grid" => "V-Sekai's VR interaction tool",
-      "LabRCSF" => "Nick Porcino's reference skeleton; we have no admin on it either"
+      "LabRCSF" => "Nick Porcino's reference skeleton; we have no admin on it either",
+      # Added when interactor-triangulation's libraries became projects rather than empty
+      # submodules. A library a build links is upstream's whatever directory it is checked
+      # out into, and these two sit inside another project's checkout at libs/, which is
+      # where its build expects them. They are already in fixed_names for the same reason,
+      # from the other side: the name is not ours to change either.
+      "geogram" => "BrunoLevy/geogram, linked by interactor-triangulation at libs/geogram",
+      "pmp-library" => "pmp-library/pmp-library, linked by interactor-triangulation at libs/pmp-library"
     }
   end
 
