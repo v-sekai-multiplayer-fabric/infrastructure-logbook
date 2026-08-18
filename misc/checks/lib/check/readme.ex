@@ -20,7 +20,11 @@ defmodule Check.Readme do
         label: "every path the README names exists",
         kind: :network,
         run: &referenced_paths/1,
-        break: &Lib.break_readme(&1, "misc/checks", "misc/nope-checks")
+        # `default.xml` is the one path the manifest README will always name, because it is
+        # the file that repository exists to hold. The pattern was `misc/checks`, which went
+        # dead the moment the checks moved out of it: a control that replaces nothing passes
+        # while proving nothing, which is what `--self-test` is for.
+        break: &Lib.break_readme(&1, "default.xml", "default-nope.xml")
       },
       %{
         label: "every README this project owns is under 40 lines",
