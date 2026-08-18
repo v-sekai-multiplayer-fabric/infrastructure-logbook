@@ -142,7 +142,11 @@ def _checkouts():
     seen = []
     for pat in ("*/.git", "*/*/.git"):
         for g in ws.glob(pat):
-            seen.append((str(g.parent.relative_to(ws)), g.parent))
+            # POSIX separators, always. `relative_to` gives backslashes on Windows, and
+            # every lookup keyed on this string -- LANES, the `.repo/manifests` special
+            # case, _cff -- is written with forward slashes, so a Windows desk matched
+            # none of them and booked the whole workspace to Expenses:Other.
+            seen.append((g.parent.relative_to(ws).as_posix(), g.parent))
     # A plain clone is its own workspace and the globs above find nothing.
     if (ROOT / ".git").exists() and ROOT == ws:
         seen.append((".", ROOT))
@@ -175,7 +179,7 @@ def _allocate():
     events = []
     for rel, path in _checkouts():
         out = subprocess.run(["git", "-C", str(path), "log", "--pretty=%ct\t%ae\t%s"],
-                             capture_output=True, text=True).stdout.splitlines()
+                             capture_output=True, text=True, encoding="utf-8").stdout.splitlines()
         for line in out:
             ct, _, rest = line.partition("\t")
             email, _, subj = rest.partition("\t")
@@ -258,12 +262,12 @@ def _cff(path):
                 abstract.append(line.strip())
         if abstract:
             meta["abstract"] = " ".join(abstract)
-    r = subprocess.run(["git", "-C", str(path), "remote", "-v"], capture_output=True, text=True)
+    r = subprocess.run(["git", "-C", str(path), "remote", "-v"], capture_output=True, text=True, encoding="utf-8")
     urls = {l.split()[1] for l in r.stdout.splitlines() if len(l.split()) >= 2}
     if len(urls) == 1 and "repository-code" not in meta:
         meta["repository-code"] = urls.pop().removesuffix(".git")
     first = subprocess.run(["git", "-C", str(path), "log", "--reverse", "--pretty=%cs",
-                            "--max-parents=0"], capture_output=True, text=True).stdout.split()
+                            "--max-parents=0"], capture_output=True, text=True, encoding="utf-8").stdout.split()
     if first:
         meta["first-commit"] = first[0]
     if cff.exists():
@@ -274,7 +278,7 @@ def _cff(path):
         # better question anyway: which version of the citation this is. A CITATION.cff
         # committed after this stamp is a copy that has diverged.
         r = subprocess.run(["git", "-C", str(path), "log", "-1", "--format=%cI%n%H",
-                            "--", "CITATION.cff"], capture_output=True, text=True).stdout.split()
+                            "--", "CITATION.cff"], capture_output=True, text=True, encoding="utf-8").stdout.split()
         if len(r) == 2:
             meta["cff-copied"], meta["cff-commit"] = r
     return meta
@@ -455,7 +459,7 @@ def verify():
     for f in (SPENT, PLANNED):
         # One file per invocation: bean-check takes a single FILENAME and rejects a second
         # as an extra argument, which reads like a ledger error and is not one.
-        r = subprocess.run(["bean-check", str(f)], capture_output=True, text=True)
+        r = subprocess.run(["bean-check", str(f)], capture_output=True, text=True, encoding="utf-8")
         if r.returncode != 0:
             print(f"  bean-check rejects {f.name}:")
             for line in (r.stderr or r.stdout).strip().splitlines()[:4]:
