@@ -127,7 +127,13 @@ defmodule Check.Ledger do
   # the value it already fails would make it red on arrival, and a gate that is red on
   # arrival gets switched off rather than obeyed. Starting a hair above holds the line
   # exactly where it is and makes every improvement a visible commit.
-  @ratio_ceiling 2.55
+  #
+  # 2.47 is the first such commit. Unbreaking `repo sync` booked its seconds to
+  # 3-interactor/triangulation, which is a delivery lane, and the reading fell to 2.4687 --
+  # 252,096 s of documents against 102,115 s of delivery. Delivery moved and prose did not,
+  # which is the only way this number is allowed to fall, so the ceiling follows it down and
+  # the slack that was just earned cannot be spent on prose later.
+  @ratio_ceiling 2.47
 
   @doc """
   Documents MUST NOT outspend the delivery they describe by more than the ceiling.
