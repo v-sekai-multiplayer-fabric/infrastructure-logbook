@@ -1,0 +1,13 @@
+2026-08-16 'plan: P0 link geogram on macOS
+    # uuid: 3a39bea9-b6bb-58b4-b0d3-96d732018b7a
+    ; 2-contract/patch-verify -- HYPOTHETICAL. Nothing here was spent.
+    ; The first task, and the whole of the day: 98% likely to fit inside one
+    ; eight-hour day, where P0 -> E is 94.4% and the full chain 68.8%.
+    ; task: "P0"
+    ; depends: ""
+    ; hypothetical: TRUE
+    ; optimistic: 216
+    ; likely: 2916
+    ; pessimistic: 39276
+    Liabilities:Planned:Mesh:Patch-Verify      8532 PLANNED-SECONDS
+    Equity:Plan

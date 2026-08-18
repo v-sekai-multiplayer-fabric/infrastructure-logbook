@@ -6,7 +6,7 @@ abstract: >
   repositories. Sixteen gates, each shipped with a negative control, derive every
   documented count, name, branch and licence from the fabric manifest or from the
   live remotes and fail the build on drift. The ledger books hours from git history
-  as Beancount transactions, allocated so concurrent sessions in different checkouts
+  as Tackler transactions, allocated so concurrent sessions in different checkouts
   cannot be counted twice, and holds the plan in a separate commodity so an estimate
   can never read as progress; three-point estimates are quantiles of a lognormal
   posterior predictive rather than of the observed sample. Memory is stored as
@@ -24,7 +24,7 @@ repository-code: "https://github.com/v-sekai-multiplayer-fabric/infrastructure-l
 keywords:
   - documentation-testing
   - double-entry-accounting
-  - beancount
+  - tackler
   - openusd
   - project-estimation
 
@@ -32,24 +32,28 @@ references:
 
   # ── Tools this depends on and does not vendor ────────────────────────────────
   # Each is installed on the operating system and invoked as a subprocess. None is
-  # imported or vendored, which is why a GPL-2.0 tool can gate an MIT repository:
-  # running a program is not linking to it.
+  # imported or vendored: running a program is not linking to it, which is what let
+  # a GPL-2.0 validator gate an MIT repository until Tackler replaced it.
 
   - type: software
-    title: "Beancount: double-entry accounting from text files"
+    title: "Tackler: fast, reliable plain text accounting engine"
     authors:
-      - family-names: Blais
-        given-names: Martin
+      - name: Tackler-NG
     year: 2026
-    version: 3.2.3
-    license: GPL-2.0
-    url: "https://github.com/beancount/beancount"
+    version: 26.7.1
+    license: Apache-2.0
+    url: "https://github.com/tackler-ng/tackler"
     notes: >
-      bean-check validates ledger/spent.beancount and ledger/planned.beancount and
-      exits non-zero on any error, which is what makes it a gate. Installed with
-      brew, never vendored and never imported: GPL-2.0 is restricted under the
-      third-party licence policy this project follows, and keeping it outside the
-      tree is a licence decision as much as a dependency one.
+      tackler validates ledger/spent.toml and ledger/planned.toml and exits
+      non-zero on any error, which is what makes it a gate. Strict mode checks
+      every posting against a declared chart of accounts and commodities, and
+      audit mode requires a UUID on every transaction and opens each report with
+      a txn-set checksum. Installed with cargo, never vendored and never
+      imported. It replaced Beancount, whose GPL-2.0 is restricted under the
+      third-party licence policy this project follows; Apache-2.0 lifts the
+      licence half of that decision, and the tool stays outside the tree anyway,
+      because the validator being the system's is what keeps a hand-written
+      emitter honest.
   - type: software
     title: "OpenUSD: Universal Scene Description"
     authors:
@@ -85,10 +89,10 @@ references:
       - name: "Special Projects Office, Bureau of Naval Weapons, U.S. Navy"
     year: 1958
     notes: >
-      te = (o + 4m + p) / 6 and the critical path. ledger/planned.beancount holds
-      each task's three points as metadata and misc/scripts/ledger.py computes the
-      path from the dependencies, so the estimate and the picture of it cannot
-      disagree. The three points are quantiles of a Bayesian posterior predictive
+      te = (o + 4m + p) / 6 and the critical path. The books under ledger/planned/
+      hold each task's three points in its comments and misc/scripts/ledger.py
+      computes the path from the dependencies, so the estimate and the picture of
+      it cannot disagree. The three points are quantiles of a Bayesian posterior predictive
       rather than of the observed sample, because two of the empirical percentiles
       were single observations.
 

@@ -1,0 +1,15 @@
+2026-08-16 'plan: L0 book the seconds and fail the build when the deliverable does not move
+    # uuid: d4eaab7f-cda8-51a3-b455-9ce278b0c819
+    ; .repo/manifests -- HYPOTHETICAL. Nothing here was spent.
+    ; Accomplished. The seconds these cost are in ledger/spent/Fabric.txn, booked
+    ; from git, and never here: a plan that recorded its own completion would be
+    ; reporting itself.
+    ; task: "L0"
+    ; depends: ""
+    ; done: 2026-08-16
+    ; hypothetical: TRUE
+    ; optimistic: 1080
+    ; likely: 9972
+    ; pessimistic: 91872
+    Liabilities:Planned:Fabric                22140 PLANNED-SECONDS
+    Equity:Plan

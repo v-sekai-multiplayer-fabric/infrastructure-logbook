@@ -1,22 +1,24 @@
 #!/usr/bin/env python3
-"""Fabric delivery: git history booked as double-entry seconds, checked by bean-check.
+"""Fabric delivery: git history booked as double-entry seconds, checked by tackler.
 
 Ninety days of commits went 5.3% to the mesh being delivered and 27.2% to documents
 about it, and nobody noticed because nothing counted. A ledger counts. Double entry is
 the right shape for it: an hour cannot be spent without being booked against where it
 came from, so the lane split falls out of the file instead of being argued.
 
-Beancount is an operating-system tool here, the way gcc is. `brew install beancount`,
-never vendored and never imported -- it is GPL-2.0, which this project's licence policy
-files as restricted, so keeping it outside the tree is a licence decision as much as a
-dependency one. What is tracked is the plain-text accounting file. This is the same
-arrangement the memory store has with `usdcat`: the artefact is ours, the validator is the
-system's, and the validator is what keeps a hand-written emitter honest.
+Tackler is an operating-system tool here, the way gcc is. `cargo install tackler`,
+never vendored and never imported. It replaced beancount, whose GPL-2.0 the licence
+policy here files as restricted; Apache-2.0 lifts that constraint, and the arrangement
+stays anyway -- the artefact is ours, the validator is the system's, and the validator
+is what keeps a hand-written emitter honest. This is the same arrangement the memory
+store has with `usdcat`. Strict mode makes the chart of accounts a declaration rather
+than a habit, and audit mode requires a UUID on every transaction and stamps every
+report with a txn-set checksum, so "the books changed" is a hash comparison.
 
-  ledger.py build            git sessions -> ledger/spent.beancount
+  ledger.py build            git sessions -> ledger/spent/*.txn and the chart
   ledger.py report [--since N] [--by-project]   the split, in seconds
-  ledger.py path             the critical path, computed from ledger/planned.beancount
-  ledger.py verify           bean-check, then regeneration must be byte-identical
+  ledger.py path             the critical path, computed from ledger/planned/
+  ledger.py verify           tackler, then regeneration must be byte-identical
 """
 import argparse
 import collections
@@ -26,6 +28,7 @@ import pathlib
 import random
 import subprocess
 import sys
+import uuid
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
@@ -50,23 +53,29 @@ def _workspace_root():
         if (parent / ".repo").is_dir():
             return parent
     return ROOT
-SPENT = ROOT / "ledger" / "spent.beancount"
+# The roots are the tackler configs: each names its journal directory, its chart and its
+# one commodity, and validating the config validates the whole set. SPENT and PLANNED
+# are what `tackler --config` is pointed at; the *_ACCOUNTS charts are generated (spent)
+# or hand-written (planned), and Check.Ledger intersects them.
+SPENT = ROOT / "ledger" / "spent.toml"
+SPENT_ACCOUNTS = ROOT / "ledger" / "spent-accounts.toml"
 SPENT_DIR = ROOT / "ledger" / "spent"
-PLANNED = ROOT / "ledger" / "planned.beancount"
+PLANNED = ROOT / "ledger" / "planned.toml"
+PLANNED_ACCOUNTS = ROOT / "ledger" / "planned-accounts.toml"
 PLANNED_DIR = ROOT / "ledger" / "planned"
 
 
 def _planned_text():
     """Every planned book's text, since the tasks live in the per-project files.
 
-    The root holds what is common -- the budget, the deliverable, the includes -- and the
+    The root holds what is common -- the budget, the deliverable, the chart -- and the
     tasks sit in the book of the repository each will be done in, matching ledger/spent/.
     Reading only the root found no tasks at all and `path` failed on an empty sequence,
     which is the right failure: a plan reader that silently reports no critical path
     because it looked in the wrong file is worse than one that stops.
     """
     return "\n".join(f.read_text(encoding="utf-8")
-                      for f in sorted(PLANNED_DIR.glob("*.beancount")))
+                      for f in sorted(PLANNED_DIR.glob("*.txn")))
 
 # A gap longer than this means somebody went away rather than worked slowly. Same
 # definition the PERT table in CLAUDE.md is derived from, so the two agree by construction.
@@ -92,10 +101,6 @@ def day_totals():
 def overbooked_days():
     """Days that book more seconds than a day contains. Must always be empty."""
     return sorted((day, s) for day, s in day_totals().items() if s > SECONDS_IN_A_DAY)
-
-# The deliverable. One at a time, and it changes only when the previous one is finished.
-DELIVERABLE = ("A player draws a closed curve in VR, gets a mesh back, "
-               "and the mesh is correct by a check that can fail")
 
 # Which lane a checkout's hours are booked to. The mesh chain is named explicitly because
 # it is the one the build asks about; everything else we author falls to Other.
@@ -211,11 +216,11 @@ def _allocate():
 
 
 def _cff(path):
-    """A project's CITATION.cff as beancount metadata, with git filling the gaps.
+    """A project's CITATION.cff as chart-comment fields, with git filling the gaps.
 
-    A book that says only "Patch-Verify" makes the reader open another repository to learn
+    A chart that says only "Patch-Verify" makes the reader open another repository to learn
     what it is, what licence it carries and where it lives. CFF already answers that in
-    every repository that has one, so the book carries it: title and abstract for what the
+    every repository that has one, so the chart carries it: title and abstract for what the
     work was, licence and repository-code for what may be done with it and where, version
     and date-released for which state of it these seconds bought.
 
@@ -288,19 +293,21 @@ def _account(rel):
     """One book per project, hanging off the lane it belongs to.
 
     A lane on its own is four totals, and a total absorbs an error silently -- the dropped
-    commit above sat inside one for a day. Beancount accounts are hierarchical, so a leaf
-    per project gives both: `bean-query` still rolls Expenses:Delivery:Mesh up for the gate,
+    commit above sat inside one for a day. Accounts are hierarchical, so a leaf per project
+    gives both: the tree balance report still rolls Expenses:Delivery:Mesh up for the gate,
     and every project's own seconds are auditable against `git log` on their own line.
 
-    Account components must start with an uppercase letter, so a path becomes Title-Case
-    and keeps its hyphens: 2-contract/patch-verify is Patch-Verify under 2-Contract.
+    Beancount required each component to open with an uppercase letter; tackler does not,
+    and the Title-Case stays because the books and their filenames already carry it, and a
+    rename that rewrites every line for a style point is diff noise pretending to be work.
+    2-contract/patch-verify is Patch-Verify under 2-Contract.
     """
     lane = LANES.get(rel, DEFAULT_LANE)
     leaf = rel.split("/")[-1] if rel not in (".", ".repo/manifests") else "Fabric"
-    # A leading dot cannot survive: beancount account components must start with a letter,
-    # and `.claude` produced `Expenses:Other:.claude`, which bean-check rejects outright as
-    # an invalid token. The checkout is named for the directory Claude Code reads and the
-    # repository is `dot-claude`, so spelling the dot is what the repository already decided.
+    # A leading dot cannot survive: a tackler account component is an identifier, and
+    # `.claude` is not one -- the dot is the decimal separator. The checkout is named for
+    # the directory Claude Code reads and the repository is `dot-claude`, so spelling the
+    # dot is what the repository already decided.
     if leaf.startswith("."):
         leaf = "dot-" + leaf[1:]
     leaf = "-".join(w[:1].upper() + w[1:] for w in leaf.split("-") if w)
@@ -308,102 +315,107 @@ def _account(rel):
 
 
 def _escape(s):
-    """Beancount narration is a double-quoted string, so a quote in a subject ends it."""
+    """Steps ride inside a double-quoted metadata comment, so a quote in a subject ends it."""
     return s.replace("\\", "").replace('"', "'")
 
 
+def _uuid(day, rel):
+    """The txn's UUID, derived from its day and project rather than drawn.
+
+    Audit mode requires one on every transaction and folds them into the txn-set checksum.
+    A random UUID would change on every rebuild, which breaks the byte-identical check that
+    proves the books are generated; a name-based UUID of (day, project) is stable, unique
+    per txn by construction -- one txn per (day, project) -- and carries no clock.
+    """
+    return uuid.uuid5(uuid.NAMESPACE_URL, f"fabric-spent/{day}/{rel}")
+
+
 def build():
-    """One beancount file per project, and a root that includes them.
+    """One txn file per project, and the chart of accounts beside them.
 
     A single file put every project's seconds in one place, so a change to one project
     rewrote lines belonging to forty-three others and a diff said nothing about which
-    project moved. Beancount's `include` gives the split for free: bean-check reads the
-    root and validates the whole set, while each project's history is its own file with
-    its own git blame.
+    project moved. Tackler reads the whole of ledger/spent/ as one journal, so the split
+    costs nothing: `tackler --config spent.toml` validates the set, while each project's
+    history is its own file with its own git blame.
 
-    The root holds what is common -- the options, the counter-account and the includes --
-    and each project file opens only its own account. Nothing is duplicated between them.
+    The chart is generated with the books because strict mode makes it load-bearing: an
+    account not declared in spent-accounts.toml is a validation error, so the chart is
+    exactly the set of accounts the books use, and each entry's comment block carries the
+    project's CITATION.cff -- what the open directive used to carry when the format had one.
+
+    A session that charges nothing books nothing. Tackler refuses a zero-sum posting, and
+    it is right to: a transaction that moves nothing is not a transaction. The old format
+    tolerated a 0-SECONDS row as a diary line; the commits it recorded are still in git,
+    which is the source, and the sessions that do charge carry their subjects in `steps`.
     """
     seconds, steps = _allocate()
     paths = {rel: path for rel, path in _checkouts()}
     entries = sorted((day, rel, _account(rel), seconds.get((day, rel), 0.0),
                       len(steps[(day, rel)]), steps[(day, rel)])
                      for (day, rel) in steps)
-    first = entries[0][0] if entries else datetime.date.today().isoformat()
-    today = datetime.date.today().isoformat()
-
-    header = [
-        ";; Generated by misc/scripts/ledger.py -- do not edit.",
-        ";;",
-        ";; SPENT. Every hour below went somewhere; nothing here is an estimate. The",
-        ";; estimates are in planned.beancount, booked as liabilities, and the two share",
-        ";; no account so that a plan can never read as progress.",
-        ";;",
-        ";; Time is allocated, not summed. There is one pool -- every interval between",
-        ";; consecutive commits anywhere in the workspace -- and each interval is charged",
-        ";; to the repository whose commit closed it. That makes the charge a partition, so",
-        ";; a day totals the union of the active spans rather than the sum of overlapping",
-        ";; ones. Adding each repository's own sessions charged 2026-08-16 with 40.04 h,",
-        ";; which no day contains; allocated, the same day costs 30,312 s.",
-        ";;",
-        ";; An interval over four hours is somebody going away rather than working slowly,",
-        ";; and is charged to nobody, so a session's first commit books no time. The ledger",
-        ";; cannot see the work before it either: this is a lower bound on effort.",
-        ";;",
-        ";; Seconds are booked by author, not by repository. A fork holds upstream's commits",
-        ";; and ours, and skipping the whole checkout skipped both.",
-        "",
-    ]
 
     by_project = collections.defaultdict(list)
     for e in entries:
         by_project[e[1]].append(e)
 
     SPENT_DIR.mkdir(parents=True, exist_ok=True)
-    written, includes = 0, []
+    booked, written, keep, charted = 0, 0, set(), []
     for rel, rows in sorted(by_project.items()):
         acct = _account(rel)
-        name = acct.rsplit(":", 1)[-1] + ".beancount"
-        lines = [f";; {rel} -- generated by misc/scripts/ledger.py, do not edit.",
-                 ";; The open directive carries this project's CITATION.cff, so the book says",
-                 ";; what the work was and what may be done with it without opening the repo.",
-                 "", f"{first} open {acct}  SECONDS"]
-        for k, v in sorted(_cff(paths[rel]).items()):
-            if k in ("date-released", "first-commit"):
-                lines.append(f"  {k}: {v}")
-            else:
-                lines.append(f'  {k}: "{_escape(str(v))[:220]}"')
-        lines.append("")
+        name = acct.rsplit(":", 1)[-1] + ".txn"
+        lines, first_txn = [], True
         for day, _rel, account, secs, n, subjects in rows:
-            lines.append(f'{day} * "{_escape(rel)}" "{_escape(subjects[-1])[:88]}"')
-            lines.append("  spent: TRUE")
-            lines.append(f"  commits: {n}")
+            amt = f"{secs:.0f}"
+            if amt == "0":
+                continue
+            lines.append(f"{day} '{_escape(rel)}: {_escape(subjects[-1])[:88]}")
+            lines.append(f"    # uuid: {_uuid(day, rel)}")
+            if first_txn:
+                lines.append(f"    ; {_escape(rel)} -- generated by misc/scripts/ledger.py, do not edit.")
+                first_txn = False
+            lines.append("    ; spent: TRUE")
+            lines.append(f"    ; commits: {n}")
             steps_s = " | ".join(_escape(s)[:72] for s in subjects)
-            lines.append(f'  steps: "{steps_s[:900]}"')
-            lines.append(f"  {account:<34} {secs:11.0f} SECONDS")
-            lines.append("  Income:Sessions")
+            lines.append(f'    ; steps: "{steps_s[:900]}"')
+            lines.append(f"    {account:<34} {amt:>11} SECONDS")
+            lines.append("    Income:Sessions")
             lines.append("")
+            booked += 1
+        # A project whose every session charged zero has no transactions to hold, and a
+        # file with none of them will not parse, so it is not written and not charted.
+        if not lines:
+            continue
         (SPENT_DIR / name).write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
-        includes.append(f'include "spent/{name}"')
+        keep.add(name)
         written += 1
+        block = [f"    # {rel}"]
+        for k, v in sorted(_cff(paths[rel]).items()):
+            block.append(f"    #   {k}: {_escape(str(v))[:220]}")
+        block.append(f'    "{acct}",')
+        charted.append((acct, block))
 
-    root = header + [
-        'option "title" "fabric-spent: seconds booked from git sessions"',
-        'option "operating_currency" "SECONDS"',
-        "",
-        f"{first} open Income:Sessions  SECONDS",
-        "",
-        f'{today} event "deliverable" "{_escape(DELIVERABLE)}"',
-        "",
-    ] + sorted(includes)
-    SPENT.write_text("\n".join(root).rstrip() + "\n", encoding="utf-8")
-    # Files that no longer correspond to a project would keep being included by hand and
-    # validated forever; a generated tree must be able to shrink.
-    keep = {i.split('"')[1].split("/")[-1] for i in includes}
-    for f in SPENT_DIR.glob("*.beancount"):
+    chart = [
+        "# Generated by misc/scripts/ledger.py -- do not edit.",
+        "#",
+        "# The chart of the spent books, one leaf per project. Strict mode makes this a",
+        "# declaration rather than a habit: a posting to an account not listed here fails",
+        "# validation, so a typo in a lane is an error instead of a new lane. Each entry's",
+        "# comment block carries the project's CITATION.cff, so the chart says what the",
+        "# work was and what may be done with it without opening the repository.",
+        "accounts = [",
+        '    "Income:Sessions",',
+    ]
+    for _acct, block in sorted(charted):
+        chart.extend(block)
+    chart.append("]")
+    SPENT_ACCOUNTS.write_text("\n".join(chart) + "\n", encoding="utf-8")
+    # Files that no longer correspond to a project would keep being validated forever; a
+    # generated tree must be able to shrink.
+    for f in SPENT_DIR.glob("*.txn"):
         if f.name not in keep:
             f.unlink()
-    return len(entries), written
+    return booked, written
 
 
 def _postings(since_days=None):
@@ -418,16 +430,17 @@ def _postings(since_days=None):
         cutoff = datetime.date.today() - datetime.timedelta(days=since_days)
     out, day = [], None
     lines = []
-    for f in sorted(SPENT_DIR.glob("*.beancount")):
+    for f in sorted(SPENT_DIR.glob("*.txn")):
         lines += f.read_text(encoding="utf-8").splitlines()
     for line in lines:
-        head = line[:10]
-        if len(line) > 11 and line[4] == "-" and line[7] == "-" and " * " in line:
+        # A txn header is `YYYY-MM-DD '...`; a posting is an indented account line. The
+        # metadata and comments between them start with `#` or `;` and match neither.
+        if len(line) > 11 and line[4] == "-" and line[7] == "-" and line[11] == "'":
             try:
-                day = datetime.date.fromisoformat(head)
+                day = datetime.date.fromisoformat(line[:10])
             except ValueError:
                 day = None
-        elif line.startswith("  Expenses:") and day is not None:
+        elif day is not None and line.startswith("    Expenses:"):
             acct, _, amt = line.strip().partition(" ")
             secs = float(amt.replace("SECONDS", "").strip())
             if cutoff is None or day >= cutoff:
@@ -472,7 +485,7 @@ def report(since_days, by_project=False):
     for _, acct, secs in rows:
         tot[acct if by_project else acct.rsplit(":", 1)[0]] += secs
     total = sum(tot.values()) or 1.0
-    print(f"  SPENT -- {since_days} days, from {SPENT.relative_to(ROOT)}")
+    print(f"  SPENT -- {since_days} days, from {SPENT_DIR.relative_to(ROOT)}")
     for acct, secs in sorted(tot.items(), key=lambda x: -x[1]):
         print(f"    {acct:<34} {secs:11.0f} s  {secs / total * 100:5.1f}%")
     print(f"    {'TOTAL':<34} {total:11.0f} s")
@@ -486,28 +499,30 @@ def delivery_seconds(window_days=30):
 
 def verify():
     bad = 0
-    for f in (SPENT, PLANNED):
-        # One file per invocation: bean-check takes a single FILENAME and rejects a second
-        # as an extra argument, which reads like a ledger error and is not one.
-        r = subprocess.run(["bean-check", str(f)], capture_output=True, text=True, encoding="utf-8")
+    for conf in (SPENT, PLANNED):
+        # tackler validates the whole journal a config names -- books, chart, commodities
+        # -- and exits non-zero on any error, which is what makes it a gate. The balance
+        # report it prints on success opens with the txn-set checksum; the exit code is
+        # what is judged here.
+        r = subprocess.run(["tackler", "--config", str(conf)],
+                           capture_output=True, text=True, encoding="utf-8")
         if r.returncode != 0:
-            print(f"  bean-check rejects {f.name}:")
-            for line in (r.stderr or r.stdout).strip().splitlines()[:4]:
+            print(f"  tackler rejects {conf.name}:")
+            for line in (r.stderr or r.stdout).strip().splitlines()[:6]:
                 print(f"    {line}")
             bad += 1
         else:
-            print(f"  bean-check ok  {f.name}")
+            print(f"  tackler ok  {conf.name}")
     over = overbooked_days()
     for day, s in over[:5]:
         print(f"  {day} books {s:.0f} s, and a day holds {SECONDS_IN_A_DAY}")
     bad += len(over)
 
-    before = {f.name: f.read_text(encoding="utf-8") for f in sorted(SPENT_DIR.glob("*.beancount"))}
-    before[SPENT.name] = SPENT.read_text(encoding="utf-8")
+    generated = lambda: {f.name: f.read_text(encoding="utf-8")
+                         for f in [*sorted(SPENT_DIR.glob("*.txn")), SPENT_ACCOUNTS]}
+    before = generated()
     build()
-    after = {f.name: f.read_text(encoding="utf-8") for f in sorted(SPENT_DIR.glob("*.beancount"))}
-    after[SPENT.name] = SPENT.read_text(encoding="utf-8")
-    if before != after:
+    if before != generated():
         print("  the ledger is not what git says; it was hand-edited")
         bad += 1
     else:
@@ -517,16 +532,23 @@ def verify():
 
 
 def _plan_tasks():
-    """The planned tasks, read out of the plan ledger's transaction metadata.
+    """The planned tasks, read out of the plan ledger's metadata comments.
 
-    The plan is a beancount file rather than a diagram because a diagram goes stale and
-    nothing notices. Here a task is a transaction, its three-point estimate is metadata,
-    and the path below is computed rather than drawn -- so an estimate cannot disagree
-    with the picture of it, which is how 231/234 outlived the code that reached 1360/1360.
+    The plan is a ledger file rather than a diagram because a diagram goes stale and
+    nothing notices. Here a task is a transaction, its three-point estimate rides in the
+    txn's comments, and the path below is computed rather than drawn -- so an estimate
+    cannot disagree with the picture of it, which is how 231/234 outlived the code that
+    reached 1360/1360. Tackler carries only uuid, location and tags as first-class
+    metadata, so the task fields are `;` comments in a fixed key: value shape, and this
+    is the one reader of them.
     """
+    def stripped():
+        for line in _planned_text().splitlines():
+            s = line.strip()
+            yield s.lstrip(";").strip() if s.startswith(";") else s
+
     tasks, cur = {}, None
-    for line in _planned_text().splitlines():
-        s = line.strip()
+    for s in stripped():
         if s.startswith("task:"):
             cur = s.split('"')[1]
             tasks[cur] = {"id": cur, "depends": "", "o": 0.0, "m": 0.0, "p": 0.0,
@@ -538,12 +560,11 @@ def _plan_tasks():
         elif cur and s.split(":")[0] in ("optimistic", "likely", "pessimistic"):
             k, _, v = s.partition(":")
             tasks[cur][{"optimistic": "o", "likely": "m", "pessimistic": "p"}[k]] = float(v)
-    # The narration carries what the task is; re-read to attach it to the id below it.
+    # The description carries what the task is; re-read to attach it to the id below it.
     narr = None
-    for line in _planned_text().splitlines():
-        s = line.strip()
-        if s.startswith("2") and '"plan"' in s:
-            narr = s.split('"plan"')[1].strip().strip('"')
+    for s in stripped():
+        if s[:1].isdigit() and "'plan: " in s:
+            narr = s.split("'plan: ", 1)[1].strip()
         elif s.startswith("task:") and narr:
             tasks[s.split('"')[1]]["what"] = narr
     for t in tasks.values():
@@ -562,7 +583,7 @@ def _predictive(task, draws, rng):
     The plan stores quantiles, not parameters, so the lognormal is read back out of them:
     the median fixes mu, and the ratio of the 99th percentile to the median fixes sigma,
     because ln(p99/m) is 2.326 sigma. Nothing else in the file is needed, which keeps the
-    beancount entries the only source and this function a reader of them.
+    planned books the only source and this function a reader of them.
     """
     m = max(task["m"], 1e-6)
     sigma = max(math.log(max(task["p"], m * 1.0001) / m) / 2.326, 1e-6)

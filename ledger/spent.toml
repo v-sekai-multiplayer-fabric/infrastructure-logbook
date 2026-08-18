@@ -1,0 +1,58 @@
+# SPENT. Every hour in ledger/spent/ went somewhere; nothing there is an estimate.
+# The estimates live under ledger/planned/, booked as liabilities in another
+# commodity against another chart, and the two charts share no account so that a
+# plan can never read as progress.
+#
+# The books and the chart are generated: `misc/scripts/ledger.py build` writes one
+# .txn per project and spent-accounts.toml beside them, and `ledger.py verify`
+# requires regeneration to be byte-identical, so a hand edit cannot survive. This
+# file is the root tackler reads; it is tracked and edited by hand.
+#
+# Time is allocated, not summed. There is one pool -- every interval between
+# consecutive commits anywhere in the workspace -- and each interval is charged
+# to the repository whose commit closed it. That makes the charge a partition, so
+# a day totals the union of the active spans rather than the sum of overlapping
+# ones. Adding each repository's own sessions charged 2026-08-16 with 40.04 h,
+# which no day contains; allocated, the same day costs 30,312 s.
+#
+# An interval over four hours is somebody going away rather than working slowly,
+# and is charged to nobody, so a session's first commit books no time. The ledger
+# cannot see the work before it either: this is a lower bound on effort. A session
+# that charges nothing books nothing at all -- tackler refuses a zero-sum posting,
+# and a transaction that moves nothing is not a transaction; its commits are still
+# in git, which is the source.
+#
+# Seconds are booked by author, not by repository. A fork holds upstream's commits
+# and ours, and skipping the whole checkout skipped both.
+#
+# Audit mode is on: every txn carries a UUID derived from its day and project, and
+# every report opens with a txn-set checksum, so "the books changed" is a hash
+# comparison rather than a diff read.
+
+[kernel]
+strict = true
+audit = { mode = true, hash = "SHA-256" }
+timestamp = { default-time = 00:00:00, timezone = { name = "UTC" } }
+
+[kernel.input]
+storage = "fs"
+fs = { path = ".", dir = "spent", ext = "txn" }
+
+[transaction]
+accounts    = { path = "spent-accounts.toml" }
+commodities = { path = "spent-commodities.toml" }
+tags        = { path = "tags.toml" }
+
+[report]
+report-timezone = "UTC"
+scale = { min = 0, max = 0 }
+formats = [ "txt" ]
+accounts = [ "Expenses(:.*)?", "Income(:.*)?" ]
+targets = [ "balance" ]
+balance = { title = "fabric-spent: seconds booked from git sessions", type = "tree" }
+balance-group = { title = "fabric-spent by month", type = "tree", group-by = "month" }
+register = { title = "fabric-spent register", accounts = [ ] }
+
+[export]
+targets = [ ]
+equity = { accounts = [ ], equity-account = "Equity:Balance" }

@@ -507,12 +507,13 @@ Ordering work says what to do next. This says whether it happened, which is a di
 question and the one that was never asked.
 
 - **The unit is the SI second, and each project is its own book.** `ledger/spent/` holds
-  one `.beancount` per project, included by `ledger/spent.beancount`, so a change to one
-  project touches one file and its hours are auditable against `git log` on their own line
-  — a lane total absorbed a dropped commit silently, and a per-project book did not. Each
-  book's `open` directive carries that project's `CITATION.cff`, so it says what the work
-  was and what may be done with it without opening the repository. Seconds because a git
-  timestamp is in seconds: nothing in the file is a conversion anybody has to trust.
+  one `.txn` per project, validated as one journal by `ledger/spent.toml`, so a change to
+  one project touches one file and its hours are auditable against `git log` on their own
+  line — a lane total absorbed a dropped commit silently, and a per-project book did not.
+  Each project's entry in the generated chart, `ledger/spent-accounts.toml`, carries that
+  project's `CITATION.cff`, so the chart says what the work was and what may be done with
+  it without opening the repository. Seconds because a git timestamp is in seconds:
+  nothing in the file is a conversion anybody has to trust.
 - The seconds are **booked**, in `ledger/spent/`, generated from git by
   `misc/scripts/ledger.py` and never typed. A session is a run of commits with no gap over
   four hours, and its cost is the span from its first commit to its last.
@@ -530,24 +531,27 @@ question and the one that was never asked.
   more lines open with a token naming a directory that exists — and reads only unlanguaged
   fences, because `cmake -S . -B build` in a `sh` block tripped it against the `cmake/`
   directory before the language was read.
-- The **plan lives in the ledger too**, in `ledger/planned.beancount`: a task is a
-  transaction, its three points are metadata, and `ledger.py path` computes the critical
-  path from the dependencies rather than from a picture somebody drew.
+- The **plan lives in the ledger too**, in `ledger/planned/`: a task is a transaction,
+  its three points ride in the transaction's comments, and `ledger.py path` computes the
+  critical path from the dependencies rather than from a picture somebody drew.
 - **Hypothetical and spent never mix, and the tool is what stops them.** Planned work is
-  a liability in `PLANNED-SECONDS`; spent work is an expense in `SECONDS`. Beancount will not
-  balance across commodities, so netting one against the other fails at parse time with
-  exit 1 — the separation is enforced by the format rather than asked for in prose.
-  `check_plan_and_spend_are_separate` intersects accounts and units as belt to that braces,
-  because the day somebody unifies the units to tidy them up is the day the tool stops
-  refusing.
+  a liability in `PLANNED-SECONDS` against its own chart; spent work is an expense in
+  `SECONDS` against another. Tackler validates each journal strictly against its declared
+  chart of accounts and commodities, so a posting that crosses the line fails validation
+  with exit 1 — the separation is enforced by the tool rather than asked for in prose.
+  `Check.Ledger` intersects the two charts as belt to those braces, because the day
+  somebody merges them to tidy them up is the day the tool stops refusing.
 - **The whole history is booked, not a trailing year.** A ledger that starts a year ago can
   say what a thing cost recently and not what it has cost. 479.8 h since 2020, of which
   42.70 h is the mesh.
-- Beancount is an **operating-system tool, like gcc**. `brew install beancount`. Never
-  vendored and never imported — it is GPL-2.0, which the licence policy here files as
-  restricted, so keeping it outside the tree is a licence decision as well as a dependency
-  one. Only the accounting files are tracked. `bean-check` ends `sys.exit(1 if errors
-  else 0)`, which is what makes it a gate rather than a report.
+- Tackler is an **operating-system tool, like gcc**. `cargo install tackler`. Never
+  vendored and never imported — Apache-2.0, so the licence no longer forces the
+  arrangement the way beancount's GPL-2.0 did; it stays because the validator being the
+  system's is what keeps a hand-written emitter honest. Only the accounting files are
+  tracked. `tackler` exits non-zero on any validation error, which is what makes it a
+  gate rather than a report — and audit mode requires a UUID on every transaction and
+  opens each report with a txn-set checksum, so whether the books changed is a hash
+  comparison.
 
 Every gate in this repository asked whether a document was true. None asked whether
 anything was delivered, and the difference is the whole failure. Measured over ninety days:
@@ -588,7 +592,7 @@ rule the critical path already states, arriving from the other direction.
 A session's span excludes everything before its first commit, so spans near zero are
 censored rather than short. Flooring them at fifteen minutes is a judgement, and it decides
 the answer: the p99 for a 2–4 commit task reads **38.91 h at a one-minute floor, 10.91 h at
-fifteen, and 7.49 h at thirty**. The floor is stated in `planned.beancount` alongside that
+fifteen, and 7.49 h at thirty**. The floor is stated in `ledger/planned.toml` alongside that
 sensitivity, because a number this load-bearing that is chosen silently is a number nobody
 can argue with. A censored likelihood would replace both the floor and the argument.
 

@@ -1,0 +1,9 @@
+# The plan's one commodity. SECONDS is deliberately not here, the mirror of the
+# spent list omitting PLANNED-SECONDS: strict mode turns a spent amount landing
+# in a planned book into a validation error with exit 1, so an estimate cannot
+# read as progress and hours cannot be retyped into the plan.
+permit-empty-commodity = false
+
+commodities = [
+    "PLANNED-SECONDS",
+]
