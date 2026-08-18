@@ -19,3 +19,4 @@ misc/checks/priv/plts/
 # a session runs and not afterwards.
 *.log
 erl_crash.dump
+__pycache__

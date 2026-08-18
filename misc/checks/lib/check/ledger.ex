@@ -30,6 +30,14 @@ defmodule Check.Ledger do
         # The check reads two files this repository generates, so no manifest edit can
         # perturb it. The control supplies the overlap instead.
         break: &Map.put(&1, :separation, ["Expenses:Delivery:Mesh"])
+      },
+      %{
+        label: "documents do not outspend delivery by more than the ceiling",
+        kind: :local,
+        run: &docs_within_ceiling/1,
+        # Generated from git, so nothing edited here can move the ratio. The control
+        # supplies a reading past the ceiling instead.
+        break: &Map.put(&1, :ratio, {400_000.0, 100_000.0, 4.0})
       }
     ]
   end
@@ -106,6 +114,65 @@ defmodule Check.Ledger do
         for account <- Enum.sort(shared) do
           "#{account} carries both planned and spent time; an estimate reads as progress"
         end
+    end
+  end
+
+  # The most prose this repository may buy per second of delivery. It is a ratchet: it may
+  # be lowered by a commit and never raised, so the number in this line is the high-water
+  # mark of a debt rather than a budget anybody was granted.
+  #
+  # 2.55 is where it starts because 2.5413 is where the books were when it was written --
+  # 252,035 s of documents against 99,177 s of delivery over ninety days. Adopting a gate at
+  # the value it already fails would make it red on arrival, and a gate that is red on
+  # arrival gets switched off rather than obeyed. Starting a hair above holds the line
+  # exactly where it is and makes every improvement a visible commit.
+  @ratio_ceiling 2.55
+
+  @doc """
+  Documents MUST NOT outspend the delivery they describe by more than the ceiling.
+
+  This is the fallback constraint from `logbook/coastline.md`, which exists because feature
+  work has no length independent of the ruler used to measure it. Each refinement is real
+  and reveals a finer one, so "is it finished" cannot be answered from inside the work. The
+  ratio can be answered from outside it, and this is the only number here that needs no
+  judgement to read.
+
+  It constrains the aggregate rather than the change, which is why it is a fallback and not
+  the rule. It cannot tell anybody whether one enhancement is done. It can say that the
+  trailing ninety days answered that question wrong, which is the thing nobody notices
+  without counting -- and `ledger.py`'s own docstring records that nobody did.
+
+  Lowering the ceiling is the point. It only moves down, so the gate cannot be satisfied by
+  raising it, and the commit that lowers it is the record of prose having been overtaken by
+  the thing it describes.
+  """
+  def docs_within_ceiling(ctx) do
+    case ctx[:ratio] || docs_ratio() do
+      {:error, why} ->
+        [why]
+
+      {docs, delivery, ratio} when ratio > @ratio_ceiling ->
+        [
+          "documents book #{round(docs)} s against #{round(delivery)} s of delivery, " <>
+            "a ratio of #{:erlang.float_to_binary(ratio, decimals: 2)} past a ceiling of " <>
+            "#{@ratio_ceiling}; prose is what stops"
+        ]
+
+      _ ->
+        []
+    end
+  end
+
+  defp docs_ratio do
+    case python("print('	'.join(str(x) for x in ledger.docs_ratio(90)))") do
+      {:ok, out} ->
+        case String.split(String.trim(out), "	", parts: 3) do
+          [d, v, r] -> {String.to_float(d), String.to_float(v), String.to_float(r)}
+          _ -> {:error, "ledger.py did not report a docs ratio"}
+        end
+
+      {:error, why} ->
+        {:error, why}
     end
   end
 
