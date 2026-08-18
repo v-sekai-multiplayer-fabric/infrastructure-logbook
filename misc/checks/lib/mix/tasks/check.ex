@@ -43,7 +43,7 @@ defmodule Mix.Tasks.Check do
     {"authority", Check.Authority},
     {"workspace", Check.Workspace},
     {"words", Check.Words},
-    {"nifs", Check.Nifs},
+    {"nifs", Check.Nifs}, {"properties", Check.Properties},
     {"licences", Check.Licences},
     {"ledger", Check.Ledger}
   ]
