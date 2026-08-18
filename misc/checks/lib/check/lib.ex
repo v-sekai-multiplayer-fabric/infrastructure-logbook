@@ -294,32 +294,31 @@ defmodule Check.Lib do
   nobody upstream has -- and lumping it with the untouchables left exactly those repositories
   never asked what they were made of.
 
-  Each entry states its evidence rather than an opinion: two carry GitHub's fork flag, and the
-  third carries upstream's own README.
+  Each entry states its evidence rather than an opinion, and both remaining ones carry
+  GitHub's fork flag.
   """
   def mirrors do
     %{
       # This project owns the Windows builds here and none of the code, so the README is
       # upstream's to write. GitHub carries the fork flag for both of these.
       "datasource-foundationdb" => "apple/foundationdb",
-      "idtx-flow" => "Immersive-Data-Center-Management/idtx-flow",
-      # No fork flag, and the README is still upstream's: it opens "# Godot Engine" and
-      # links godotengine.org nineteen times.
-      "entities-godot" => "godotengine/godot"
+      "idtx-flow" => "Immersive-Data-Center-Management/idtx-flow"
     }
   end
 
   @doc """
-  The one entry GitHub does not back. A fork made by pushing an existing history rather
-  than by pressing the button carries no fork flag and no parent, so the evidence has to be
-  stated instead of fetched -- and stating it is the point: an exemption with a reason can
-  be argued with, and a list nobody can check is a list that grows.
+  Mirrors GitHub does not back with a fork flag. A fork made by pushing an existing history
+  rather than by pressing the button carries no flag and no parent, so the evidence has to be
+  stated instead of fetched -- and stating it is the point: an exemption with a reason can be
+  argued with, and a list nobody can check is a list that grows.
+
+  It is empty. `entities-godot` was the only entry and it left the manifest with
+  `entities-assembly`, so there is nothing here to check rather than nothing worth checking.
+  The map stays because the distinction it draws is the one `mirror_list/1` needs the moment
+  a second unflagged fork arrives, and rediscovering it then is how the reason gets lost.
   """
   def unflagged_mirrors do
-    %{
-      "entities-godot" =>
-        "no fork flag; its README opens '# Godot Engine' and links godotengine.org nineteen times"
-    }
+    %{}
   end
 
   @doc """
