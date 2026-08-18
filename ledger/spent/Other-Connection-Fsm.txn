@@ -14,7 +14,7 @@
     ; resource: "fire"
     ; commits: 2
     ; steps: "Add CITATION.cff with sibling fabric-hexagon cross-references | Merge pull request #1 from v-sekai-multiplayer-fabric/feat/citation"
-    Expenses:Other:Connection-Fsm               10 SECONDS
+    Expenses:Other:Connection-Fsm              796 SECONDS
     Income:Sessions
 
 2026-08-16 '2-contract/connection-fsm: Merge pull request #2 from v-sekai-multiplayer-fabric/add-the-mit-licence
@@ -23,5 +23,5 @@
     ; resource: "fire"
     ; commits: 2
     ; steps: "Add the MIT licence this repository was always published under | Merge pull request #2 from v-sekai-multiplayer-fabric/add-the-mit-licenc"
-    Expenses:Other:Connection-Fsm                6 SECONDS
+    Expenses:Other:Connection-Fsm               31 SECONDS
     Income:Sessions

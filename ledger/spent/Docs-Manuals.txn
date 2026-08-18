@@ -14,7 +14,7 @@
     ; resource: "fire"
     ; commits: 12
     ; steps: "Convert pass criteria to GitHub task list checkboxes in all 12 cycle ADR | Add time estimates to all 12 cycle ADRs (#4) | Add prettier pre-commit hook for markdown formatting | Renumber cycles 0-12 in sequential taskweft-confirmed order (parallel tr | Add .obsidian to .gitignore | Reference mire.vrm as the canonical Maglev test avatar | Update Maglev cycle 0/1/2 ADR statuses with verification evidence | Add 2026-05-07 deck log entry — Maglev cycles 0/1 verified, cycle 2 prod | index.md: sync repository list with current submodules | index.md: absorb README content (Quick start + Where things live) | Backdate two deck logs from monorepo CHANGELOG.md (0.1.0 + 0.2/3/4/5) | Update local-path references after parent submodule rename"
-    Expenses:Docs:Manuals                    18332 SECONDS
+    Expenses:Docs:Manuals                    18562 SECONDS
     Income:Sessions
 
 2026-06-06 '2-contract/manuals: tropes: add serves-as, fragment, and cliché rules from tropes.fyi (#56)
@@ -41,7 +41,7 @@
     ; resource: "fire"
     ; commits: 9
     ; steps: "Add loot-action core-loop MADR decision records (#63) | Add 2026-06-12 deck log for the loot-action core-loop decisions (#64) | Add decision: headless OpenXR testing with Monado (null compositor + sim | Add Day-2 discovery decisions and extend the deck log (#66) | http3 findings: record the multi-session fix (godot#56) and update the d | Improve formatting of decision outcome sections (#68) | Fix capitalization in loot-action core loop document (#69) | Add session decisions: integral wire, fabric channels, Quest deployment, | Add decision: five-second transaction limit (bounded operations, proven "
-    Expenses:Docs:Manuals                    16881 SECONDS
+    Expenses:Docs:Manuals                    16797 SECONDS
     Income:Sessions
 
 2026-06-13 '2-contract/manuals: Update index.md (#79)
@@ -59,7 +59,7 @@
     ; resource: "fire"
     ; commits: 2
     ; steps: "Add decision: project state lives in repo markdown, not agent auto-memor | Reject: blender add-ons under /opt via BLENDER_SYSTEM_SCRIPTS (#84)"
-    Expenses:Docs:Manuals                      481 SECONDS
+    Expenses:Docs:Manuals                      158 SECONDS
     Income:Sessions
 
 2026-06-22 '2-contract/manuals: Map the lean-predictive-bvh split into six per-cluster repos (#93)
@@ -68,7 +68,7 @@
     ; resource: "fire"
     ; commits: 7
     ; steps: "Reduce noise in loot-action core-loop MVP slice decision (#87) | Refine decision outcome and confirmation details (#88) | Expand tropes linter to cover more tropes.fyi tells (#89) | Add false-range and em-dash rules to tropes linter (#90) | Remove confirmation section from MVP document (#91) | Update index.md (#92) | Map the lean-predictive-bvh split into six per-cluster repos (#93)"
-    Expenses:Docs:Manuals                    19950 SECONDS
+    Expenses:Docs:Manuals                    20495 SECONDS
     Income:Sessions
 
 2026-06-24 '2-contract/manuals: Merge pull request #109 from v-sekai-multiplayer-fabric/feat/adr-fabric-platform-central
@@ -77,7 +77,7 @@
     ; resource: "fire"
     ; commits: 16
     ; steps: "Update runtime description in index.md (#95) | Switch MVP gate to SteamVR, archive org-split decision (#97) | Add MADR: uiux release polish — cut a SteamVR build for external feedbac | Add MADR: release tag progression dev → beta → rc → release (#99) | Add front matter to four decisions; rewrite game-loop cluster sequence M | Sync decision front matter and rewrite game-loop cluster sequence MADR ( | Drop Meta Quest 3 as a platform across all manuals | Drop Meta Quest 3 as a platform across all manuals (#102) | Shorten title in gateway handshake decision (#103) | Update merge queue method from squash to merge | Merge pull request #105 from v-sekai-multiplayer-fabric/madr/drop-meta-q | Merge pull request #106 from v-sekai-multiplayer-fabric/madr/merge-queue | Add CITATION.cff for BibTeX citation support | Merge pull request #108 from v-sekai-multiplayer-fabric/feat/citation | Add ADR for f"
-    Expenses:Docs:Manuals                    15662 SECONDS
+    Expenses:Docs:Manuals                    20222 SECONDS
     Income:Sessions
 
 2026-06-25 '2-contract/manuals: Merge pull request #111 from v-sekai-multiplayer-fabric/feat/godot-assembly-structure-no
@@ -131,7 +131,7 @@
     ; resource: "fire"
     ; commits: 4
     ; steps: "Amend PR+merge-queue decision: auto-delete head branches after merge | prettier: normalize emphasis markers in the amendment | Merge pull request #123 from v-sekai-multiplayer-fabric/decision/auto-de | Merge pull request #122 from v-sekai-multiplayer-fabric/deck-log-windows"
-    Expenses:Docs:Manuals                     4391 SECONDS
+    Expenses:Docs:Manuals                      670 SECONDS
     Income:Sessions
 
 2026-07-14 '2-contract/manuals: Merge pull request #125 from v-sekai-multiplayer-fabric/docs/amend-required-status-check
@@ -140,7 +140,7 @@
     ; resource: "fire"
     ; commits: 4
     ; steps: "Amend YAGNI decision with Beck's retrofit-cost test | Merge pull request #124 from v-sekai-multiplayer-fabric/yagni-amend-prac | Amend require-pr-and-merge-queue-on-main: merge_queue alone doesn't requ | Merge pull request #125 from v-sekai-multiplayer-fabric/docs/amend-requi"
-    Expenses:Docs:Manuals                     1730 SECONDS
+    Expenses:Docs:Manuals                      124 SECONDS
     Income:Sessions
 
 2026-08-06 '2-contract/manuals: Merge pull request #131 from v-sekai-multiplayer-fabric/rfd-0001-ste-fix-and-split
@@ -149,7 +149,7 @@
     ; resource: "fire"
     ; commits: 17
     ; steps: "Record zone-server-h2o: replace Godot FabricZone with libh2o+FDB+Fil-C,  | CITATION.cff: add references cited in rfd/0001 | rfd/0001: resolve four of five open questions | rfd/0001: resolve ELF-metadata question, study jsonld-cpp, name minimal- | rfd/0001: scope CastSpell's Godot API surface, rank sandbox-runtime opti | checks.yml: cancel-in-progress concurrency group to stop run backlog | rfd/0001: embed libgodot in the sandbox, primary CastSpell runtime | rfd/0001: pin libgodot/rv64 claims to the exact fabric-godot-core tag | rfd/0001: record the achieved libgodot-in-libriscv spike result | decisions: sandboxed Godot game logic in zone-server-h2o, via raw libris | Merge pull request #126 from v-sekai-multiplayer-fabric/zone-server-h2o- | Merge pull request #128 from v-sekai-multiplayer-fabric/sandboxed-godot- | Merge pull request #127 from v-sekai-multiplayer-fabric/ci-checks-concur | "
-    Expenses:Docs:Manuals                    26812 SECONDS
+    Expenses:Docs:Manuals                    28191 SECONDS
     Income:Sessions
 
 2026-08-07 '2-contract/manuals: Merge pull request #175 from v-sekai-multiplayer-fabric/rfd-0103-ecto-foundationdb
@@ -176,7 +176,7 @@
     ; resource: "fire"
     ; commits: 9
     ; steps: "Remove the merge queue from the main branch policy | Merge pull request #185 from v-sekai-multiplayer-fabric/remove-merge-que | Convert the deployment words to the hexagon vocabulary | Run prettier over the two new RFD files | Drop the tropes check from CI | Merge pull request #187 from v-sekai-multiplayer-fabric/disable-tropes-c | Merge pull request #186 from v-sekai-multiplayer-fabric/strict-ports-and | Choose Lexical for the slash command interface | Merge pull request #188 from v-sekai-multiplayer-fabric/lexical-slash-co"
-    Expenses:Docs:Manuals                     6214 SECONDS
+    Expenses:Docs:Manuals                     6246 SECONDS
     Income:Sessions
 
 2026-08-12 '2-contract/manuals: Merge pull request #202 from v-sekai-multiplayer-fabric/abandon-the-slash-command-field
@@ -185,7 +185,7 @@
     ; resource: "fire"
     ; commits: 21
     ; steps: "RFD 0113: index | RFD 0113: DETAILS | RFD 0114: index | RFD 0114: DETAILS | Merge pull request #189 from v-sekai-multiplayer-fabric/rfd-0113-0114-fd | RFD 0115: a planner domain document is a cheap-layer surface | Merge pull request #190 from v-sekai-multiplayer-fabric/a-planner-domain | Abandon the transport adapter, and the frame it carried | Merge pull request #191 from v-sekai-multiplayer-fabric/the-transport-ad | Add RFD 0116: ReBAC gates libriscv guest access | Merge pull request #192 from v-sekai-multiplayer-fabric/rfd-0116-rebac-g | Let the records state what is, and drop the notes about what was | Merge pull request #194 from v-sekai-multiplayer-fabric/the-records-say- | Say what the RFDs do, since the conventions had stopped describing them | Merge pull request #193 from v-sekai-multiplayer-fabric/the-conventions- | Keep one number for the record about libriscv guest access | M"
-    Expenses:Docs:Manuals                     7561 SECONDS
+    Expenses:Docs:Manuals                     5853 SECONDS
     Income:Sessions
 
 2026-08-13 '2-contract/manuals: Merge pull request #206 from v-sekai-multiplayer-fabric/amend-0111-the-rename-list
@@ -203,7 +203,7 @@
     ; resource: "fire"
     ; commits: 33
     ; steps: "Add RFD 0116, amending RFD 0111 against the tree | Cut RFD 0116's index.md to forty lines | Merge pull request #207 from v-sekai-multiplayer-fabric/amend-0111-again | Renumber RFD 0116 to 0121 | Merge pull request #208 from v-sekai-multiplayer-fabric/renumber-0116-to | Correct RFD 0121's count of the lean READMEs | Merge pull request #209 from v-sekai-multiplayer-fabric/correct-the-lean | Drop uv.lock, which this repository does not track | Remove the quantities no measurement supports | Scrub the removed figures from the deck log and rename RFD 0109 | Merge pull request #198 from v-sekai-multiplayer-fabric/say-which-number | Add the zone server and record retirement decisions under free numbers | Delete the decisions directory, which held no decisions | Say what decisions/ still holds, and bring 0116 and 0117 under forty lin | Merge pull request #197 from v-sekai-multiplayer-fabric/dele"
-    Expenses:Docs:Manuals                     6626 SECONDS
+    Expenses:Docs:Manuals                     6694 SECONDS
     Income:Sessions
 
 2026-08-17 '2-contract/manuals: Merge pull request #211 from v-sekai-multiplayer-fabric/record-the-second-webtransport-i
@@ -212,7 +212,7 @@
     ; resource: "fire"
     ; commits: 4
     ; steps: "Record the second WebTransport implementation as RFD 0123 | Record aioquic as the second implementation's stack | Separate the contract finding from the library defects | Merge pull request #211 from v-sekai-multiplayer-fabric/record-the-secon"
-    Expenses:Docs:Manuals                     4488 SECONDS
+    Expenses:Docs:Manuals                     5694 SECONDS
     Income:Sessions
 
 2026-08-18 '2-contract/manuals: Merge pull request #214 from v-sekai-multiplayer-fabric/a-permission-cannot-be-granted-s
@@ -221,5 +221,5 @@
     ; resource: "fire"
     ; commits: 11
     ; steps: "Land pull requests as merge commits, not squashes or rebases | Merge pull request #212 from v-sekai-multiplayer-fabric/record-the-merge | RFD 0124: Elixir error tuples in every reply | Backfill RFDs 0125 to 0130, and record Fine in 0124 | RFD 0124: carry the term in CBOR rather than adding a second encoding | RFD 0132: a permission cannot be granted sideways | Format RFD 0132 the way prettier wants it | Format the backfill RFDs the way prettier wants them | Merge pull request #213 from v-sekai-multiplayer-fabric/error-tuples-and | Merge branch 'main' into a-permission-cannot-be-granted-sideways | Merge pull request #214 from v-sekai-multiplayer-fabric/a-permission-can"
-    Expenses:Docs:Manuals                     1303 SECONDS
+    Expenses:Docs:Manuals                     1418 SECONDS
     Income:Sessions

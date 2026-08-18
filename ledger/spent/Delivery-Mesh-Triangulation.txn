@@ -17,15 +17,6 @@
     Expenses:Delivery:Mesh:Triangulation       48884 SECONDS
     Income:Sessions
 
-2026-06-19 '3-interactor/triangulation: Update README: geogram + pmp deps, drop stale CGAL/TetGen/Boost
-    # uuid: 087e4bcf-4191-50d9-bc1a-22dcfdcb0bfe
-    ; spent: TRUE
-    ; resource: "fire"
-    ; commits: 1
-    ; steps: "Update README: geogram + pmp deps, drop stale CGAL/TetGen/Boost"
-    Expenses:Delivery:Mesh:Triangulation        5384 SECONDS
-    Income:Sessions
-
 2026-08-16 '3-interactor/triangulation: Add the MIT licence this repository was always published under
     # uuid: 50989e7d-d6d9-5dab-9509-ae336dce0b14
     ; spent: TRUE
@@ -35,11 +26,11 @@
     Expenses:Delivery:Mesh:Triangulation         103 SECONDS
     Income:Sessions
 
-2026-08-18 '3-interactor/triangulation: Port the property tests to Google FuzzTest
+2026-08-18 '3-interactor/triangulation: Merge pull request #9 from fire/port-the-properties-to-fuzztest
     # uuid: 1fb52c65-cde2-5b46-8458-9b719a151e0c
     ; spent: TRUE
     ; resource: "fire"
-    ; commits: 26
+    ; commits: 27
     ; steps: "State what this repository is made of | Merge pull request #1 from fire/state-what-it-is-made-of | Vendor the DMWT sources, and notice the licence they are under | Merge pull request #2 from fire/vendor-the-dmwt-sources-and-notice-their | Unregister the three submodules | Merge commit 'd25436d47b45cd9de3e8b909abc672397b9e09f4' as 'libs/geogram | Squashed 'libs/geogram/' content from commit c40b4653 | Merge commit '65b2fe13e2ce4d2f3d514b776250c40c971c8f7e' as 'libs/pmp-lib | Squashed 'libs/pmp-library/' content from commit f2fb04f4 | Take rapidcheck out of the build | Unregister geogram's four core submodules | Merge commit '972f8b24330fea1c7551141a57e48faa6c98e25a' as 'libs/geogram | Squashed 'libs/geogram/src/lib/geogram/third_party/OpenNL/' content from | Merge commit '9e7de76308900e98aef45680adb90eaddac60da4' as 'libs/geogram | Squashed 'libs/geogram/src/lib/geogram/third_party/amgcl/"
-    Expenses:Delivery:Mesh:Triangulation        3332 SECONDS
+    Expenses:Delivery:Mesh:Triangulation        8586 SECONDS
     Income:Sessions

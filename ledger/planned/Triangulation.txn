@@ -43,6 +43,7 @@
     ; triangulator links builds on the machine the pen is drawn on.
     ; task: "P0"
     ; depends: ""
+    ; done: 2026-08-18
     ; hypothetical: TRUE
     ; optimistic: 216
     ; likely: 2916

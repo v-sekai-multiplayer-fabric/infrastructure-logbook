@@ -102,6 +102,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/transport-asset
     #   title: transport-asset: a content-addressed casync chunk CDN
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Asset",
     # 1-transport/blender-mcp
     #   abstract: A transport layer for an authoring client rather than a player one, which changes the protocol and nothing else: it terminates MCP and triggers work in Blender. A fork of BlenderMCP, and the fork exists for one reason --
@@ -114,6 +115,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/transport-blender-mcp
     #   title: transport-blender-mcp: a Blender addon and MCP server for prompt-assisted modelling
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Blender-Mcp",
     # 2-contract/bus
     #   abstract: The contract a transport layer and an interactor compose against: a command in, reply bytes out, over iceoryx2 shared memory with no daemon and no copy. Two pub/sub services carry the pair, correlated by an eight-byte re
@@ -124,6 +126,7 @@ accounts = [
     #   license: Apache-2.0
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/contract-bus
     #   title: contract-bus: the weft harness, a command loop over iceoryx2
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Bus",
     # 1-transport/bus-cli
     #   abstract: A transport layer whose wire is a terminal. It sends one command over the harness command bus and prints the interactor's CBOR reply, so the interactors can be driven with no container, no registry and no cold start -- e
@@ -136,6 +139,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/transport-bus-cli
     #   title: transport-bus-cli: the command line as a transport layer
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Bus-Cli",
     # 1-transport/client
     #   abstract: A Godot XR client for one zone of the V-Sekai multiplayer fabric. It opens a WebTransport session to fabric-physics-service, decodes back-to-back 100-byte XRGridEntityPacket slices into props and remote avatars, interpol
@@ -184,6 +188,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/datasource-duckdb
     #   title: datasource-duckdb: Lean 4 bindings to DuckDB for Parquet and CSV
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Duckdb",
     # 2-contract/entity-packet
     #   abstract: Lean 4 + Plausible source-of-truth for the V-Sekai multiplayer fabric's XRGridEntityPacket: a 100-byte, integer-only wire format carrying global_id, position in absolute micrometers (int64), velocity in fixed-point i16, 
@@ -232,6 +237,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/datasource-flow
     #   title: datasource-flow: IDTX Flow as a Godot extension, with USD and VRM import
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Flow",
     # 6-datasource/flow-project
     #   abstract: The Godot project that exercises datasource-flow. It holds no library code: it is scenes, USD fixtures and inspection scripts -- blendshape and morph stress tests, normals and skinning checks, unassigned-vertex cases -- 
@@ -244,6 +250,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/datasource-flow-project
     #   title: datasource-flow-project: the Godot test project for the IDTX Flow extension
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Flow-Project",
     # 6-datasource/flowref
     #   abstract: A data source gets facts out of something that was not built to be queried, and a stripped binary is the hardest case of that. This is a control-flow-aware cross-reference finder over machine-code disassembly, in Lean 4,
@@ -256,6 +263,7 @@ accounts = [
     #   repository-code: https://github.com/fire/datasource-flowref
     #   title: datasource-flowref: a control-flow-aware cross-reference finder over machine code
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Flowref",
     # 6-datasource/flowref-decompiler
     #   abstract: Point it at a binary and get back compilable C. A control-flow-aware decompiler in Lean 4, built on the flowref xref finder, under a faithful-or-refuse contract: it emits C it can justify against the machine code or it d
@@ -268,6 +276,7 @@ accounts = [
     #   repository-code: https://github.com/fire/datasource-flowref-decompiler
     #   title: datasource-flowref-decompiler: a faithful-or-refuse decompiler over flowref
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Flowref-Decompiler",
     # 6-datasource/foundationdb
     #   abstract: FoundationDB, the distributed ordered key-value store with ACID transactions, forked so this project can own the Windows builds and carry the portability-consensus branch. The database is upstream's and so is its README;
@@ -304,6 +313,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/transport-gateway-python
     #   title: transport-gateway-python: the fabric's reliable WebTransport half, implemented a second time
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Gateway-Python",
     # 4-entities/godot
     #   abstract: Godot Engine, plus the multiplayer-fabric feature branches assembled on top of it. The engine is upstream's and so is its README; what this copy adds is the assembly -- d3d12 download retry, tapered capsule shapes, joint
@@ -329,6 +339,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/transport-godot-mcp
     #   title: transport-godot-mcp: an in-editor MCP server for the Godot editor
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Godot-Mcp",
     # 4-entities/gyre
     #   abstract: Entities are the simulated things and the actions on them, and this is the content and the drivers for one setting: rooms, NPCs, contracts, items. Setting and loop are RFD 0085, the Gyre, a MUD on the loot-action core-lo
@@ -365,6 +376,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/lean-humanoid-rom
     #   title: lean-humanoid-rom: Humanoid range-of-motion and IK-constraint hexagon
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Humanoid-Rom",
     # 6-datasource/idtx-flow
     #   abstract: IDTX Flow, the Immersive Data Center Management flow tooling, mirrored under this organisation with the upstream name kept. The tooling is upstream's and so is its README, which carries upstream's own REUSE badge; this c
@@ -377,6 +389,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/idtx-flow
     #   title: idtx-flow: the multiplayer-fabric mirror of IDTX Flow
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Idtx-Flow",
     # 4-entities/images
     #   abstract: Builds of the multiplayer-fabric Godot engine fork: player export templates and editor binaries, cross-compiled from Linux to every supported platform and built natively where that is simpler. There is deliberately no CI
@@ -413,6 +426,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/transport-ingest-python
     #   title: transport-ingest-python: the fabric's unreliable WebTransport half, implemented a second time
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Ingest-Python",
     # 2-contract/interest-mgmt
     #   abstract: Lean 4 formal model of area-of-interest (AOI) management and zone interest routing for the V-Sekai multiplayer fabric. Specifies cross-zone neighbor look-up grounded in lean-spatial-oracle's ZonePartition and interestEnt
@@ -437,6 +451,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/lean-combat-core
     #   title: lean-combat-core: Deterministic combat reducer and timed-combo state machine
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Lean-Combat",
     # 4-entities/lean-loot
     #   abstract: Lean 4 source-of-truth for the V-Sekai multiplayer fabric's server-authoritative loot system. Specifies weighted loot tables, a seeded LCG RNG (Rng.range), R128 fixed-point arithmetic (integer μm-scale), and a Slang GPU 
@@ -449,6 +464,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/lean-loot-core
     #   title: lean-loot-core: Weighted loot table, RNG, and GPU Slang emitter
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Lean-Loot",
     # 4-entities/lean-progression
     #   abstract: Lean 4 + Plausible source-of-truth for the V-Sekai multiplayer fabric's player progression system. Models the credit ledger, affinity gate (must reach threshold before purchasing an art), art collection (no duplicates), 
@@ -461,6 +477,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/lean-progression-core
     #   title: lean-progression-core: Player progression, credits, affinity, and arts
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Lean-Progression",
     # 4-entities/lean-rebac
     #   abstract: Lean 4 formal model of relationship-based access control (ReBAC) for the V-Sekai multiplayer fabric. The production NoGod core is Mathlib-free and dependency-free; the research tier adds Mathlib-backed completeness proof
@@ -473,6 +490,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/lean-rebac-core
     #   title: lean-rebac-core: Relationship-based access control (ReBAC / NoGod)
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Lean-Rebac",
     # 4-entities/lean-shared
     #   abstract: Lean 4 library of shared primitive types — BoundingBox, scene geometry, numeric scaffolding — used as the common vocabulary across every multiplayer-fabric hexagon. Depends only on Lean 4 Init with no external libraries,
@@ -485,10 +503,12 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/lean-shared-core
     #   title: lean-shared-core: Shared primitive types for the multiplayer-fabric hexagons
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Lean-Shared",
     # 4-entities/model-explorer
     #   first-commit: 2022-11-23
     #   repository-code: https://github.com/V-Sekai/entities-model-explorer
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Model-Explorer",
     # 4-entities/parsec
     #   cff-commit: 62cfbdc003ab4a73bef6d8a26310e5f580c83e55
@@ -498,6 +518,7 @@ accounts = [
     #   license: MIT
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/wallpaper-parsec
     #   title: wallpaper-parsec
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Parsec",
     # 3-interactor/physics
     #   abstract: An interactor performs actions on entities: a command in, reply bytes out. This one is a riscv64 Linux build of MuJoCo with host bindings for driving it as a libriscv sandboxed guest. It was seeded from interactor-gyre's
@@ -510,6 +531,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/interactor-physics
     #   title: interactor-physics: MuJoCo as a sandboxed riscv64 interactor
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Physics",
     # 2-contract/protocol
     #   abstract: Lean 4 formal proofs of V-Sekai multiplayer fabric SLA obligations and protocol correctness properties: round-trip-time bounds, zone handoff invariants, authority-delegation safety, and inter-zone interest-fanout correct
@@ -546,6 +568,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/transport-runpod
     #   title: transport-runpod: the RunPod Serverless transport layer
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Runpod",
     # 3-interactor/see-through-cpp
     #   abstract: The C++ half of the see-through A/B. One command in, reply bytes out, over the harness command bus: an image is decomposed into its layers at production settings and the reply names where they were written. The engine is
@@ -558,6 +581,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/interactor-see-through-cpp
     #   title: interactor-see-through-cpp: single-image layer decomposition, on the command bus
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:See-Through-Cpp",
     # 3-interactor/see-through-python
     #   abstract: The reference half of the see-through A/B. One command in, reply bytes out, over the harness command bus, on the PyTorch pipeline and iceoryx2's Python binding -- sharing nothing with the C++ half but the wire between th
@@ -570,6 +594,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/interactor-see-through-python
     #   title: interactor-see-through-python: single-image layer decomposition, on the command bus
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:See-Through-Python",
     # 3-interactor/spatial-oracle
     #   abstract: Lean 4 O(N+k) Hilbert broadphase for the V-Sekai multiplayer fabric's spatial oracle. Sorts N ghost-expanded AABBs by 30-bit Hilbert code via LSD radix sort, groups into prefix windows, and sweeps with an adaptive inter-
@@ -582,6 +607,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/lean-spatial-oracle
     #   title: lean-spatial-oracle: Hilbert broadphase, ghost expansion, BVH, and zone partitioning
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Spatial-Oracle",
     # 3-interactor/taskweft
     #   abstract: HTN planner exposing plan/replan over the RECTGTN (Relationship-Enabled Capability-Temporal Goal-Task-Network) model via MCP. C++20 planner core with an Elixir NIF/MCP server layer.
@@ -594,6 +620,7 @@ accounts = [
     #   repository-code: https://github.com/taskweft/taskweft
     #   title: taskweft
     #   version: 0.4.12
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Taskweft",
     # 2-contract/triangulation
     #   abstract: A Lean 4 proof, against Mathlib, of the geometric obstruction behind interactor-triangulation's two mesh properties. A triangle's aspect ratio is at least its longest edge over its shortest, so a bound on the ratio is a 
@@ -618,6 +645,7 @@ accounts = [
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/fabric-physics-service
     #   title: fabric-physics-service: server-authoritative networked physics for one ward
     #   version: 0.1.0-dev.1
+    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Ward",
     # 2-contract/wt
     #   abstract: A Python WebTransport client and server, built on aioquic, used to test the Godot HTTP/3 and WebTransport implementation in fabric-godot-core by swapping roles. It exists because two ends of one implementation agree with

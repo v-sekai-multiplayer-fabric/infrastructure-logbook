@@ -26,6 +26,7 @@ import datetime
 import math
 import pathlib
 import random
+import re
 import subprocess
 import sys
 import uuid
@@ -239,7 +240,52 @@ def _allocate():
             prev = ct
     for k in steps:
         seconds.setdefault(k, 0.0)
+
+    # Departed books hold frozen seconds this walk cannot see, and their absence inflates it:
+    # an interval a removed project's commit used to close now runs on to the next surviving
+    # one, so the same wall clock is charged twice -- once frozen, once live. Cutting 29
+    # projects put 29.66 h on one resource in one day.
+    #
+    # The frozen claim is authoritative, because it was measured when the checkout was there.
+    # Live is scaled to fit under the day beside it rather than truncated, so the shortfall
+    # falls on every project of that day in proportion instead of on whichever sorted last.
+    frozen = _departed_day_claims()
+    if frozen:
+        over = collections.defaultdict(float)
+        for (day, _rel, who), v in seconds.items():
+            over[(day, who)] += v
+        for (day, who), live in over.items():
+            room = SECONDS_IN_A_DAY - frozen.get((day, who), 0.0)
+            if live > room > 0:
+                scale = room / live
+                for k in list(seconds):
+                    if k[0] == day and k[2] == who:
+                        seconds[k] *= scale
     return seconds, steps
+
+
+def _departed_day_claims():
+    """{(day, resource): seconds} already booked by projects no longer checked out.
+
+    Read from the books rather than recomputed, because there is no checkout left to
+    recompute them from -- which is the same reason those books are retained at all.
+    """
+    live_accounts = {_account(rel) for rel, _ in _checkouts()}
+    claims = collections.defaultdict(float)
+    for f in sorted(SPENT_DIR.glob("*.txn")):
+        text = f.read_text(encoding="utf-8")
+        first = re.search(r"^\s+(Expenses:\S+)", text, re.M)
+        if not first or first.group(1) in live_accounts:
+            continue
+        day, who = None, "?"
+        for line in text.splitlines():
+            if len(line) > 11 and line[4] == "-" and line[7] == "-" and line[11] == "'":
+                day, who = line[:10], "?"
+            elif line.strip().startswith("; resource:"):
+                who = line.split('"')[1]
+            elif day and line.startswith("    Expenses:"):
+                claims[(day, who)] += float(line.split()[1])
+    return claims
 
 
 def _cff(path):
@@ -695,6 +741,7 @@ def path(draws=40000):
     So the tasks are sampled together and the total's own quantiles are read off. The seed
     is fixed, because a plan that changes when you look at it twice is not a plan.
     """
+    tasks_all = _plan_tasks()
     tasks = _open_tasks()
 
     def chain(tid, seen=()):
@@ -702,10 +749,23 @@ def path(draws=40000):
             raise SystemExit(f"plan has a dependency cycle at {tid}")
         t = tasks[tid]
         dep = t["depends"]
-        prev = chain(dep, seen + (tid,)) if dep else []
+        # A dependency that is done carries no remaining effort, so the chain ends there
+        # rather than recursing into a task the open set no longer holds. Naming a completed
+        # predecessor is the ordinary case once a notch closes, and it used to be a KeyError.
+        prev = chain(dep, seen + (tid,)) if dep and dep in tasks else []
         return prev + [tid]
 
     chains = {tid: chain(tid) for tid in tasks}
+    # Every task done is a state the plan reaches on the way to the next one, and it used to
+    # crash here on an empty max(). Closing a notch is exactly when the file is read, so the
+    # one moment the plan is complete is the one moment the tool refused to run.
+    if not chains:
+        print("  HYPOTHETICAL -- estimates of work not done; nothing here was spent")
+        print("  no open task: every notch in the plan is done")
+        for t in sorted(tasks_all.values(), key=lambda t: t["done"]):
+            print(f"  done {t['what'][:46]:<46} {t['done']}")
+        print("\n  the next first task is chosen when this one closes and the state is known")
+        return
     longest = max(chains.values(), key=lambda c: sum(tasks[i]["te"] for i in c))
     span = sum(tasks[i]["te"] for i in longest)
     oncrit = set(longest)
