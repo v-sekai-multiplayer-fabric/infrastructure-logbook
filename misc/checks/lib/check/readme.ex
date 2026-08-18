@@ -14,7 +14,7 @@ defmodule Check.Readme do
         label: "README counts match the manifest",
         kind: :local,
         run: &counts/1,
-        break: &Lib.break_readme(&1, "53 projects across 5", "52 projects across 5")
+        break: &break_count/1
       },
       %{
         label: "every path the README names exists",
@@ -46,6 +46,21 @@ defmodule Check.Readme do
         break: &Map.put(&1, :listing, [{"transport-somewhere", 7}])
       }
     ]
+  end
+
+  # Bump whatever count the README states, rather than naming one. A literal here is a copy
+  # of a number that lives in another repository and changes whenever a project is added, and
+  # it has already gone dead once: it broke "47 projects across 5" for long enough that the
+  # README reached 52 with the control replacing nothing and certifying nothing. Pinning it to
+  # the current number only moves the next death, and CI proves that -- it clones `fabric` at
+  # main, so the number there is not even the number on the desk that wrote this.
+  defp break_count(ctx) do
+    rtext =
+      Regex.replace(~r/(\d+)( projects across )/, ctx.rtext, fn _all, n, rest ->
+        Integer.to_string(String.to_integer(n) + 1) <> rest
+      end)
+
+    %{ctx | rtext: rtext}
   end
 
   @doc "The README's project and org counts must equal what the manifest holds."
