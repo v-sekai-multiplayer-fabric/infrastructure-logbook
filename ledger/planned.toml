@@ -1,0 +1,129 @@
+# The plan. HYPOTHETICAL. Nothing here was spent.
+#
+# One file per project under ledger/planned/, matching ledger/spent/. A plan and
+# the hours that answer it belong to the same project, so they are filed the
+# same way: a task lands in the book of the repository it will be done in, and
+# the two can be read side by side without either being a subset of one big file.
+#
+# The unit is PLANNED-SECONDS, not SECONDS, and that is the split doing real
+# work rather than a label asking to be believed. Tackler validates every
+# posting against the chart and commodity list this file names, the spent
+# ledger's lists name neither these accounts nor this commodity, so a planned
+# second cannot be netted against a spent one, summed with one, or quietly
+# become one: the tool refuses it at validation with exit 1. The account
+# separation and Check.Ledger's gate sit on top of that as belt and braces.
+#
+# Every amount below is an estimate of work nobody has done, so it is booked as
+# a liability -- an obligation outstanding -- and never as an expense. Expenses
+# are seconds that went somewhere, and they live in ledger/spent/, which git
+# generates. The two ledgers share no account by construction, and Check.Ledger
+# fails if they ever do, because a planned second that reads as a spent one is a
+# plan reporting itself as progress.
+#
+# Do not add the two together. `Liabilities:Planned:Mesh` is what is owed and
+# `Expenses:Delivery:Mesh` is what was paid; a sum of them is neither.
+#
+# Only two things are planned: the first task and the last. Everything between
+# them is guesswork about a state nobody has observed yet, and writing it down
+# makes it look decided -- which is how OPEN_GAPS.md carried 231/234 for eight
+# weeks after the code reached 1360/1360, and how two planning documents
+# inherited that number without re-deriving it. The next first task is chosen
+# when this one closes and the state is known.
+#
+# Accomplished tasks stay, marked `done`, so the file records what closed rather
+# than only what is left. `ledger.py path` skips them.
+#
+# Estimates are three-point, te = (o + 4m + p) / 6, with o and p at the 1st and
+# 99th percentile -- the range the Daniels fit memo argues for and the F-35 uses.
+#
+# The percentiles are Bayesian, not empirical. Session length is modelled as
+# lognormal with a Jeffreys prior, so o/m/p are quantiles of the posterior
+# predictive for the next session of that size. That matters at the tail: the
+# empirical 1st and 99th percentiles of the 5-9 bucket are its smallest and
+# largest observations, one session each, and reading a plan off a single
+# observation is how a p99 comes out narrower than the truth. The posterior
+# predictive carries uncertainty about the parameters as well as the spread, and
+# is wider wherever the evidence is thin -- 91,872 s against an empirical 50,724 s.
+#
+# One modelling choice dominates the answer and so is stated rather than buried.
+# A session's cost is the span from its first commit to its last, which excludes
+# everything before the first commit, so spans near zero are censored rather than
+# short. They are floored at fifteen minutes: two commits took at least that. The
+# p99 for a 2-4 commit task reads 38.91 h at a one-minute floor, 10.91 h at
+# fifteen, and 7.49 h at thirty. Fifteen is a judgement, the sensitivity is the
+# evidence, and a censored likelihood would replace both.
+#
+# Actual hours never land here -- they land in ledger/spent/, from git -- so
+# the plan cannot quietly become a claim about what happened.
+#
+# The deliverable. One at a time, and it changes only when the previous one is
+# finished. The last task, not estimated: it is the condition that closes the
+# thread, and a number against it would be a guess about work that has not been
+# scoped.
+#
+#   A player draws a closed curve in VR, gets a mesh back, and the mesh is
+#   correct by a check that can fail
+#
+# The budget: one working week, 40 hours -- 144,000 PLANNED-SECONDS against
+# Liabilities:Planned:Mesh -- fixed. The scope is not.
+#
+# Sizing a scope in advance is the average-pilot error. A cockpit built for the
+# mean pilot fit none of the 4,063 Daniels measured, and the fix was not a better
+# mean, it was adjustment. This plan has the same shape: the same five tasks cost
+# 13.81 h at the median and 51.24 h at the 99th, a spread of nearly four to one,
+# so a scope chosen for either number is wrong for the other. Fix the budget and
+# let the scope slide.
+#
+# The rail, taken in order. Cumulative total effort at 99%:
+#
+#   1. P0  link geogram on macOS            10.98 h
+#   2. E   run the pipeline once            16.07 h
+#   3. A   the differential gate            31.14 h
+#   4. B   boundary triangulation           ~41    h
+#   5. G   clusterIncidence determinism     51.24 h
+#
+# Work down it and stop where the week runs out. At the median all five fit
+# inside 40 h with room; at the 99th only the first three do. Which is true is
+# not known in advance, which is the whole reason the scope adjusts instead of
+# the budget. Scope slides, budget does not: stop at whichever notch of
+# P0-E-A-B-G the 40 h runs out on.
+#
+# Only the notch being worked is written as a task below. The rest are the rail,
+# not commitments, because an estimate written down as a plan reads as a decision
+# -- which is how OPEN_GAPS carried 231/234 for eight weeks.
+#
+# The survey says this is the right week to buy. Six of fifteen responses name
+# creation in one slot or the other -- a meshing pen, user generated content,
+# moddable, absolute interactability, and save-and-share twice -- the largest
+# cluster in it, and the one this deliverable serves. The same memo applies
+# there: those six did not name a feature, they named the adjustment mechanism,
+# which is what lets holly have fishing and dragos have his horde without either
+# choosing.
+
+[kernel]
+strict = true
+audit = { mode = true, hash = "SHA-256" }
+timestamp = { default-time = 00:00:00, timezone = { name = "UTC" } }
+
+[kernel.input]
+storage = "fs"
+fs = { path = ".", dir = "planned", ext = "txn" }
+
+[transaction]
+accounts    = { path = "planned-accounts.toml" }
+commodities = { path = "planned-commodities.toml" }
+tags        = { path = "tags.toml" }
+
+[report]
+report-timezone = "UTC"
+scale = { min = 0, max = 0 }
+formats = [ "txt" ]
+accounts = [ "Liabilities(:.*)?", "Equity(:.*)?" ]
+targets = [ "balance" ]
+balance = { title = "fabric-plan: HYPOTHETICAL, the critical path to a mesh a player can trust", type = "tree" }
+balance-group = { title = "fabric-plan by month", type = "tree", group-by = "month" }
+register = { title = "fabric-plan register", accounts = [ ] }
+
+[export]
+targets = [ ]
+equity = { accounts = [ ], equity-account = "Equity:Balance" }

@@ -99,11 +99,12 @@ defmodule Check.Ledger do
   expense account and the plan reports itself as progress, which is the failure this whole
   ledger exists to stop, arriving from the inside.
 
-  The unit does most of this work without help: planned time is PLANNED-SECONDS and spent
-  time is SECONDS, and beancount will not balance across commodities, so netting one against
-  the other fails at parse time with exit 1. This check is the belt to those braces -- it
-  reads both files, intersects their account names, and fails on any overlap, because the
-  day somebody unifies the units to tidy them up is the day the tool stops refusing.
+  The charts do most of this work without help: planned time is PLANNED-SECONDS against one
+  chart and spent time is SECONDS against another, and tackler validates strictly against
+  the chart, so a posting that crosses the line fails validation with exit 1. This check is
+  the belt to those braces -- it reads both charts, intersects their account names, and
+  fails on any overlap, because the day somebody merges the charts to tidy them up is the
+  day the tool stops refusing.
   """
   def plan_and_spend_are_separate(ctx) do
     case ctx[:separation] || shared_accounts() do
@@ -177,7 +178,7 @@ defmodule Check.Ledger do
   end
 
   defp shared_accounts do
-    with {:ok, out} <- python("print(ledger.SPENT)\nprint(ledger.PLANNED)"),
+    with {:ok, out} <- python("print(ledger.SPENT_ACCOUNTS)\nprint(ledger.PLANNED_ACCOUNTS)"),
          [spent, planned] <- String.split(out, "\n", trim: true) do
       cond do
         not File.exists?(spent) -> {:error, "#{Path.basename(spent)} is missing"}
@@ -186,18 +187,21 @@ defmodule Check.Ledger do
       end
     else
       {:error, why} -> {:error, why}
-      _ -> {:error, "ledger.py did not name both ledger files"}
+      _ -> {:error, "ledger.py did not name both account charts"}
     end
   end
 
   @kinds ~w(Assets: Liabilities: Equity: Income: Expenses:)
 
+  # The charts are what tackler validates against, so intersecting them asks the question
+  # at the source: an account absent from both charts cannot appear in either book without
+  # exit 1 happening first. A chart entry is a quoted string in a TOML list.
   defp accounts(path) do
     for line <- path |> File.read!() |> String.split("\n"),
-        s = String.trim(line),
-        String.starts_with?(s, @kinds) or String.starts_with?(s, Enum.map(@kinds, &("open " <> &1))),
+        s = line |> String.trim() |> String.trim_leading("\""),
+        String.starts_with?(s, @kinds),
         into: MapSet.new() do
-      s |> String.replace_prefix("open ", "") |> String.split() |> hd()
+      s |> String.split("\"") |> hd()
     end
   end
 

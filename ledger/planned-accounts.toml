@@ -1,0 +1,26 @@
+# The plan's chart. HYPOTHETICAL -- these accounts hold estimates, never hours.
+# Hand-written, unlike spent-accounts.toml, because the plan is authored rather
+# than generated. Each entry's comment block carries what the open directive used
+# to when the format had one: the project's CITATION.cff fields, pinned where a
+# pin exists.
+accounts = [
+    # The lane the budget is set against. The per-project books open leaves
+    # beneath it, and the tree balance report rolls them up, so the budget bounds
+    # the mesh rather than any one repository.
+    "Liabilities:Planned:Mesh",
+    # 2-contract/patch-verify
+    #   title: "contract-patch-verify: an independent Lean witness-DAG oracle for CASSIE patch detection"
+    #   repository-code: "https://github.com/fire/contract-patch-verify"
+    #   license: "MIT"
+    #   cff-copied: "2026-08-17T19:50:41-07:00"
+    #   cff-commit: "98a7ed13e80722ba2a2e2fc501b3adc330f3c93b"
+    "Liabilities:Planned:Mesh:Patch-Verify",
+    # .repo/manifests
+    #   title: "fabric: the multiplayer-fabric manifest, doc gates and delivery ledger"
+    #   repository-code: "https://github.com/v-sekai-multiplayer-fabric/fabric"
+    #   license: "MIT"
+    #   cff-copied: "2026-08-16T13:56:00-07:00"
+    #   cff-commit: "381665e116bbf660e4efa4e7b59c0cab5878302e"
+    "Liabilities:Planned:Fabric",
+    "Equity:Plan",
+]
