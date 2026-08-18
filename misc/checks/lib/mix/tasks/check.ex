@@ -22,25 +22,39 @@ defmodule Mix.Tasks.Check do
 
   use Mix.Task
 
-  @concerns %{
-    "manifest" => Check.Manifest,
-    "readme" => Check.Readme,
-    "remotes" => Check.Remotes,
-    "authority" => Check.Authority,
-    "workspace" => Check.Workspace,
-    "words" => Check.Words,
-    "ledger" => Check.Ledger
-  }
+  # Every concern, in the order they run. One list, because it used to be two -- a map of name
+  # to module, and a separate `@order` naming the same keys again to give the run an order a map
+  # does not have.
+  #
+  # Two lists of the same keys is a fact stated twice, and this one drifted the first time
+  # somebody added a concern: registered in the map, absent from the order. `run/1` filters the
+  # requested names against the order, so the new concern filtered to nothing. `mix check nifs`
+  # then ran no checks at all and printed `0 failing check(s)` -- a pass reporting on an empty
+  # set, which is the silent skip this module's own docstring calls a failure, and it read as a
+  # broken module rather than as a missing registration.
+  #
+  # Deriving both from one ordered list makes that impossible instead of checkable. There is no
+  # gate for it below because there is nothing left to gate: a concern is registered once, and a
+  # concern that is not in this list does not exist rather than existing and never running.
+  @concerns [
+    {"manifest", Check.Manifest},
+    {"readme", Check.Readme},
+    {"remotes", Check.Remotes},
+    {"authority", Check.Authority},
+    {"workspace", Check.Workspace},
+    {"words", Check.Words},
+    {"nifs", Check.Nifs},
+    {"ledger", Check.Ledger}
+  ]
 
-  # The order concerns run in. A map has no order and the output is read top to bottom, so
-  # this states one rather than letting the key order decide.
-  @order ~w(manifest readme remotes authority workspace words ledger)
+  @order Enum.map(@concerns, &elem(&1, 0))
+  @modules Map.new(@concerns)
 
   @impl Mix.Task
   def run(argv) do
     {flags, named} = Enum.split_with(argv, &String.starts_with?(&1, "-"))
 
-    case Enum.reject(named, &Map.has_key?(@concerns, &1)) do
+    case Enum.reject(named, &Map.has_key?(@modules, &1)) do
       [] -> :ok
       unknown -> Mix.raise("no such concern: #{Enum.join(unknown, ", ")}. " <>
                              "Known: #{Enum.join(@order, ", ")}")
@@ -49,7 +63,7 @@ defmodule Mix.Tasks.Check do
     wanted = if named == [], do: @order, else: Enum.filter(@order, &(&1 in named))
 
     wanted
-    |> Enum.flat_map(& @concerns[&1].checks())
+    |> Enum.flat_map(& @modules[&1].checks())
     |> Check.Lib.run(flags)
   end
 end
