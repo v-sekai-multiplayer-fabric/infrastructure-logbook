@@ -389,7 +389,12 @@ defmodule Check.Lib do
       # A repository name is also a published address when it serves Pages, and GitHub does
       # not redirect a Pages URL on rename. This one was renamed to contract-manuals and
       # every published RFD link 404'd until it was renamed back.
-      "multiplayer-fabric-manuals" => "it publishes GitHub Pages, whose URL contains the name"
+      "multiplayer-fabric-manuals" => "it publishes GitHub Pages, whose URL contains the name",
+      # A library a project links sits inside that project's checkout, because its build
+      # expects it there. The path is then three segments deep and cannot rebuild a
+      # single-segment name, and the name is not ours to change either way.
+      "geogram" => "BrunoLevy/geogram, linked by interactor-triangulation at libs/geogram",
+      "pmp-library" => "pmp-library/pmp-library, linked by interactor-triangulation at libs/pmp-library"
     }
   end
 
