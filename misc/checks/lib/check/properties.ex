@@ -20,9 +20,16 @@ defmodule Check.Properties do
         # Reads the children's trees, which no edit here reaches, so the control supplies the
         # reading rather than perturbing a file.
         break: &Map.put(&1, :properties, [{"interactor-somewhere", "cpp", "rapidcheck"}])
+      },
+      %{
+        label: "no repository we may write to declares a blocked framework",
+        kind: :local,
+        run: &no_blocked_framework/1,
+        break: &Map.put(&1, :blocked, [{"interactor-somewhere", "cpp", "rapidcheck"}])
       }
     ]
   end
+
 
   # The settled answer per language, and what a departure looks like. Each `alternatives` entry
   # is a framework that does the same job and is not the one chosen: finding it is the finding.
@@ -149,4 +156,66 @@ defmodule Check.Properties do
       "#{settled.why}. Two frameworks in one language is two sets of generators and two " <>
       "ways to write the same assertion"
   end
+  # Frameworks refused outright wherever this project may write, whatever else is present.
+  #
+  # This is a different rule from the settled one above and needs to be, in two ways.
+  #
+  # **It fires on presence, not on departure.** `settled_framework/1` reports an alternative
+  # only while the chosen framework is absent, which is the right shape for "pick one" and the
+  # wrong shape for "not this one": a repository declaring both satisfies it, because the
+  # evidence for FuzzTest suppresses the finding against RapidCheck. Two frameworks in one
+  # language is the thing being prevented, so a blocked one is a finding wherever it appears.
+  # That case was live rather than hypothetical -- `interactor-triangulation` had two open pull
+  # requests at once, one fetching RapidCheck and one porting to FuzzTest.
+  #
+  # **The boundary is wider.** The settled rule skips forks, because a fork's test framework is
+  # its upstream's choice. Authority is the question here instead of authorship: a fork we
+  # maintain sits on our own remote and is ours to push to, so `Lib.mirrors/0` is in scope.
+  # `Lib.read_only/0` stays out -- membership is not authority, and nothing here writes to
+  # another organisation's repository at all.
+  @blocked %{"rapidcheck" => "cpp"}
+
+  @doc """
+  No repository this project may write to declares a blocked framework.
+
+  RapidCheck is the entry. C++ here settled on Google FuzzTest, which is coverage-guided, and
+  the two were not competing on quality: the case for RapidCheck was that FuzzTest would run on
+  Linux only, so the properties would run nowhere anybody edits. That premise was wrong.
+  FuzzTest builds and runs on macOS arm64 under AppleClang, because `ctest` runs it in
+  unit-test mode and only the coverage-guided mode needs libFuzzer -- and on the first run it
+  found a sliver the random generator had not.
+  """
+  def no_blocked_framework(ctx) do
+    case ctx[:blocked] do
+      nil -> ctx |> scan_blocked() |> Enum.map(&blocked_message/1)
+      injected -> Enum.map(injected, &blocked_message/1)
+    end
+  end
+
+  defp scan_blocked(ctx) do
+    ws = Lib.workspace_root()
+    read_only = Lib.read_only()
+    allowed = Lib.allowed_orgs()
+
+    projects =
+      for p <- Lib.projects(ctx.mtext),
+          p.org in allowed,
+          not Map.has_key?(read_only, p.name),
+          dir = Path.join(ws, p.path),
+          File.dir?(dir),
+          do: {p.name, dir}
+
+    IO.puts("note   the blocklist scanned #{length(projects)} children we may write to")
+
+    for {name, dir} <- projects,
+        {framework, lang} <- @blocked,
+        String.contains?(read_all(dir, @manifests[lang]), framework),
+        do: {name, lang, framework}
+  end
+
+  defp blocked_message({name, lang, framework}) do
+    "#{name} declares #{framework} in a #{lang} build file, which is blocked wherever this " <>
+      "project may write; #{@settled[lang].why}"
+  end
+
 end
