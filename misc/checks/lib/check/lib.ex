@@ -294,8 +294,8 @@ defmodule Check.Lib do
   nobody upstream has -- and lumping it with the untouchables left exactly those repositories
   never asked what they were made of.
 
-  Each entry states its evidence rather than an opinion: two carry GitHub's fork flag, and the
-  third carries upstream's own README.
+  Each entry states its evidence rather than an opinion: three carry GitHub's fork flag, and
+  the fourth carries upstream's own README.
   """
   def mirrors do
     %{
@@ -303,6 +303,9 @@ defmodule Check.Lib do
       # upstream's to write. GitHub carries the fork flag for both of these.
       "datasource-foundationdb" => "apple/foundationdb",
       "idtx-flow" => "Immersive-Data-Center-Management/idtx-flow",
+      # An OpenXR runtime for macOS. We fork it to add a headset backend, which is a branch
+      # nobody upstream has; the README describing the runtime stays upstream's. Fork flag.
+      "transport-oxrsys" => "demonixis/oxrsys",
       # No fork flag, and the README is still upstream's: it opens "# Godot Engine" and
       # links godotengine.org nineteen times.
       "entities-godot" => "godotengine/godot"
