@@ -20,6 +20,20 @@ defmodule Check.Remotes do
         break: &Lib.break_manifest(&1, ~s(revision="dev"), ~s(revision="no-such-xyz"))
       },
       %{
+        label: "every manifest commit pin exists on its remote",
+        kind: :network,
+        run: &commits_exist/1,
+        # Still forty hex digits, so the control cannot escape by changing shape and being
+        # answered by the branch check instead. It has to be asked the commit question and
+        # told no.
+        break:
+          &Lib.break_manifest(
+            &1,
+            ~s(revision="c8529bb00838186938ab31d96008a59b6a892dee"),
+            ~s(revision="0000000000000000000000000000000000000000")
+          )
+      },
+      %{
         label: "README revision exceptions match the manifest",
         kind: :network,
         run: &revision_table/1,
@@ -62,9 +76,24 @@ defmodule Check.Remotes do
     ]
   end
 
-  @doc "Every revision the manifest names must be a branch that exists on the remote."
+  # A revision is a branch name or a commit, and those are two different questions to ask a
+  # remote. Forty hex digits is the shape repo accepts as a commit and it is the only shape
+  # read as one here: a short SHA is a branch name as far as this is concerned, and fails the
+  # branch check, which is the answer that sends somebody to write the full one.
+  defp pinned?(revision), do: revision =~ ~r/^[0-9a-f]{40}$/
+
+  @doc """
+  Every revision the manifest names as a branch must be a branch that exists on the remote.
+
+  Commit pins are asked for separately, and separating them is the whole of this change. The
+  branch question was asked of every project, `git ls-remote --heads` answers no for a commit
+  because a commit is not a head, and the two libraries `interactor-triangulation` links were
+  reported missing from remotes that have them. A gate red on a manifest that is right is the
+  one failure mode that teaches people to stop reading it.
+  """
   def revisions_exist(ctx) do
     Lib.projects(ctx.mtext)
+    |> Enum.reject(&pinned?(&1.revision))
     |> Task.async_stream(&ls_remote/1, max_concurrency: 16, timeout: 180_000)
     |> Enum.flat_map(fn
       {:ok, msg} -> List.wrap(msg)
@@ -81,6 +110,46 @@ defmodule Check.Remotes do
 
       _ ->
         "#{p.name}: cannot reach #{p.url}"
+    end
+  end
+
+  @doc """
+  Every revision the manifest names as a commit MUST be a commit that remote has.
+
+  `revision` is a commit wherever a build links the result, so that what the build gets is
+  what the manifest says: a branch moves under a pin and nothing here would see it move. That
+  makes the pin unaskable by a ref listing -- `git ls-remote` shows tips, and a pin is
+  normally reachable from one without ever being one -- so this asks GitHub for the commit
+  itself, which is the question.
+
+  It stays a network check although `repo sync` puts the commit on disk, because on disk here
+  is not what is being asked. A pin that exists only in this workspace resolves for whoever
+  wrote it and for nobody else, and a manifest that only works on one desk is the thing this
+  file is for catching.
+  """
+  def commits_exist(ctx) do
+    pins = Enum.filter(Lib.projects(ctx.mtext), &pinned?(&1.revision))
+
+    # Two questions per pin, because one answer cannot tell "no such commit" from "no such
+    # network": `gh` collapses a 404 and an unreachable host to the same nil, and reporting a
+    # missing pin as unreadable -- or an unreachable remote as a missing pin -- sends somebody
+    # to fix the wrong thing. The repository question is the control on the commit question.
+    asked =
+      pins
+      |> Enum.flat_map(fn p ->
+        [
+          {{p.name, :commit},
+           ["repos/#{p.org}/#{p.name}/commits/#{p.revision}", "--jq", ".sha"]},
+          {{p.name, :repo}, ["repos/#{p.org}/#{p.name}", "--jq", ".name"]}
+        ]
+      end)
+      |> Map.new()
+      |> Lib.gh_many()
+
+    for p <- pins, asked[{p.name, :commit}] != p.revision do
+      if asked[{p.name, :repo}] == nil,
+        do: "#{p.name}: cannot reach #{p.org}/#{p.name}",
+        else: "#{p.name}: commit #{p.revision} is not on #{p.org}/#{p.name}"
     end
   end
 
