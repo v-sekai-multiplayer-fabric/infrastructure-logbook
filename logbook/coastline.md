@@ -71,8 +71,8 @@ Four things carry the discipline, and none of them is "try to finish":
    change out is a normal move rather than an admission, which is what makes the narrow
    admission rule affordable.
 
-The ruler, in other words, is not a judgement about scope. It is a *branch*, and the
-question "is this in?" has a mechanical answer.
+What carries the discipline is that "is this in?" resolves against a branch, so the
+answer is looked up rather than argued.
 
 ## The gate
 

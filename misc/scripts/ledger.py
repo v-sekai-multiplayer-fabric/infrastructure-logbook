@@ -297,6 +297,12 @@ def _account(rel):
     """
     lane = LANES.get(rel, DEFAULT_LANE)
     leaf = rel.split("/")[-1] if rel not in (".", ".repo/manifests") else "Fabric"
+    # A leading dot cannot survive: beancount account components must start with a letter,
+    # and `.claude` produced `Expenses:Other:.claude`, which bean-check rejects outright as
+    # an invalid token. The checkout is named for the directory Claude Code reads and the
+    # repository is `dot-claude`, so spelling the dot is what the repository already decided.
+    if leaf.startswith("."):
+        leaf = "dot-" + leaf[1:]
     leaf = "-".join(w[:1].upper() + w[1:] for w in leaf.split("-") if w)
     return f"{lane}:{leaf}" if leaf else lane
 
