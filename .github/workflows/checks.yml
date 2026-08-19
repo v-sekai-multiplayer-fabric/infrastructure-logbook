@@ -50,6 +50,12 @@ env:
   # fetch, nothing to resolve, and a build that is nine files of this repository's own code.
   MIX_ENV: prod
   FABRIC_MANIFEST: ${{ github.workspace }}/.repo/manifests
+  # The books are this repository's and `ledger.py` is the plugin's, so the ledger check now
+  # needs both checkouts and neither is where a synced workspace puts it. A bare clone lands
+  # the books at the root rather than at 0-infrastructure/logbook, which the script would
+  # find by climbing -- and a climb that happens to land right is the thing this workspace
+  # keeps being bitten by, so the value is stated the way FABRIC_MANIFEST above is stated.
+  FABRIC_LEDGER: ${{ github.workspace }}/ledger
 
 jobs:
   gate:
@@ -73,6 +79,18 @@ jobs:
         with:
           repository: v-sekai-multiplayer-fabric/fabric
           path: .repo/manifests
+
+      # `ledger.py` left this repository for the agent configuration when it became a
+      # plugin, and Check.Ledger imports it rather than re-implementing it. Without this the
+      # ledger checks fail -- deliberately, since an unmet precondition here is never a skip
+      # -- so the checkout is what keeps CI answering the same question the desk answers.
+      #
+      # It lands at `.claude`, which is the path Claude Code fixes and the one the manifest
+      # gives it, so the workspace root the check climbs to is the same on both machines.
+      - uses: actions/checkout@v4
+        with:
+          repository: v-sekai-multiplayer-fabric/dot-claude
+          path: .claude
 
       # Pinned to what the desk runs, so a failure here is a failure there. An unpinned
       # version makes CI a different machine in a second way and turns a real disagreement

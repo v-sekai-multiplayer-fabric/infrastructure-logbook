@@ -211,13 +211,27 @@ defmodule Check.Ledger do
     end
   end
 
-  # `ledger.py` is imported rather than re-implemented. It lives in misc/scripts, which is
-  # found from the repository root rather than from this file: a compiled module's __DIR__
-  # is where its source sat when it was built, which is not where the ledger is.
+  # `ledger.py` is imported rather than re-implemented. It is a Claude Code plugin's script
+  # now, in the `.claude` repository, so it is found from the workspace root rather than
+  # from this one -- and never from this file, because a compiled module's __DIR__ is where
+  # its source sat when it was built.
+  #
+  # The books did not move with it and are still this repository's, which is the whole shape
+  # of the split: the commands are capability and live with the agent configuration, the
+  # record stays with the repository that keeps records. `ledger.py` finds the books itself
+  # and is asked below where it found them, so this names one path rather than two.
+  #
+  # A checkout without `.claude` beside it -- CI, until its workflow checks the plugin out --
+  # fails here rather than skipping. An unmet precondition reads exactly like a pass, and
+  # this is the concern that already learned that.
+  @script ".claude/plugins/ledger/scripts"
+
   defp python(body) do
+    dir = Path.join(Lib.workspace_root(), @script)
+
     script = """
     import sys
-    sys.path.insert(0, #{inspect(Path.join(Lib.root(), "misc/scripts"))})
+    sys.path.insert(0, #{inspect(dir)})
     import ledger
     #{body}
     """
@@ -228,7 +242,7 @@ defmodule Check.Ledger do
 
       {out, _} ->
         first = out |> String.split("\n", trim: true) |> List.last() |> Kernel.||("?")
-        {:error, "ledger.py could not be read: #{String.slice(first, 0, 120)}"}
+        {:error, "ledger.py could not be read from #{dir}: #{String.slice(first, 0, 120)}"}
     end
   end
 end

@@ -126,7 +126,6 @@ accounts = [
     #   license: Apache-2.0
     #   repository-code: https://github.com/v-sekai-multiplayer-fabric/contract-bus
     #   title: contract-bus: the weft harness, a command loop over iceoryx2
-    #   departed: left the manifest; book retained, seconds are spent
     "Expenses:Other:Bus",
     # 1-transport/bus-cli
     #   abstract: A transport layer whose wire is a terminal. It sends one command over the harness command bus and prints the interactor's CBOR reply, so the interactors can be driven with no container, no registry and no cold start -- e

@@ -5,7 +5,7 @@
     ; resource: "fire"
     ; commits: 19
     ; steps: "The store domain, packed by what shares a ring | Say where the plane runs, since it is not anywhere | Merge pull request #1 from v-sekai-multiplayer-fabric/plane-rides-with-i | Stop calling FoundationDB a service | Merge pull request #2 from v-sekai-multiplayer-fabric/below-the-planes | Bring in the store plane, which is the engine | Squashed 'thirdparty/store-plane/' content from commit 163d11a | A Queen of the Gyre: the domain gets a tenant, and it is a game | Say what the domain actually holds now | Run the CI here, in one step | Merge pull request #4 from v-sekai-multiplayer-fabric/run-the-ci-here | The ward has places | A game of more than one ward, and a Spark that moves between them | Run the two-ward game in GitHub CI too | Names that no other ward can mint | A name is state, so the replay check covers it | Give the wire ids a consumer, and a check that they hold apart | Merge pu"
-    Expenses:Other:Queen                     25968 SECONDS
+    Expenses:Other:Queen                     14182 SECONDS
     Income:Sessions
 
 2026-08-12 '6-datasource/queen: Merge pull request #13 from v-sekai-multiplayer-fabric/correct-the-band-comment

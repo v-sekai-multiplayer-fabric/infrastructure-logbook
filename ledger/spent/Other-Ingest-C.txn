@@ -5,7 +5,7 @@
     ; resource: "fire"
     ; commits: 16
     ; steps: "Split the ingest edge into a repository of its own | Drop h2o, and take mbedtls with it | Merge commit '06842f68fc3cb43abe3be8d43018e6c6fe65d4e9' as 'thirdparty/m | Squashed 'thirdparty/mbedtls/' content from commit 068ff080b | Drop the mbedtls framework gitlink, a subtree replaces it | Merge commit '9a6b43faadabee9a17c9412674479d7fded0b1f7' as 'thirdparty/m | Squashed 'thirdparty/mbedtls/framework/' content from commit effb73d490 | Say what the edge is, not what it replaced | Pull the harness subtree: the control plane is renamed | Squashed 'thirdparty/harness/' changes from bf17e52d8..372ff6acd | The event loop belongs to iceoryx2, and the harness cannot host it yet | Pull the harness subtree: the WaitSet is bound | Squashed 'thirdparty/harness/' changes from 372ff6acd..55dbb39ab | Wait on the bus and the socket in one place | Pull the harness subtree: h_ref corrected | Squashed 'third"
-    Expenses:Other:Ingest-C                   2764 SECONDS
+    Expenses:Other:Ingest-C                   1537 SECONDS
     Income:Sessions
 
 2026-08-16 '1-transport/ingest-c: Cut the README to a screen, and use the words RFD 0111 decided (#1)

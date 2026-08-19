@@ -32,5 +32,14 @@
     ; resource: "fire"
     ; commits: 27
     ; steps: "State what this repository is made of | Merge pull request #1 from fire/state-what-it-is-made-of | Vendor the DMWT sources, and notice the licence they are under | Merge pull request #2 from fire/vendor-the-dmwt-sources-and-notice-their | Unregister the three submodules | Merge commit 'd25436d47b45cd9de3e8b909abc672397b9e09f4' as 'libs/geogram | Squashed 'libs/geogram/' content from commit c40b4653 | Merge commit '65b2fe13e2ce4d2f3d514b776250c40c971c8f7e' as 'libs/pmp-lib | Squashed 'libs/pmp-library/' content from commit f2fb04f4 | Take rapidcheck out of the build | Unregister geogram's four core submodules | Merge commit '972f8b24330fea1c7551141a57e48faa6c98e25a' as 'libs/geogram | Squashed 'libs/geogram/src/lib/geogram/third_party/OpenNL/' content from | Merge commit '9e7de76308900e98aef45680adb90eaddac60da4' as 'libs/geogram | Squashed 'libs/geogram/src/lib/geogram/third_party/amgcl/"
-    Expenses:Delivery:Mesh:Triangulation        8586 SECONDS
+    Expenses:Delivery:Mesh:Triangulation        8573 SECONDS
+    Income:Sessions
+
+2026-08-19 '3-interactor/triangulation: Merge pull request #11 from fire/ignore-the-antlr-dist
+    # uuid: 6ad5dfb6-9e58-51af-901f-96264e8b1fb6
+    ; spent: TRUE
+    ; resource: "fire"
+    ; commits: 5
+    ; steps: "Accept a stroke, and say so with a test | Merge pull request #10 from fire/accept-a-stroke | Ignore the antlr runtime the build drops in dist | Lint the markdown, and run it in CI | Merge pull request #11 from fire/ignore-the-antlr-dist"
+    Expenses:Delivery:Mesh:Triangulation        1402 SECONDS
     Income:Sessions

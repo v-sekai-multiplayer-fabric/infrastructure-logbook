@@ -23,7 +23,7 @@
     ; resource: "fire"
     ; commits: 3
     ; steps: "First loop over the bus: a command in, reply bytes out | Verify the loop for real on Windows, and wire the fix into the build | Merge pull request #5 from v-sekai-multiplayer-fabric/feat/command-reply"
-    Expenses:Other:Bus                        8947 SECONDS
+    Expenses:Other:Bus                        3393 SECONDS
     Income:Sessions
 
 2026-08-18 '2-contract/bus: Merge pull request #9 from v-sekai-multiplayer-fabric/meet-the-conventions-for-listing
@@ -32,5 +32,14 @@
     ; resource: "fire"
     ; commits: 7
     ; steps: "Answer a job by asking an interactor in another process | Answer the agreement without a bus | Merge pull request #6 from v-sekai-multiplayer-fabric/the-bus-in-python | Run the bus on macOS, and name the library the platform builds | Meet the conventions this repository is about to be held to | Merge pull request #7 from v-sekai-multiplayer-fabric/run-the-bus-on-mac | Merge pull request #9 from v-sekai-multiplayer-fabric/meet-the-conventio"
-    Expenses:Other:Bus                        1764 SECONDS
+    Expenses:Other:Bus                        3917 SECONDS
+    Income:Sessions
+
+2026-08-19 '2-contract/bus: Write the resolution step for the shell the runner actually uses
+    # uuid: 09cb4cb1-334e-5e06-b6c5-1dd099eccda6
+    ; spent: TRUE
+    ; resource: "fire"
+    ; commits: 9
+    ; steps: "Carry the command's length, and agree on CBOR in C++ | Merge pull request #10 from v-sekai-multiplayer-fabric/carry-bytes-and-c | Lint the markdown, and run it in CI | Merge pull request #12 from v-sekai-multiplayer-fabric/lint-the-markdown | Read CBOR with QCBOR, checked out by repo | Merge pull request #11 from v-sekai-multiplayer-fabric/cbor-from-a-libra | Run the proofs in CI, on a machine that is not this desk | Run the proofs on Windows too | Write the resolution step for the shell the runner actually uses"
+    Expenses:Other:Bus                        6238 SECONDS
     Income:Sessions

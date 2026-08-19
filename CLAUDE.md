@@ -94,8 +94,11 @@ below was learned by nearly losing something today.
   is verified with `git status --porcelain`, never assumed. Testing a gate by writing a file
   into a real repository is the right technique and it overwrote a real `CMakeLists.txt` the
   first time, because the probe reused a name the tree already had.
-- **The ledger is exclusive.** `ledger.py build` rewrites every book under `ledger/spent/`.
-  Agree before running it.
+- **The ledger is exclusive.** `ledger.py build` rewrites every book under `ledger/spent/`,
+  and so does `verify`, which regenerates them to compare. Agree before running either.
+  `/ledger:build` and `/ledger:verify` refuse to start beside a peer that is already
+  running one, which catches the collision and not the intention: an agent about to start
+  one is invisible to it, so the handshake is still the thing that holds.
 - **RFD numbers are a shared counter.** Claim a block before writing one.
 - **After pushing, check that the branch still has an open pull request and that its tip is
   where you think.** A push onto a branch whose pull request merged while you were working
@@ -512,9 +515,18 @@ question and the one that was never asked.
   project's `CITATION.cff`, so the chart says what the work was and what may be done with
   it without opening the repository. Seconds because a git timestamp is in seconds:
   nothing in the file is a conversion anybody has to trust.
-- The seconds are **booked**, in `ledger/spent/`, generated from git by
-  `misc/scripts/ledger.py` and never typed. A session is a run of commits with no gap over
-  four hours, and its cost is the span from its first commit to its last.
+- The seconds are **booked**, in `ledger/spent/`, generated from git by `ledger.py` and
+  never typed. A session is a run of commits with no gap over four hours, and its cost is
+  the span from its first commit to its last.
+- **The books are this repository's and the tool is the plugin's.** `ledger.py` lives at
+  `.claude/plugins/ledger/scripts/`, where `/ledger:build`, `:report`, `:path` and
+  `:verify` are, and it finds these books by climbing to the workspace root; `FABRIC_LEDGER`
+  names them outright for a clone with no workspace around it, which is what CI is. The
+  split is the one this workspace already draws: what an agent may do is capability and
+  belongs with the agent configuration, and a spent second is a record that belongs to the
+  repository that keeps records, tracked and reviewed here. `Check.Ledger` imports the
+  script across that line rather than re-implementing it, and fails rather than skipping
+  when the checkout is not there.
 - **Gate on what is false now, not on what was not done.** A gate that fails because nobody
   worked on something is reporting an intention back to the person who had it, and an
   intention cannot be falsified — only missed. `check_deliverable_moved` did that and is
