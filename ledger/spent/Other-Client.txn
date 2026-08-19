@@ -5,7 +5,7 @@
     ; resource: "fire"
     ; commits: 12
     ; steps: "Create README.md | Draw the zone, and send back a head and two hands | Swap the headset for a desk | Merge commit 'b8ce30d4d340c31d7ec372945636a0d2e14ad9a6' as 'addons/vseka | Squashed 'addons/vsekai_godot_mcp/' content from commit 3c85ef4 | Turn the MCP bridge on, and take the headset out of the loop | Squashed 'addons/vsekai_godot_mcp/' changes from 3c85ef4..7098ad2 | Vendor the runtime bridge's own port | Swap the headset for a desk | Merge pull request #1 from v-sekai-multiplayer-fabric/draw-the-zone | Keep the decode test, unrun | Merge pull request #2 from v-sekai-multiplayer-fabric/keep-the-decode-te"
-    Expenses:Other:Client                     6731 SECONDS
+    Expenses:Other:Client                    12316 SECONDS
     Income:Sessions
 
 2026-08-16 '1-transport/client: Merge pull request #6 from v-sekai-multiplayer-fabric/fix-claude-names
@@ -14,5 +14,5 @@
     ; resource: "fire"
     ; commits: 6
     ; steps: "Add the MIT licence this repository was always published under | Merge pull request #4 from v-sekai-multiplayer-fabric/add-the-mit-licenc | Cut the README to a screen, and move the wire to a page of its own | Merge pull request #5 from v-sekai-multiplayer-fabric/fix-readme | Fix the same stale names in CLAUDE.md, and point it at WIRE.md | Merge pull request #6 from v-sekai-multiplayer-fabric/fix-claude-names"
-    Expenses:Other:Client                      182 SECONDS
+    Expenses:Other:Client                      291 SECONDS
     Income:Sessions

@@ -68,7 +68,7 @@
     ; resource: "fire"
     ; commits: 6
     ; steps: "Update meshes. | Fix typo. | Use VSEKAI_GITHUB_TOKEN | Change game name environment variable to 'vsekai_xr_grid' in builds.yml | Update GAME_NAME environment variable in builds.yml | Update build workflow to set draft flag to false for releases"
-    Expenses:Other:Xr-Grid                    1639 SECONDS
+    Expenses:Other:Xr-Grid                    8549 SECONDS
     Income:Sessions
 
 2023-11-06 '1-transport/xr-grid: Merge pull request #15 from V-Sekai/dependabot/github_actions/ossf/scorecard-action-2.3.
@@ -239,7 +239,7 @@
     ; resource: "fire"
     ; commits: 8
     ; steps: "Merge pull request #94 from V-Sekai/dependabot/github_actions/github/cod | Merge pull request #94 from V-Sekai/dependabot/github_actions/github/cod | Update. | git subrepo pull (merge) 13_grid | Updated GODOT_REF in workflow files | git subrepo commit (merge) 13_grid | Merge branch 'merge' | Updated 3D grid sample and project settings"
-    Expenses:Other:Xr-Grid                     832 SECONDS
+    Expenses:Other:Xr-Grid                    1112 SECONDS
     Income:Sessions
 
 2024-06-19 '1-transport/xr-grid: Update README.md
@@ -248,7 +248,7 @@
     ; resource: "fire"
     ; commits: 3
     ; steps: "Update the Godot Engine builds. | Update the gitignore. | Update README.md"
-    Expenses:Other:Xr-Grid                    6546 SECONDS
+    Expenses:Other:Xr-Grid                    6563 SECONDS
     Income:Sessions
 
 2024-07-08 '1-transport/xr-grid: Merge pull request #98 from V-Sekai/dependabot/github_actions/actions/download-artifact-

@@ -14,7 +14,7 @@
     ; resource: "fire"
     ; commits: 3
     ; steps: "Merge pull request #15 from v-sekai-multiplayer-fabric/refactor/hexagon- | Wire as standalone lean-fabric-protocol repo | Repin lake-manifest to current sibling HEADs after history rewrite"
-    Expenses:Other:Protocol                     80 SECONDS
+    Expenses:Other:Protocol                    502 SECONDS
     Income:Sessions
 
 2026-06-25 '2-contract/protocol: Merge pull request #1 from v-sekai-multiplayer-fabric/feat/citation

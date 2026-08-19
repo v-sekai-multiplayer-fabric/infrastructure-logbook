@@ -5,7 +5,7 @@
     ; resource: "fire"
     ; commits: 8
     ; steps: "Make the edge generic, and drop what did not fit (#72) | Follow the ignore and attribute rules to where the code went (#73) | Switch the bus to iceoryx2, and reach it through a generated C ABI (#74) | Put every rule beside the code it governs, and delete docs/reference (#7 | Merge commit '1ba6b0e872197605eab1d5d1bc84c124c5160749' as 'thirdparty/h | Squashed 'thirdparty/harness/' content from commit bf17e52 | Make this a repository of its own | Say what an edge deployment needs, and ship no build file yet"
-    Expenses:Other:Gateway-C                  1924 SECONDS
+    Expenses:Other:Gateway-C                  5130 SECONDS
     Income:Sessions
 
 2026-08-11 '1-transport/gateway-c: Wait on the bus and the socket in one place
@@ -14,7 +14,7 @@
     ; resource: "fire"
     ; commits: 16
     ; steps: "Split the gateway edge into a repository of its own | Drop h2o, and take mbedtls with it | Merge commit '40d9a0da125978426036a53e7defb2063752f5ed' as 'thirdparty/m | Squashed 'thirdparty/mbedtls/' content from commit 068ff080b | Drop the mbedtls framework gitlink, a subtree replaces it | Merge commit '5e6e4438c4213a66020687e0e40b5cdfce4a8519' as 'thirdparty/m | Squashed 'thirdparty/mbedtls/framework/' content from commit effb73d490 | Say what the edge is, not what it replaced | Pull the harness subtree: the control plane is renamed | Squashed 'thirdparty/harness/' changes from bf17e52d8..372ff6acd | The event loop belongs to iceoryx2, and the harness cannot host it yet | Pull the harness subtree: the WaitSet is bound | Squashed 'thirdparty/harness/' changes from 372ff6acd..55dbb39ab | Pull the harness subtree: h_ref corrected | Squashed 'thirdparty/harness/' changes from 55dbb39ab..6d74c"
-    Expenses:Other:Gateway-C                   535 SECONDS
+    Expenses:Other:Gateway-C                   681 SECONDS
     Income:Sessions
 
 2026-08-12 '1-transport/gateway-c: Merge pull request #1 from v-sekai-multiplayer-fabric/wt-session-that-can-run
@@ -23,7 +23,7 @@
     ; resource: "fire"
     ; commits: 3
     ; steps: "Take out the assignment that proves this never compiled | Correct the session layer against picoquic's own server | Merge pull request #1 from v-sekai-multiplayer-fabric/wt-session-that-ca"
-    Expenses:Other:Gateway-C                   250 SECONDS
+    Expenses:Other:Gateway-C                   178 SECONDS
     Income:Sessions
 
 2026-08-16 '1-transport/gateway-c: Name the repositories these documents actually point at (#3)
@@ -32,7 +32,7 @@
     ; resource: "fire"
     ; commits: 3
     ; steps: "Add the MIT licence this repository was always published under | Cut the README to forty lines, and convert to the RFD 0111 words (#2) | Name the repositories these documents actually point at (#3)"
-    Expenses:Other:Gateway-C                    10 SECONDS
+    Expenses:Other:Gateway-C                    12 SECONDS
     Income:Sessions
 
 2026-08-17 '1-transport/gateway-c: Remove the .DS_Store files a rename commit swept in (#7)

@@ -5,7 +5,7 @@
     ; resource: "fire"
     ; commits: 1
     ; steps: "The second opinion, in its own repository"
-    Expenses:Other:Wt                         2404 SECONDS
+    Expenses:Other:Wt                         1807 SECONDS
     Income:Sessions
 
 2026-08-16 '2-contract/wt: Merge pull request #1 from v-sekai-multiplayer-fabric/cut-the-readme-to-forty-lines

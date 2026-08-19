@@ -5,7 +5,7 @@
     ; resource: "fire"
     ; commits: 1
     ; steps: "Lean+Plausible source-of-truth for the 100-byte entity packet"
-    Expenses:Other:Entity-Packet              2139 SECONDS
+    Expenses:Other:Entity-Packet              8889 SECONDS
     Income:Sessions
 
 2026-06-25 '2-contract/entity-packet: Merge pull request #2 from v-sekai-multiplayer-fabric/fix/deduplicate-mk-gen
@@ -14,7 +14,7 @@
     ; resource: "fire"
     ; commits: 4
     ; steps: "Add CITATION.cff with sibling fabric-hexagon cross-references | Merge pull request #1 from v-sekai-multiplayer-fabric/feat/citation | Extract shared mk and hex into EntityPacket.Gen, remove duplicates | Merge pull request #2 from v-sekai-multiplayer-fabric/fix/deduplicate-mk"
-    Expenses:Other:Entity-Packet               731 SECONDS
+    Expenses:Other:Entity-Packet              2311 SECONDS
     Income:Sessions
 
 2026-08-12 '2-contract/entity-packet: Merge pull request #3 from v-sekai-multiplayer-fabric/emit-the-c-codec
@@ -23,7 +23,7 @@
     ; resource: "fire"
     ; commits: 2
     ; steps: "Emit the C codec the fan-out edge has always included | Merge pull request #3 from v-sekai-multiplayer-fabric/emit-the-c-codec"
-    Expenses:Other:Entity-Packet              1508 SECONDS
+    Expenses:Other:Entity-Packet              1085 SECONDS
     Income:Sessions
 
 2026-08-16 '2-contract/entity-packet: Merge pull request #7 from v-sekai-multiplayer-fabric/fix-readme
@@ -32,7 +32,7 @@
     ; resource: "fire"
     ; commits: 4
     ; steps: "Add the MIT licence this repository was always published under | Merge pull request #6 from v-sekai-multiplayer-fabric/add-the-mit-licenc | Cut the README to a screen, and move the differentials to a page of thei | Merge pull request #7 from v-sekai-multiplayer-fabric/fix-readme"
-    Expenses:Other:Entity-Packet               107 SECONDS
+    Expenses:Other:Entity-Packet               113 SECONDS
     Income:Sessions
 
 2026-08-17 '2-contract/entity-packet: Merge pull request #8 from v-sekai-multiplayer-fabric/emit-the-python-codec

@@ -5,7 +5,7 @@
     ; resource: "fire"
     ; commits: 10
     ; steps: "Initial: matrix build of editor + zone runtime from v-sekai-multiplayer- | Pin engine to release tag; add desktop player templates (linux/windows/m | Move build details out of README into docs/DEVELOPMENT.md | Add justfile, route template matrix through it | Go local-first: delete CI workflow, drive Docker images through justfile | Make default just recipe build both ghcr.io images | Ignore working-tree artefacts created by justfile recipes | Add sccache (Tigris S3) backend, restore CI that uses it | Fix CI failure: drop curl/tar from dnf install, move AWS creds to BuildK | Speed up fetch-godot: shallow clone of one tag instead of partial+checko"
-    Expenses:Other:Images                     3507 SECONDS
+    Expenses:Other:Images                     3508 SECONDS
     Income:Sessions
 
 2026-05-27 '4-entities/images: Merge pull request #9 from v-sekai-multiplayer-fabric/sccache-gha
@@ -14,7 +14,7 @@
     ; resource: "fire"
     ; commits: 19
     ; steps: "Bump GODOT_PINNED_REF to v2026.05.27.1639-multiplayer-fabric | Merge pull request #1 from v-sekai-multiplayer-fabric/bump-engine-tag | Add Windows editor and template builds via llvm-mingw cross-compile | Merge pull request #2 from v-sekai-multiplayer-fabric/add-windows-builds | Fix annotated tag checkout and bump pin to v2026.05.27.2123 | Merge pull request #3 from v-sekai-multiplayer-fabric/fix-annotated-tag | Fix Windows build step order: fetch godot before D3D12 setup | Merge pull request #4 from v-sekai-multiplayer-fabric/fix-step-order | Fix mangled build-windows step order | Merge pull request #5 from v-sekai-multiplayer-fabric/fix-yaml | Fix shallow clone of annotated tags in fetch-godot | Merge pull request #6 from v-sekai-multiplayer-fabric/fix-clone-tag | Remove Tigris S3 and scons cache, use local sccache only | Remove Tigris secrets from workflow, use local sccache only | Me"
-    Expenses:Other:Images                    32343 SECONDS
+    Expenses:Other:Images                    21149 SECONDS
     Income:Sessions
 
 2026-05-28 '4-entities/images: Merge pull request #10 from v-sekai-multiplayer-fabric/update-branch
@@ -41,7 +41,7 @@
     ; resource: "fire"
     ; commits: 2
     ; steps: "Migrate to rootless podman quadlets, switch sccache to GH Actions cache | Merge pull request #12 from v-sekai-multiplayer-fabric/ci/podman-quadlet"
-    Expenses:Other:Images                     3186 SECONDS
+    Expenses:Other:Images                    11615 SECONDS
     Income:Sessions
 
 2026-06-26 '4-entities/images: Merge pull request #15 from v-sekai-multiplayer-fabric/update-branch
@@ -77,7 +77,7 @@
     ; resource: "fire"
     ; commits: 2
     ; steps: "Fix the binary-less windows-editor.zip and gate empty builds | Merge pull request #29 from v-sekai-multiplayer-fabric/gate-missing-edit"
-    Expenses:Other:Images                     7258 SECONDS
+    Expenses:Other:Images                      381 SECONDS
     Income:Sessions
 
 2026-08-08 '4-entities/images: Merge pull request #30 from v-sekai-multiplayer-fabric/ship-linux-binaries
@@ -95,7 +95,7 @@
     ; resource: "fire"
     ; commits: 2
     ; steps: "Point the engine pin at fabric-godot-core gyre | Refresh the apt index before installing build dependencies"
-    Expenses:Other:Images                      279 SECONDS
+    Expenses:Other:Images                      198 SECONDS
     Income:Sessions
 
 2026-08-16 '4-entities/images: Merge pull request #34 from v-sekai-multiplayer-fabric/fix-stale-names
@@ -104,7 +104,7 @@
     ; resource: "fire"
     ; commits: 5
     ; steps: "Add the MIT licence this repository was always published under | Merge pull request #33 from v-sekai-multiplayer-fabric/add-the-mit-licen | Merge pull request #32 from v-sekai-multiplayer-fabric/switch-engine-pin | Name the repositories these documents actually point at | Merge pull request #34 from v-sekai-multiplayer-fabric/fix-stale-names"
-    Expenses:Other:Images                      123 SECONDS
+    Expenses:Other:Images                      153 SECONDS
     Income:Sessions
 
 2026-08-18 '4-entities/images: Merge pull request #35 from v-sekai-multiplayer-fabric/state-what-it-is-made-of

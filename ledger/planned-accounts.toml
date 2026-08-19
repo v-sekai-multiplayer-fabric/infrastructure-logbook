@@ -17,6 +17,12 @@ accounts = [
     #   cff-copied: "2026-08-17T20:17:07-07:00"
     #   cff-commit: "7a6fd64db5bb94bc497867a889298f6f8dfb170c"
     "Liabilities:Planned:Mesh:Triangulation",
+    # 1-transport/xr-grid
+    #   title: "transport-xr-grid: the meshing pen's input surface"
+    #   repository-code: "https://github.com/v-sekai-multiplayer-fabric/transport-xr-grid"
+    #   license: "MIT"
+    #   cff-copied: "2026-08-18T14:12:00-07:00"
+    "Liabilities:Planned:Mesh:Xr-Grid",
     # .repo/manifests
     #   title: "fabric: the multiplayer-fabric manifest, doc gates and delivery ledger"
     #   repository-code: "https://github.com/v-sekai-multiplayer-fabric/fabric"
