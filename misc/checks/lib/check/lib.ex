@@ -372,7 +372,8 @@ defmodule Check.Lib do
       # where its build expects them. They are already in fixed_names for the same reason,
       # from the other side: the name is not ours to change either.
       "geogram" => "BrunoLevy/geogram, linked by interactor-triangulation at libs/geogram",
-      "pmp-library" => "pmp-library/pmp-library, linked by interactor-triangulation at libs/pmp-library"
+      "pmp-library" => "pmp-library/pmp-library, linked by interactor-triangulation at libs/pmp-library",
+      "QCBOR" => "laurencelundblade/QCBOR, the CBOR codec contract-bus links at libs/qcbor"
     }
   end
 
@@ -393,6 +394,7 @@ defmodule Check.Lib do
       # single-segment name, and the name is not ours to change either way.
       "geogram" => "BrunoLevy/geogram, linked by interactor-triangulation at libs/geogram",
       "pmp-library" => "pmp-library/pmp-library, linked by interactor-triangulation at libs/pmp-library",
+      "QCBOR" => "laurencelundblade/QCBOR, linked by contract-bus at libs/qcbor",
       # The first entry here that is ours. Every one above it is a name another organisation
       # owns, so no rename could make the path rebuild it and the exception states a fact.
       # This one states a choice, and the choice is on the path rather than on the name:
