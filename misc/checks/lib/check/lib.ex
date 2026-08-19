@@ -403,10 +403,7 @@ defmodule Check.Lib do
       # meant a repository called `.claude`, which is hidden from an ordinary listing and
       # clones into a directory most shells will not show you. One of the two had to give,
       # the path could not, so the name did.
-      "dot-claude" => "path is `.claude` because Claude Code reads that and only that",
-      # Same reason one level down: Claude Code reads `.claude/plugins/` and nothing
-      # else, and a three-segment path cannot rebuild a one-segment name.
-      "agent-plugins" => "path is `.claude/plugins` because Claude Code reads that"
+      "dot-claude" => "path is `.claude` because Claude Code reads that and only that"
     }
   end
 

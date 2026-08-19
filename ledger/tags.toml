@@ -1,5 +1,0 @@
-# No tags, and the empty list is itself the claim: tackler requires the chart to
-# be declared, so a tag appearing anywhere in the books is a validation error
-# rather than a convention nobody agreed to. Shared by spent and planned, because
-# "none" is the same declaration on both sides.
-tags = [ ]
