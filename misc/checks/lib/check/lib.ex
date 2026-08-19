@@ -411,7 +411,12 @@ defmodule Check.Lib do
       # meant a repository called `.claude`, which is hidden from an ordinary listing and
       # clones into a directory most shells will not show you. One of the two had to give,
       # the path could not, so the name did.
-      "dot-claude" => "path is `.claude` because Claude Code reads that and only that"
+      "dot-claude" => "path is `.claude` because Claude Code reads that and only that",
+      # The same fixed path, one level further in. Claude Code reads `.claude/plugins`, so
+      # the path rebuilds to `.claude-plugins` and the repository is `agent-plugins`. The
+      # name is not going to become that, and the path cannot move, so this is the second
+      # entry stating a choice and it is the same choice as the one above it.
+      "agent-plugins" => "path is `.claude/plugins` because Claude Code reads plugins there"
     }
   end
 
