@@ -27,7 +27,6 @@ Without Claude Code, run the plugin's script directly — `python3 .claude/plugi
 
 | | |
 |---|---|
-| `CLAUDE.md` | the conventions, which hold in every repository under this workspace |
 | `logbook/` | dated entries: what was measured, and what was retracted |
 | `ledger/` | hours booked from git history, and the plan in a separate commodity |
 | `misc/checks` | the gates, one mix module per concern |

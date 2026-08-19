@@ -20,8 +20,8 @@ defmodule Check.Remotes do
         break:
           &Lib.break_manifest(
             &1,
-            ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="v-sekai-multiplayer-fabric" revision="main" />),
-            ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="v-sekai-multiplayer-fabric" revision="no-such-xyz" />)
+            ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="v-sekai-fabric" revision="main" />),
+            ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="v-sekai-fabric" revision="no-such-xyz" />)
           )
       },
       %{
