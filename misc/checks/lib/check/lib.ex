@@ -32,18 +32,26 @@ defmodule Check.Lib do
 
   A compiled module's `__DIR__` is where its source sat when it was built, and a mix task
   runs from wherever the caller was standing, so neither is a reliable base. Both are tried
-  as starting points and each walks up until it finds `CLAUDE.md` beside `misc/checks`,
-  which is the pair that identifies this repository and nothing else.
+  as starting points and each walks up until it finds `.git` beside `misc/checks`.
 
-  It used to look for `default.xml` beside `README.md`, because the manifest and the checks
-  were one repository. They are not: the manifest is a repo manifest and this is the record
-  kept about it, and a marker naming the manifest would now find somebody else's root.
+  `.git` is the marker because a repository root is what is being looked for, and that is
+  the only thing every git checkout has. It was `CLAUDE.md`, and a document is a poor marker
+  for a directory: deleting that file took every gate down with it, raising before a single
+  check ran, because a prose file nobody thought of as load-bearing was.
+
+  `misc/checks` stays in the pair so the answer is *this* repository rather than whichever
+  one the caller happened to be standing in. Both are cheap to test and neither is a claim
+  about content.
+
+  It looked for `default.xml` beside `README.md` before that, because the manifest and the
+  checks were one repository. They are not, and a marker naming the manifest would now find
+  somebody else's root.
   """
   def root do
     [File.cwd!(), __DIR__]
-    |> Enum.find_value(&climb_to(&1, ["CLAUDE.md", "misc/checks"]))
+    |> Enum.find_value(&climb_to(&1, [".git", "misc/checks"]))
     |> case do
-      nil -> raise "cannot find CLAUDE.md beside misc/checks above #{File.cwd!()} or #{__DIR__}"
+      nil -> raise "cannot find .git beside misc/checks above #{File.cwd!()} or #{__DIR__}"
       found -> found
     end
   end
@@ -403,7 +411,12 @@ defmodule Check.Lib do
       # meant a repository called `.claude`, which is hidden from an ordinary listing and
       # clones into a directory most shells will not show you. One of the two had to give,
       # the path could not, so the name did.
-      "dot-claude" => "path is `.claude` because Claude Code reads that and only that"
+      "dot-claude" => "path is `.claude` because Claude Code reads that and only that",
+      # The same fixed path, one level further in. Claude Code reads `.claude/plugins`, so
+      # the path rebuilds to `.claude-plugins` and the repository is `agent-plugins`. The
+      # name is not going to become that, and the path cannot move, so this is the second
+      # entry stating a choice and it is the same choice as the one above it.
+      "agent-plugins" => "path is `.claude/plugins` because Claude Code reads plugins there"
     }
   end
 

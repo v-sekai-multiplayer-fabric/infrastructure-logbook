@@ -19,6 +19,11 @@
 # runner. Before that it was true only by coincidence -- every `:local` check happened not to
 # call out, and nothing said it had to keep happening.
 #
+# The ledger is not here either, and that is a checkout rather than a credential. The books
+# went to their own repository and `Check.Ledger` went with them, so nothing in this job
+# reads them and nothing needs the plugin that writes them. It ran here until today; what
+# removed it was the books leaving, not a decision about where the check belongs.
+#
 # The network half stays at pre-push -- both its claims and its controls -- because `gh`
 # there is authenticated as a person who can read the organisation. A repository-scoped
 # GITHUB_TOKEN cannot list the org, so running them here would fail on every push and teach

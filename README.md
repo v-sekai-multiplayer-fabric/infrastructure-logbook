@@ -12,10 +12,16 @@ mix check authority    # one concern, and only it
 mix dialyzer           # the gate's own types
 ```
 
-```sh
-python3 misc/scripts/ledger.py report --since 90   # SPENT, by lane
-python3 misc/scripts/ledger.py path                # HYPOTHETICAL, the critical path
+The books are here and the tool that writes them is not. `ledger.py` became a Claude Code plugin in the `.claude` repository, so the hours are read with a slash command and `misc/scripts` is gone:
+
 ```
+/ledger:report --since 90   # SPENT, by lane
+/ledger:path                # HYPOTHETICAL, the critical path
+/ledger:build               # rebook from git. Exclusive: it rewrites every book here
+/ledger:verify              # tackler, then regeneration must be byte-identical
+```
+
+Without Claude Code, run the plugin's script directly — `python3 .claude/plugins/ledger/scripts/ledger.py report --since 90` from the workspace root. It finds these books itself, and `FABRIC_LEDGER` names them outright for a clone with no workspace around it, which is what CI is.
 
 ## What is here
 
@@ -25,7 +31,6 @@ python3 misc/scripts/ledger.py path                # HYPOTHETICAL, the critical 
 | `logbook/` | dated entries: what was measured, and what was retracted |
 | `ledger/` | hours booked from git history, and the plan in a separate commodity |
 | `misc/checks` | the gates, one mix module per concern |
-| `misc/scripts` | the emitters the gates run |
 
 ## Where the manifest is
 

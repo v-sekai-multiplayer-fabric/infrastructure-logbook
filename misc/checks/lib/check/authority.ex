@@ -320,12 +320,16 @@ defmodule Check.Authority do
     # checks out to `.repo/manifests` and which a self-entry may not name, and this one, which
     # is listed but whose checkout is right here and needs no join. Both are ours, so both owe
     # a licence and a CITATION.cff, and naming only the manifest left this one unasked.
-    [{"fabric", Lib.manifest_root()}, {"infrastructure-logbook", Lib.root()}] ++
-      for p <- Lib.projects(ctx.mtext),
-          p.org in allowed,
-          not Map.has_key?(read_only, p.name) do
-        {p.name, Path.join(ws, p.path)}
-      end
+    # Deduplicated by name, because this repository is named twice: once explicitly above and
+    # once by the manifest, which lists it like any other project. Every finding against it
+    # was therefore reported twice, which reads as two problems and is one.
+    ([{"fabric", Lib.manifest_root()}, {"infrastructure-logbook", Lib.root()}] ++
+       for p <- Lib.projects(ctx.mtext),
+           p.org in allowed,
+           not Map.has_key?(read_only, p.name) do
+         {p.name, Path.join(ws, p.path)}
+       end)
+    |> Enum.uniq_by(&elem(&1, 0))
   end
 
   @doc """

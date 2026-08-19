@@ -90,7 +90,7 @@ references:
     year: 1958
     notes: >
       te = (o + 4m + p) / 6 and the critical path. The books under ledger/planned/
-      hold each task's three points in its comments and misc/scripts/ledger.py
+      hold each task's three points in its comments and the ledger plugin's ledger.py
       computes the path from the dependencies, so the estimate and the picture of
       it cannot disagree. The three points are quantiles of a Bayesian posterior predictive
       rather than of the observed sample, because two of the empirical percentiles

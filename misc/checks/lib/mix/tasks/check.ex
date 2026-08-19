@@ -45,8 +45,7 @@ defmodule Mix.Tasks.Check do
     {"words", Check.Words},
     {"nifs", Check.Nifs}, {"properties", Check.Properties},
     {"licences", Check.Licences},
-    {"lean", Check.Lean},
-    {"ledger", Check.Ledger}
+    {"lean", Check.Lean}
   ]
 
   @order Enum.map(@concerns, &elem(&1, 0))
