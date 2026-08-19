@@ -28,14 +28,30 @@ defmodule Check.Remotes do
         label: "every manifest commit pin exists on its remote",
         kind: :network,
         run: &commits_exist/1,
-        # Still forty hex digits, so the control cannot escape by changing shape and being
-        # answered by the branch check instead. It has to be asked the commit question and
-        # told no.
+        # The control injects a pin rather than corrupting one, because since the libraries
+        # moved to release tags the manifest carries no commit pin to corrupt and the old
+        # control had quietly stopped matching anything. Still forty hex digits, so it cannot
+        # escape by changing shape and being answered by the ref check instead: it has to be
+        # asked the commit question and told no.
         break:
           &Lib.break_manifest(
             &1,
-            ~s(revision="c8529bb00838186938ab31d96008a59b6a892dee"),
+            ~s(revision="refs/tags/v1.10.0"),
             ~s(revision="0000000000000000000000000000000000000000")
+          )
+      },
+      %{
+        label: "every library tag still names the commit it was pinned at",
+        kind: :network,
+        run: &tag_commits/1,
+        # The remote's answer cannot be perturbed by editing a file here, so the control
+        # moves the record instead: a README claiming a commit the tag does not name is
+        # indistinguishable from a tag that moved, which is the thing being detected.
+        break:
+          &Lib.break_readme(
+            &1,
+            "`c8529bb00838186938ab31d96008a59b6a892dee`",
+            "`0000000000000000000000000000000000000000`"
           )
       },
       %{
@@ -88,17 +104,25 @@ defmodule Check.Remotes do
   defp pinned?(revision), do: revision =~ ~r/^[0-9a-f]{40}$/
 
   @doc """
-  Every revision the manifest names as a branch must be a branch that exists on the remote.
+  Every revision the manifest names as a ref must be a ref that exists on the remote.
 
   Commit pins are asked for separately, and separating them is the whole of this change. The
   branch question was asked of every project, `git ls-remote --heads` answers no for a commit
   because a commit is not a head, and the two libraries `interactor-triangulation` links were
   reported missing from remotes that have them. A gate red on a manifest that is right is the
   one failure mode that teaches people to stop reading it.
+
+  Tag revisions are asked for separately too, and this stays the branch question rather than
+  widening to `--heads --tags`, because widening it would have hidden the defect that taught
+  this. repo reads a bare `revision` as a branch: it fetches `+refs/heads/<rev>:...` and dies
+  with `couldn't find remote ref refs/heads/v1.6.1`. A gate that accepts a bare tag because
+  git can find it under `--tags` passes a manifest `repo sync` cannot use, which is the gate
+  asserting a property where it is defined instead of where it is consumed. So a bare tag
+  fails here, and the message says how to spell it.
   """
   def revisions_exist(ctx) do
     Lib.projects(ctx.mtext)
-    |> Enum.reject(&pinned?(&1.revision))
+    |> Enum.reject(&(pinned?(&1.revision) or tag_ref?(&1.revision)))
     |> Task.async_stream(&ls_remote/1, max_concurrency: 16, timeout: 180_000)
     |> Enum.flat_map(fn
       {:ok, msg} -> List.wrap(msg)
@@ -109,14 +133,31 @@ defmodule Check.Remotes do
   defp ls_remote(p) do
     case Lib.cmd("git", ["ls-remote", "--heads", p.url, p.revision]) do
       {out, 0} ->
-        if String.trim(out) == "",
-          do: "#{p.name}: branch #{p.revision} does not exist on remote",
-          else: nil
+        if String.trim(out) == "", do: not_a_branch(p), else: nil
 
       _ ->
         "#{p.name}: cannot reach #{p.url}"
     end
   end
+
+  # The one failure worth spelling out: the revision names a real tag, and repo will still
+  # look for a branch by that name and fail. Saying "no branch v1.6.1" would send somebody to
+  # look for a branch that was never supposed to exist.
+  defp not_a_branch(p) do
+    case Lib.cmd("git", ["ls-remote", "--tags", p.url, p.revision]) do
+      {out, 0} ->
+        if String.trim(out) == "",
+          do: "#{p.name}: no branch #{p.revision} on remote",
+          else: "#{p.name}: #{p.revision} is a tag; repo reads a bare revision as a branch, so spell it refs/tags/#{p.revision}"
+
+      _ ->
+        "#{p.name}: no branch #{p.revision} on remote"
+    end
+  end
+
+  # repo takes a fully qualified tag and only a fully qualified one, so this is the shape a
+  # tag revision has here and the shape the tag checks select on.
+  defp tag_ref?(revision), do: String.starts_with?(revision, "refs/tags/")
 
   @doc """
   Every revision the manifest names as a commit MUST be a commit that remote has.
@@ -134,6 +175,11 @@ defmodule Check.Remotes do
   """
   def commits_exist(ctx) do
     pins = Enum.filter(Lib.projects(ctx.mtext), &pinned?(&1.revision))
+
+    # Zero pins is the ordinary state since the libraries moved to release tags, and zero
+    # reads exactly like clean unless it is said out loud. A check that passes because it
+    # looked at nothing is the failure this whole file is written against.
+    IO.puts("note   the commit-pin check scanned #{length(pins)} commit pins")
 
     # Two questions per pin, because one answer cannot tell "no such commit" from "no such
     # network": `gh` collapses a 404 and an unreachable host to the same nil, and reporting a
@@ -205,11 +251,87 @@ defmodule Check.Remotes do
     end
   end
 
+  # The table is read in two places -- the exception list and the tag-drift check -- so its
+  # shape is stated once here. The commit column is forty hex digits, which is what keeps a
+  # row that has lost it from parsing as a match with a short value.
+  defp table_scan(rtext) do
+    ~r/^\| `([\w.-]+)` \| `([^`]+)` \| `([0-9a-f]{40})` \|$/m
+    |> Regex.scan(rtext)
+    |> Enum.map(fn [_, name, rev, commit] -> {name, rev, commit} end)
+  end
+
+  @doc """
+  Every library tag still names the commit it was pinned at.
+
+  The three libraries a build links are pinned by release tag, because a tag says which
+  version a reader is looking at and forty hex digits do not. A tag is a name its owner can
+  move, and none of these three remotes is ours, so the pin is worth exactly as much as the
+  thing that notices it moving -- without this, a retag upstream changes what every checkout
+  compiles and no gate here says a word.
+
+  The README records the commit each tag resolved to when it was pinned. This asks the remote
+  what the tag resolves to now. Annotated tags are read through `^{}`, because the ref itself
+  names the tag object rather than the commit, and comparing that would fail on every
+  annotated tag whether or not it had moved.
+  """
+  def tag_commits(ctx) do
+    projects = Enum.filter(Lib.projects(ctx.mtext), &tag_ref?(&1.revision))
+    rows = Map.new(table_scan(ctx.rtext), fn {name, rev, commit} -> {name, {rev, commit}} end)
+
+    # Driven from the manifest rather than from the table, so a tag pin the README forgot is
+    # an error rather than a project nobody checks. Counted out loud for the same reason the
+    # commit-pin check counts: no tag pins would otherwise pass as silently as all of them.
+    IO.puts("note   the tag check scanned #{length(projects)} tag pins")
+
+    orphans =
+      for {name, {rev, _}} <- Enum.sort(rows), not Enum.any?(projects, &(&1.name == name)) do
+        "README pins #{name} at #{rev}, which the manifest does not pin to a tag"
+      end
+
+    orphans ++
+      Enum.flat_map(projects, fn p ->
+        case rows[p.name] do
+          nil ->
+            ["#{p.name} is pinned to #{p.revision}, and the README table omits it"]
+
+          {rev, _} when rev != p.revision ->
+            ["#{p.name}: README says #{rev}, manifest says #{p.revision}"]
+
+          {_, want} ->
+            case resolve_tag(p.url, p.revision) do
+              :unreachable -> ["#{p.name}: cannot reach #{p.url}"]
+              nil -> ["#{p.name}: tag #{p.revision} does not exist on #{p.url}"]
+              ^want -> []
+              got -> ["#{p.name}: #{p.revision} now names #{got}, was pinned at #{want}"]
+            end
+        end
+      end)
+  end
+
+  # A peeled ref wins over the ref itself: for an annotated tag the bare ref is the tag
+  # object and `^{}` is the commit, and the commit is the question.
+  defp resolve_tag(url, tag) do
+    case Lib.cmd("git", ["ls-remote", "--tags", url, tag, tag <> "^{}"]) do
+      {out, 0} ->
+        rows =
+          out
+          |> String.split("\n", trim: true)
+          |> Enum.map(&String.split(&1, "\t"))
+          |> Enum.filter(&match?([_, _], &1))
+
+        peeled = Enum.find_value(rows, fn [sha, ref] -> String.ends_with?(ref, "^{}") && sha end)
+        plain = Enum.find_value(rows, fn [sha, ref] -> !String.ends_with?(ref, "^{}") && sha end)
+        peeled || plain
+
+      _ ->
+        :unreachable
+    end
+  end
+
   defp table_rows(rtext, actual) do
     rows =
-      ~r/^\| `([\w.-]+)` \| `([^`]+)` \|$/m
-      |> Regex.scan(rtext)
-      |> MapSet.new(fn [_, name, rev] -> {name, rev} end)
+      table_scan(rtext)
+      |> MapSet.new(fn {name, rev, _commit} -> {name, rev} end)
 
     documented_but_default =
       for {name, rev} <- Enum.sort(MapSet.difference(rows, actual)) do
