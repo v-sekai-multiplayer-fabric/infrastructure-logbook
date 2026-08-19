@@ -44,6 +44,18 @@ defmodule Check.Readme do
         # Reads children's READMEs against their real directories, which no edit here
         # reaches, so the control replaces the reading.
         break: &Map.put(&1, :listing, [{"transport-somewhere", 7}])
+      },
+      %{
+        label: "no README lays a listing out as a table",
+        kind: :local,
+        run: &no_table_listing/1,
+        # A control that names a file dies the day somebody renames it, and this one did
+        # inside the hour it was written: it named `CLAUDE.md` and `ledger/`, and both left
+        # this repository the same morning. So it names nothing. It reads two real entries of
+        # a real checkout and lays them out as a table, which is the defect exactly, and the
+        # only way left for it to die is a project with fewer than two files -- which it
+        # reports as a dead control rather than passing over.
+        break: &table_control/1
       }
     ]
   end
@@ -264,6 +276,100 @@ defmodule Check.Readme do
           head != "" and MapSet.member?(dirs, head |> String.split("/") |> hd())
       end
     end)
+  end
+
+  @doc """
+  A README this project writes MUST NOT lay a listing out as a table.
+
+  The same rule as the fence above, in the other syntax and with the same failure behind it.
+  A row of `` `settings.json` `` against a gloss is a listing of the checkout wearing a
+  table's clothes: add a file and the README is silently incomplete, rename one and it is
+  silently wrong, and `ls` was answering that question correctly the whole time. A table is
+  also the one shape of prose the forty-line limit rewards, which is how four of them
+  arrived.
+
+  Detection is grounded the same way, so a table that is really tabular survives it. A row
+  counts only when its first cell names a path that exists in that checkout, and two are
+  needed. `entity-packet`'s wire format scores zero, because a byte offset is not a
+  filename, and so does `bus`'s platform matrix; the file lists in the logbook, `gyre` and
+  `entity-store` score three to five.
+
+  Forks are exempt for the reason they are exempt from the other two rules: that README
+  belongs to whoever wrote the code.
+  """
+  def no_table_listing(ctx) do
+    ws = Lib.workspace_root()
+
+    docs =
+      case ctx[:tables] do
+        nil ->
+          for p <- Lib.ours(Lib.projects(ctx.mtext)),
+              readme = Path.join([ws, p.path, "README.md"]),
+              File.exists?(readme),
+              do: {p.path, File.read!(readme)}
+
+        injected ->
+          injected
+      end
+
+    for {path, text} <- docs,
+        hits = table_hits(text, Path.join(ws, path)),
+        hits >= 2 do
+      "#{path}/README.md lays #{hits} of its own files out as a table; " <>
+        "that is a listing, and `ls` already does it without going stale"
+    end
+    |> Enum.sort()
+  end
+
+  defp table_control(ctx) do
+    ws = Lib.workspace_root()
+    root = Lib.root()
+
+    # Grounded in this repository rather than in a sibling. Scanning the children died in CI
+    # for the same reason the named files died here: it read a checkout that was not there.
+    # A bare clone has no siblings, so the control injected nothing and reported itself dead.
+    # This repository is the one directory guaranteed to exist wherever the checks run at all.
+    case File.ls(root) do
+      {:ok, [_, _ | _] = entries} ->
+        [a, b] = entries |> Enum.sort() |> Enum.take(2)
+
+        Map.put(ctx, :tables, [
+          {Path.relative_to(root, ws), "| | |\n|---|---|\n| `#{a}` | one |\n| `#{b}` | two |\n"}
+        ])
+
+      _ ->
+        ctx
+    end
+  end
+
+  # A row is only read as a row when the document has a rule row somewhere, which is what
+  # makes it a table rather than a line that happens to open with a pipe.
+  defp table_hits(text, dir) do
+    lines = text |> String.split("\n") |> Enum.map(&String.trim/1)
+
+    if Enum.any?(lines, &rule_row?/1) do
+      Enum.count(lines, fn line ->
+        not rule_row?(line) and named_path?(first_cell(line), dir)
+      end)
+    else
+      0
+    end
+  end
+
+  # `|---|---|` and `| :--- | ---: |`: the line that separates a header from its body, and
+  # the only line in a table that is punctuation rather than content.
+  defp rule_row?(line), do: Regex.match?(~r/^\|[\s:|-]*-[\s:|-]*\|$/, line)
+
+  defp first_cell("|" <> rest) do
+    rest |> String.split("|") |> hd() |> String.trim() |> String.replace("`", "")
+  end
+
+  defp first_cell(_), do: ""
+
+  defp named_path?("", _dir), do: false
+
+  defp named_path?(cell, dir) do
+    File.exists?(Path.join(dir, String.trim_trailing(cell, "/")))
   end
 
   defp add_if(list, false, _), do: list

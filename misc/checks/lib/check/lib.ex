@@ -56,12 +56,20 @@ defmodule Check.Lib do
     end
   end
 
+  # Climbs until the path stops changing, rather than until it equals "/". `Path.dirname/1`
+  # is its own fixpoint at the root, and that is the portable way to say "root": it is "/" on
+  # the desk this was written on and "c:/" on the one the workspace moved to. Taking until
+  # "/" never terminated there, so `Stream.iterate` ran forever and `mix check` hung after
+  # printing its first result -- a check that never returns reads as a slow check, which is
+  # the same lie as a silent skip and harder to spot.
   defp climb_to(start, markers) do
     start
     |> Path.expand()
     |> Stream.iterate(&Path.dirname/1)
-    |> Enum.take_while(&(&1 != "/"))
-    |> Enum.concat(["/"])
+    |> Stream.transform(:climbing, fn
+      _dir, :done -> {:halt, :done}
+      dir, :climbing -> {[dir], if(Path.dirname(dir) == dir, do: :done, else: :climbing)}
+    end)
     |> Enum.find(fn dir -> Enum.all?(markers, &File.exists?(Path.join(dir, &1))) end)
   end
 
@@ -279,7 +287,7 @@ defmodule Check.Lib do
 
   # --- policy, consulted by more than one concern -------------------------------------
 
-  def our_remote, do: "v-sekai-multiplayer-fabric"
+  def our_remote, do: "v-sekai-fabric"
 
   def readme_max, do: 40
 
@@ -354,7 +362,7 @@ defmodule Check.Lib do
   @spec allowed_orgs() :: [String.t()]
   def allowed_orgs do
     [
-      "v-sekai-multiplayer-fabric",
+      "v-sekai-fabric",
       "v-sekai-fire",
       "fire",
       "taskweft",

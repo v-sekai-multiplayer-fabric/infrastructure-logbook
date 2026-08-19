@@ -16,7 +16,7 @@ defmodule Check.Manifest do
         break:
           &Lib.break_manifest(
             &1,
-            ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="v-sekai-multiplayer-fabric" revision="main" />),
+            ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="v-sekai-fabric" revision="main" />),
             ~s(<project name="contract-triangulation" path="2-contract/triangulation" />)
           )
       },
@@ -35,7 +35,7 @@ defmodule Check.Manifest do
           &Lib.break_manifest(
             &1,
             ~s(<project name="contract-triangulation"),
-            ~s(<project name="fabric" path="." remote="v-sekai-multiplayer-fabric" revision="main" />\n  <project name="contract-triangulation")
+            ~s(<project name="fabric" path="." remote="v-sekai-fabric" revision="main" />\n  <project name="contract-triangulation")
           )
       },
       %{

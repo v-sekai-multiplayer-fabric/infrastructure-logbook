@@ -21,7 +21,7 @@ defmodule Check.Authority do
         break:
           &Lib.break_manifest(
             &1,
-            ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="v-sekai-multiplayer-fabric"),
+            ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="v-sekai-fabric"),
             ~s(<project name="contract-triangulation" path="2-contract/triangulation" remote="meshula")
           )
       },
